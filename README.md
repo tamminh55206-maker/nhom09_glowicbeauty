@@ -1,2 +1,1 @@
-Test lần 2
-Test branch
+Test chung
