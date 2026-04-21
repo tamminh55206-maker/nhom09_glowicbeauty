@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glowic Beauty - Navbar Component</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alice&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'gw-pink': '#DA627D',
+                        'gw-dark-pink': '#A53860',
+                        'gw-burgundy': '#450920',
+                    },
+                    fontFamily: {
+                        'mistesy': ['"Mistesy"', 'cursive'],
+                        'alice': ['"Alice"', 'serif'],
+                        'be-vietnam': ['"Be Vietnam Pro"', 'sans-serif'],
+                    },
+                    maxWidth: {
+                        'gw': '1280px',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Local Font-Face Declarations -->
+    <style>
+        @font-face {
+            font-family: "Mistesy";
+            src: url("./fonts/mistesy.otf") format("opentype");
+            font-weight: 400;
+            font-display: swap;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+        }
+
+        /* Search input focus ring */
+        #gw-search:focus {
+            outline: none;
+            box-shadow: 0px 4px 4px rgba(69, 9, 32, 0.25), 0 0 0 3px rgba(165, 56, 96, 0.2);
+        }
+
+        /* Mobile menu slide animation */
+        #mobile-menu {
+            transition: max-height 0.35s ease, opacity 0.35s ease;
+        }
+
+        #mobile-menu.closed {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+
+        #mobile-menu.open {
+            max-height: 500px;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- ==================== NAVBAR ==================== -->
+    <header class="sticky top-0 z-50 w-full">
+
+        <!-- ===== TOP BAR (Height: 103px, BG: #DA627D) ===== -->
+        <div class="relative h-[103px] w-full border-b border-gw-dark-pink bg-gw-pink">
+            <div class="mx-auto flex h-full max-w-gw items-center justify-between px-5">
+
+                <!-- ===== LOGO ===== -->
+                <!-- Figma: left 21px, top 26px, width 142px, height 50px -->
+                <a
+                    href="/"
+                    class="flex flex-col items-start leading-none"
+                    style="text-shadow: 0px 4px 4px rgba(69, 9, 32, 0.25);"
+                >
+                    <!-- Glowic: Mistesy, 48px, line-height 47px -->
+                    <span class="font-mistesy text-[48px] leading-[47px] text-white">
+                        Glowic
+                    </span>
+                    <!-- beauty: Alice, 12px, line-height 14px, right-aligned -->
+                    <span
+                        class="font-alice w-[142px] pr-1 text-right text-[12px] leading-[14px] text-white"
+                        style="text-shadow: 0px 4px 4px rgba(69, 9, 32, 0.25);"
+                    >
+                        beauty
+                    </span>
+                </a>
+
+                <!-- ===== SEARCH BOX (Desktop) ===== -->
+                <!-- Figma: width 592px, height 45px, left 204px, top 28.5px -->
+                <div class="hidden lg:flex flex-1 justify-center px-10">
+                    <div class="relative" style="width: 592px; height: 45px;">
+                        <input
+                            id="gw-search"
+                            type="text"
+                            placeholder="Tìm kiếm sản phẩm..."
+                            class="h-full w-full rounded-[22px] border border-gw-dark-pink bg-white py-2 pl-5 pr-12 text-sm text-gw-burgundy placeholder:text-gw-burgundy/40"
+                            style="box-shadow: 0px 4px 4px rgba(69, 9, 32, 0.25);"
+                        >
+                        <!-- Magnifying Glass Icon (right side inside search box) -->
+                        <svg
+                            class="pointer-events-none absolute right-3 top-1/2 h-[22.5px] w-[22.5px] -translate-y-1/2 text-gw-burgundy"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                            />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- ===== ICONS + LOGIN ===== -->
+                <!-- Figma: left 837px, top 36px, width 422px, height 30px, gap 30px -->
+                <div class="flex items-center" style="gap: 30px;">
+
+                    <!-- Shopping Cart -->
+                    <a
+                        href="/cart"
+                        class="text-white transition-transform duration-200 hover:scale-110"
+                        aria-label="Giỏ hàng"
+                    >
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>
+                        </svg>
+                    </a>
+
+                    <!-- Bell Alert -->
+                    <button
+                        class="relative text-white transition-transform duration-200 hover:scale-110"
+                        aria-label="Thông báo"
+                    >
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/>
+                        </svg>
+                        <!-- Notification dot -->
+                        <span class="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-gw-cream"></span>
+                    </button>
+
+                    <!-- Chat Bubble -->
+                    <button
+                        class="text-white transition-transform duration-200 hover:scale-110"
+                        aria-label="Tin nhắn"
+                    >
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z"/>
+                        </svg>
+                    </button>
+
+                    <!-- User / Login -->
+                    <!-- Figma: width 234px, height 30px, gap 11px -->
+                    <a
+                        href="/login"
+                        class="hidden items-center text-white transition-opacity duration-200 hover:opacity-90 sm:flex"
+                        style="gap: 11px;"
+                    >
+                        <!-- User Circle Icon -->
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                        <!-- Text: Be Vietnam Pro, 18px, weight 600 -->
+                        <span class="whitespace-nowrap font-semibold leading-[23px]" style="font-size: 18px;">
+                            Đăng nhập/ Đăng ký
+                        </span>
+                    </a>
+
+                    <!-- Mobile Hamburger (replaces login text on small screens) -->
+                    <button
+                        id="menu-toggle"
+                        class="flex text-white transition-opacity hover:opacity-80 lg:hidden"
+                        aria-label="Mở menu"
+                        aria-expanded="false"
+                        aria-controls="mobile-menu"
+                    >
+                        <svg width="28" height="18" viewBox="0 0 28 18" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" d="M0 1h28M0 9h28M0 17h28"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== MENU BAR (Height: 40px, BG: #A53860) ===== -->
+        <nav class="h-10 w-full bg-gw-dark-pink">
+            <div class="mx-auto flex h-full max-w-gw items-center px-6">
+
+                <!-- Desktop Menu -->
+                <!-- Figma: Frame 21, left 24px, top 8px, gap 97px between hamburger and menu items -->
+                <div class="hidden h-[23px] items-center lg:flex" style="gap: 97px;">
+
+                    <!-- Hamburger Icon (Desktop visual only, non-interactive) -->
+                    <!-- Figma: 28.29px x 18px, border 2.57143px solid white -->
+                    <svg width="29" height="18" viewBox="0 0 29 18" fill="none" stroke="white" stroke-width="2.5">
+                        <path stroke-linecap="round" d="M0 1h29M0 9h29M0 17h29"/>
+                    </svg>
+
+                    <!-- Menu Links -->
+                    <!-- Figma: Frame 4, gap 70px -->
+                    <div class="flex items-center" style="gap: 70px;">
+                        <a
+                            href="/"
+                            class="whitespace-nowrap font-be-vietnam text-lg leading-[23px] text-white transition-opacity hover:opacity-80"
+                        >
+                            Trang chủ
+                        </a>
+                        <a
+                            href="/products"
+                            class="whitespace-nowrap font-be-vietnam text-lg leading-[23px] text-white transition-opacity hover:opacity-80"
+                        >
+                            Danh mục sản phẩm
+                        </a>
+                        <a
+                            href="/flash-sale"
+                            class="whitespace-nowrap font-be-vietnam text-lg leading-[23px] text-white transition-opacity hover:opacity-80"
+                        >
+                            Flash Sale
+                        </a>
+                        <a
+                            href="/brands"
+                            class="whitespace-nowrap font-be-vietnam text-lg leading-[23px] text-white transition-opacity hover:opacity-80"
+                        >
+                            Thương hiệu nổi bật
+                        </a>
+                        <a
+                            href="/quiz"
+                            class="whitespace-nowrap font-be-vietnam text-lg leading-[23px] text-white transition-opacity hover:opacity-80"
+                        >
+                            Bài test cá nhân
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Mobile: show compact links -->
+                <div class="flex items-center gap-6 overflow-x-auto lg:hidden">
+                    <a href="/" class="whitespace-nowrap text-sm text-white">Trang chủ</a>
+                    <a href="/products" class="whitespace-nowrap text-sm text-white">Sản phẩm</a>
+                    <a href="/flash-sale" class="whitespace-nowrap text-sm text-white">Flash Sale</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- ===== MOBILE MENU DROPDOWN ===== -->
+        <div id="mobile-menu" class="closed lg:hidden">
+            <div class="border-b border-gw-dark-pink bg-gw-pink px-6 py-4">
+                <!-- Mobile Search -->
+                <div class="relative mb-4">
+                    <input
+                        type="text"
+                        placeholder="Tìm kiếm sản phẩm..."
+                        class="h-11 w-full rounded-[22px] border border-gw-dark-pink bg-white py-2 pl-4 pr-10 text-sm text-gw-burgundy placeholder:text-gw-burgundy/40"
+                        style="box-shadow: 0px 4px 4px rgba(69, 9, 32, 0.25);"
+                    >
+                    <svg
+                        class="pointer-events-none absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gw-burgundy"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        viewBox="0 0 24 24"
+                    >
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+                    </svg>
+                </div>
+
+                <!-- Mobile Nav Links -->
+                <div class="flex flex-col gap-3">
+                    <a href="/" class="py-2 text-base text-white transition-opacity hover:opacity-80">Trang chủ</a>
+                    <a href="/products" class="py-2 text-base text-white transition-opacity hover:opacity-80">Danh mục sản phẩm</a>
+                    <a href="/flash-sale" class="py-2 text-base text-white transition-opacity hover:opacity-80">Flash Sale</a>
+                    <a href="/brands" class="py-2 text-base text-white transition-opacity hover:opacity-80">Thương hiệu nổi bật</a>
+                    <a href="/quiz" class="py-2 text-base text-white transition-opacity hover:opacity-80">Bài test cá nhân</a>
+                    <a href="/login" class="py-2 text-base font-semibold text-white transition-opacity hover:opacity-80">Đăng nhập / Đăng ký</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== DEMO CONTENT ==================== -->
+    <!-- This section is only to demonstrate sticky navbar behavior -->
+    <main class="mx-auto max-w-gw px-4 py-16">
+        <div class="rounded-2xl bg-white p-12 shadow-lg">
+            <h1 class="mb-4 font-mistesy text-5xl text-gw-pink">Glowic</h1>
+            <p class="mb-6 font-be-vietnam text-lg text-gw-burgundy">
+                Navbar Component Demo — Scroll down to see the sticky behavior in action.
+            </p>
+            <div class="space-y-4 text-gw-burgundy/80">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+
+            <!-- Repeated content to create scroll -->
+            <div class="mt-12 space-y-4 text-gw-burgundy/80">
+                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
+                <p>Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+                <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.</p>
+            </div>
+
+            <div class="mt-12 space-y-4 text-gw-burgundy/80">
+                <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi.</p>
+                <p>Sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
+                <p>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio.</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuToggle.addEventListener('click', () => {
+            const isOpen = mobileMenu.classList.contains('open');
+            if (isOpen) {
+                mobileMenu.classList.remove('open');
+                mobileMenu.classList.add('closed');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            } else {
+                mobileMenu.classList.remove('closed');
+                mobileMenu.classList.add('open');
+                menuToggle.setAttribute('aria-expanded', 'true');
+            }
+        });
+    </script>
+</body>
+</html>
