@@ -1,6 +1,6 @@
 import Link from "next/link";
+import { Mail, MapPin, Phone } from "lucide-react";
 
-// Social Icons
 function FacebookIcon() {
   return (
     <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
@@ -33,332 +33,181 @@ function ZaloIcon() {
   );
 }
 
-// Payment Icons
-function MomoIcon() {
+function PaymentChip({
+  label,
+  className,
+}: {
+  label: string;
+  className: string;
+}) {
   return (
-    <div className="flex h-8 w-12 items-center justify-center rounded bg-white/20 text-xs font-bold text-white">
-      MoMo
+    <div
+      className={`flex h-9 min-w-[66px] items-center justify-center rounded-[6px] border border-white/25 px-3 text-xs font-semibold shadow-[0_4px_10px_rgba(69,9,32,0.14)] transition-colors duration-300 dark:border-white/15 ${className}`}
+    >
+      {label}
     </div>
   );
 }
 
-function SpayIcon() {
+function FooterHeading({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-8 w-12 items-center justify-center rounded bg-white/20 text-xs font-bold text-white">
-      SPay
-    </div>
+    <h3 className="text-lg font-semibold uppercase tracking-[0.02em] text-white">
+      {children}
+    </h3>
   );
 }
 
-function VnpayIcon() {
-  return (
-    <div className="flex h-8 w-12 items-center justify-center rounded bg-white/20 text-xs font-bold text-white">
-      VNPay
-    </div>
-  );
-}
+const footerLinks = [
+  { href: "/", label: "Trang chủ" },
+  { href: "/products", label: "Danh mục sản phẩm" },
+  { href: "/products?sort=flash-sale", label: "Flash Sale" },
+  { href: "/products?brand=all", label: "Thương hiệu nổi bật" },
+  { href: "/quiz", label: "Bài test cá nhân" },
+];
+
+const aboutLinks = [
+  { href: "/about", label: "Về chúng tôi" },
+  { href: "/faq", label: "Chính sách trả hàng - hoàn tiền" },
+  { href: "/faq", label: "Chính sách giao hàng" },
+  { href: "/faq", label: "Chính sách đổi trả" },
+  { href: "/faq", label: "Chính sách bảo mật" },
+  { href: "/faq", label: "Điều khoản thanh toán" },
+  { href: "/faq", label: "Yêu cầu xuất hóa đơn (vat)" },
+  { href: "/contact", label: "Tuyển dụng" },
+];
 
 export function Footer() {
   return (
-    <footer style={{ backgroundColor: "#A53860" }}>
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-5">
-          {/* Column 1: Logo & Company Info */}
-          <div className="md:col-span-2">
-            <h3
-              className="text-2xl tracking-tight"
-              style={{
-                fontFamily: '"Mistesy", "Alice", serif',
-                color: "#F9DBBD",
-              }}
-            >
-              Glowic
-            </h3>
-            <p className="mt-1 text-sm text-white/80">beauty</p>
-            <p className="mt-4 text-sm text-white/70">
-              Trang điểm để bạn tỏa sáng, chăm sóc da để bạn giữ được ánh glow
-              ấy.
-            </p>
+    <footer className="w-full bg-[#DA627D] text-white transition-colors duration-300 dark:bg-[#2A1620]">
+      <div className="mx-auto min-h-[599px] max-w-[1280px] px-6 py-10 sm:px-8 lg:px-10 lg:py-14">
+        <div className="mb-10 text-shadow-glowic lg:mb-8">
+          <p className="font-mistesy text-[88px] leading-[0.78] text-white sm:text-[98px]">
+            Glowic
+          </p>
+          <p
+            className="mt-[-4px] pl-[136px] text-[28px] leading-none text-white sm:pl-[150px]"
+            style={{ fontFamily: '"Alice", serif' }}
+          >
+            beauty
+          </p>
+        </div>
 
-            {/* Company Info */}
-            <div className="mt-6 space-y-2 text-sm text-white/70">
-              <p className="font-semibold text-white/90">
-                CÔNG TY TNHH MTV THƯƠNG MẠI DỊCH VỤ GLOWIC
-              </p>
-              <p>Giấy CNĐKDN Số: 0427048766</p>
-              <p>Địa chỉ: 1 Võ Văn Ngân, Phường Thủ Đức, TP.HCM</p>
-            </div>
-          </div>
-
-          {/* Column 2: Danh mục */}
+        <div className="grid gap-12 lg:grid-cols-[1.55fr_1fr_1.1fr_1.15fr] lg:gap-10">
           <div>
-            <h4
-              className="text-sm font-semibold uppercase tracking-wider"
-              style={{ color: "#F9DBBD" }}
-            >
-              Danh mục
-            </h4>
-            <ul className="mt-4 space-y-2">
-              <li>
-                <Link
-                  href="/"
-                  className="text-sm text-white/80 transition-colors hover:text-white"
-                >
-                  Trang chủ
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/products"
-                  className="text-sm text-white/80 transition-colors hover:text-white"
-                >
-                  Danh mục sản phẩm
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/products?sort=flash-sale"
-                  className="text-sm text-white/80 transition-colors hover:text-white"
-                >
-                  Flash Sale
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/products?brand=all"
-                  className="text-sm text-white/80 transition-colors hover:text-white"
-                >
-                  Thương hiệu nổi bật
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/quiz"
-                  className="text-sm text-white/80 transition-colors hover:text-white"
-                >
-                  Bài test cá nhân
-                </Link>
-              </li>
-            </ul>
+            <div className="space-y-5">
+              <FooterHeading>Thông Tin Liên Hệ</FooterHeading>
+
+              <div className="space-y-3 text-[14px] leading-6 text-white/95">
+                <p>Hotline: 1900241202 (8:00 - 21:00)</p>
+                <p>Hợp tác kinh doanh hàng hóa: sales@glowic.com</p>
+                <p>Hợp tác truyền thông/ Quảng cáo: marketing@glowic.com</p>
+              </div>
+
+              <div className="space-y-2 text-[14px] leading-6 text-white/95">
+                <p className="font-medium uppercase">
+                  CÔNG TY TNHH MỘT THÀNH VIÊN THƯƠNG MẠI DỊCH VỤ GLOWIC
+                </p>
+                <p>Giấy CNĐKDN Số: 0427048766 do sở kế hoạch và đầu tư cấp ngày 24/2/2026</p>
+              </div>
+
+              <div className="flex max-w-[290px] items-start gap-3 text-[14px] leading-6 text-white/95">
+                <MapPin className="mt-1 h-5 w-5 shrink-0" />
+                <p>1 Võ Văn Ngân, Phường Thủ Đức, Thành phố Hồ Chí Minh</p>
+              </div>
+            </div>
           </div>
 
-          {/* Column 3: Về Glowic */}
           <div>
-            <h4
-              className="text-sm font-semibold uppercase tracking-wider"
-              style={{ color: "#F9DBBD" }}
-            >
-              Về Glowic
-            </h4>
-            <ul className="mt-4 space-y-2">
-              <li>
+            <FooterHeading>Danh Mục</FooterHeading>
+            <div className="mt-8 space-y-3 text-[15px] leading-6 text-white/95">
+              {footerLinks.map((link) => (
                 <Link
-                  href="/about"
-                  className="text-sm text-white/80 transition-colors hover:text-white"
+                  key={link.href + link.label}
+                  href={link.href}
+                  className="block transition-opacity hover:opacity-80"
                 >
-                  Giới thiệu
+                  {link.label}
                 </Link>
-              </li>
-              <li>
-                <Link
-                  href="/faq"
-                  className="text-sm text-white/80 transition-colors hover:text-white"
-                >
-                  Phương thức thanh toán
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/faq"
-                  className="text-sm text-white/80 transition-colors hover:text-white"
-                >
-                  Chính sách trả hàng - hoàn tiền
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/faq"
-                  className="text-sm text-white/80 transition-colors hover:text-white"
-                >
-                  Chính sách giao hàng
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/faq"
-                  className="text-sm text-white/80 transition-colors hover:text-white"
-                >
-                  Chính sách đổi trả
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/faq"
-                  className="text-sm text-white/80 transition-colors hover:text-white"
-                >
-                  Chính sách bảo mật
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/faq"
-                  className="text-sm text-white/80 transition-colors hover:text-white"
-                >
-                  Điều khoản thanh toán
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/faq"
-                  className="text-sm text-white/80 transition-colors hover:text-white"
-                >
-                  Yêu cầu xuất hóa đơn (VAT)
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/contact"
-                  className="text-sm text-white/80 transition-colors hover:text-white"
-                >
-                  Khách hàng doanh nghiệp
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/contact"
-                  className="text-sm text-white/80 transition-colors hover:text-white"
-                >
-                  Tuyển dụng
-                </Link>
-              </li>
-            </ul>
+              ))}
+            </div>
           </div>
 
-          {/* Column 4 & 5: Kết nối & Liên hệ */}
-          <div className="md:col-span-1">
-            <h4
-              className="text-sm font-semibold uppercase tracking-wider"
-              style={{ color: "#F9DBBD" }}
-            >
-              Kết nối
-            </h4>
+          <div>
+            <FooterHeading>Về Glowic</FooterHeading>
+            <div className="mt-8 space-y-3 text-[15px] leading-6 text-white/95">
+              {aboutLinks.map((link) => (
+                <Link
+                  key={link.href + link.label}
+                  href={link.href}
+                  className="block transition-opacity hover:opacity-80"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </div>
 
-            {/* Social Icons */}
-            <div className="mt-4 flex gap-3">
-              <a
-                href="#"
-                className="text-white/80 transition-colors hover:text-white"
-              >
-                <FacebookIcon />
-              </a>
-              <a
-                href="#"
-                className="text-white/80 transition-colors hover:text-white"
-              >
-                <InstagramIcon />
-              </a>
-              <a
-                href="#"
-                className="text-white/80 transition-colors hover:text-white"
-              >
-                <TikTokIcon />
-              </a>
-              <a
-                href="#"
-                className="text-white/80 transition-colors hover:text-white"
-              >
-                <ZaloIcon />
-              </a>
+          <div className="space-y-8">
+            <div>
+              <FooterHeading>Kết Nối Với Chúng Tôi</FooterHeading>
+              <div className="mt-6 flex flex-wrap items-center gap-4 text-white">
+                <a href="#" className="transition-opacity hover:opacity-80" aria-label="Facebook">
+                  <FacebookIcon />
+                </a>
+                <a href="#" className="transition-opacity hover:opacity-80" aria-label="Instagram">
+                  <InstagramIcon />
+                </a>
+                <a href="#" className="transition-opacity hover:opacity-80" aria-label="TikTok">
+                  <TikTokIcon />
+                </a>
+                <a href="#" className="transition-opacity hover:opacity-80" aria-label="Zalo">
+                  <ZaloIcon />
+                </a>
+              </div>
             </div>
 
-            {/* Payment Methods */}
-            <h4
-              className="mt-6 text-sm font-semibold uppercase tracking-wider"
-              style={{ color: "#F9DBBD" }}
-            >
-              Phương thức thanh toán
-            </h4>
-            <div className="mt-4 flex gap-2">
-              <MomoIcon />
-              <SpayIcon />
-              <VnpayIcon />
+            <div>
+              <FooterHeading>Phương Thức Thanh Toán</FooterHeading>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <PaymentChip label="momo" className="bg-[#8F1D6C] text-white" />
+                <PaymentChip label="SPay" className="bg-white text-[#F58B00]" />
+                <PaymentChip label="VNPAY" className="bg-white text-[#1262B3]" />
+              </div>
             </div>
 
-            {/* Contact Info */}
-            <h4
-              className="mt-6 text-sm font-semibold uppercase tracking-wider"
-              style={{ color: "#F9DBBD" }}
-            >
-              Thông tin liên hệ
-            </h4>
-            <ul className="mt-4 space-y-2 text-sm text-white/80">
-              <li className="font-semibold text-white">
-                Hotline: 1900241202 (8:00-21:00)
-              </li>
-              <li>
-                <a
-                  href="tel:0870772779"
-                  className="transition-colors hover:text-white"
-                >
-                  0870 772 779
-                </a>
-                {" - "}
-                <a
-                  href="tel:03999900024"
-                  className="transition-colors hover:text-white"
-                >
-                  0399 990 0024
-                </a>
-              </li>
-              <li>
-                <a
-                  href="mailto:sales@glowic.com"
-                  className="transition-colors hover:text-white"
-                >
-                  sales@glowic.com
-                </a>
-              </li>
-              <li>
-                <a
-                  href="mailto:marketing@glowic.com"
-                  className="transition-colors hover:text-white"
-                >
-                  marketing@glowic.com
-                </a>
-              </li>
-              <li>
-                <a
-                  href="mailto:cskh@glowicbeauty.vn"
-                  className="transition-colors hover:text-white"
-                >
-                  cskh@glowicbeauty.vn
-                </a>
-              </li>
-            </ul>
-
-            {/* Support Links */}
-            <div className="mt-6 space-y-2">
+            <div>
               <Link
                 href="/faq"
-                className="block text-sm font-semibold text-white transition-colors hover:text-white/80"
+                className="block text-lg font-semibold uppercase tracking-[0.02em] transition-opacity hover:opacity-80"
               >
-                CÂU HỎI THƯỜNG GẶP
+                Câu Hỏi Thường Gặp
               </Link>
               <Link
                 href="/contact"
-                className="block text-sm font-semibold text-white transition-colors hover:text-white/80"
+                className="mt-4 block text-lg font-semibold uppercase tracking-[0.02em] transition-opacity hover:opacity-80"
               >
-                GÓP Ý - KHIẾU NẠI
+                Góp Ý - Khiếu Nại
               </Link>
             </div>
-          </div>
-        </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-12 border-t border-white/20 pt-8">
-          <p className="text-center text-sm text-white/60">
-            © 2026 Glowic Beauty. All rights reserved.
-          </p>
+            <div className="space-y-3 text-[14px] text-white/95">
+              <div className="flex items-center gap-3">
+                <Phone className="h-4 w-4 shrink-0" />
+                <a href="tel:0870772779" className="transition-opacity hover:opacity-80">
+                  0870 772 779 - 0399 990 0024
+                </a>
+              </div>
+              <div className="flex items-center gap-3">
+                <Mail className="h-4 w-4 shrink-0" />
+                <a
+                  href="mailto:cskh@glowicbeauty.vn"
+                  className="transition-opacity hover:opacity-80"
+                >
+                  cskh@glowicbeauty.vn
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
