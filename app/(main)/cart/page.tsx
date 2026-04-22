@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -16,7 +16,6 @@ import {
 } from "lucide-react";
 import { useCartStore } from "@/lib/store";
 import { toast } from "sonner";
-import { formatPrice } from "@/lib/utils";
 
 // Animation variants
 const fadeIn = {
@@ -32,7 +31,10 @@ const staggerContainer = {
   },
 } as const;
 
-// formatPrice is now imported from @/lib/utils (stable across SSR/client)
+// Format price helper
+const formatPrice = (price: number) => {
+  return price.toLocaleString("vi-VN") + "đ";
+};
 
 // Mock discount codes
 const DISCOUNT_CODES: Record<
@@ -52,19 +54,11 @@ export default function CartPage() {
   const removeFromCart = useCartStore((state) => state.removeFromCart);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
 
-  const [mounted, setMounted] = useState(false);
   const [discountCode, setDiscountCode] = useState("");
   const [appliedDiscount, setAppliedDiscount] = useState<{
     code: string;
     amount: number;
   } | null>(null);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setMounted(true), 0);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (!mounted) return null;
 
   // Calculate final price after discount
   const finalPrice = appliedDiscount
@@ -173,7 +167,7 @@ export default function CartPage() {
 
       <div className="mx-auto max-w-7xl px-4 py-8">
         <h1
-          className="mb-8 text-2xl font-bold"
+          className="mb-8 text-2xl font-bold text-center"
           style={{ color: "#450920", fontFamily: '"Black Mango", serif' }}
         >
           Giỏ hàng của bạn ({totalItems} sản phẩm)
@@ -191,9 +185,9 @@ export default function CartPage() {
               {/* Table Header */}
               <div className="hidden grid-cols-12 gap-4 border-b pb-4 text-sm font-medium text-gray-500 md:grid">
                 <div className="col-span-5">Sản phẩm</div>
-                <div className="col-span-2 text-center">Giá</div>
-                <div className="col-span-3 text-center">Số lượng</div>
-                <div className="col-span-2 text-right">Thành tiền</div>
+               <div className="col-span-2 text-center text-black">Giá</div>
+                <div className="col-span-3 text-center text-black">Số lượng</div>
+                <div className="col-span-2 text-right text-black">Thành tiền</div>
               </div>
 
               {/* Cart Items */}
@@ -206,7 +200,7 @@ export default function CartPage() {
                   >
                     {/* Product Info */}
                     <div className="col-span-5 flex items-center gap-4">
-                      <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-gray-100">
+                      <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-gray-100">
                         <Image
                           src={item.product.images[0]}
                           alt={item.product.name}
@@ -288,22 +282,20 @@ export default function CartPage() {
               </div>
 
               {/* Cart Total */}
-              <div className="mt-6 border-t pt-6">
-                <div className="flex items-center justify-between">
-                  <span
-                    className="text-lg font-bold italic"
-                    style={{ color: "#450920" }}
-                  >
-                    Tổng giá trị giỏ hàng
-                  </span>
-                  <span
-                    className="text-2xl font-bold"
-                    style={{ color: "#A53860" }}
-                  >
-                    {formatPrice(totalPrice)}
-                  </span>
+              <div className="mt-6 border-t pt-6 text-right">
+                 <span
+    className="block text-lg font-bold italic"
+    style={{ color: "#450920" }}
+  >
+    Tổng giá trị giỏ hàng
+  </span>
+              <span
+    className="block text-2xl font-bold mt-1"
+    style={{ color: "#A53860" }}
+  >
+    {formatPrice(totalPrice)}
+  </span>
                 </div>
-              </div>
             </motion.div>
           </div>
 
@@ -317,22 +309,20 @@ export default function CartPage() {
                 variants={fadeIn}
                 className="rounded-2xl bg-white p-6 shadow-sm"
               >
-                <h3
-                  className="mb-4 flex items-center gap-2 text-lg font-bold"
-                  style={{ color: "#450920" }}
-                >
-                  <Tag className="h-5 w-5" />
-                  Mã giảm giá
-                </h3>
-
+               <h3
+               className="text-center text-[18px] font-bold text-[#A53860]"
+              style={{ fontFamily: "Be Vietnam Pro, sans-serif" }}
+>
+                 Mã giảm giá
+              </h3>
                 <div className="flex gap-2">
                   <input
-                    type="text"
-                    placeholder="Nhập mã"
-                    value={discountCode}
-                    onChange={(e) => setDiscountCode(e.target.value)}
-                    className="flex-1 rounded-lg border px-4 py-2 text-sm outline-none focus:border-rose-300"
-                  />
+  type="text"
+  placeholder="Nhập mã"
+  value={discountCode}
+  onChange={(e) => setDiscountCode(e.target.value)}
+  className="flex-1 rounded-lg border px-4 py-2 text-sm italic outline-none focus:border-rose-300"
+/>
                   <button
                     onClick={applyDiscount}
                     className="rounded-lg px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
@@ -361,11 +351,6 @@ export default function CartPage() {
                     </button>
                   </div>
                 )}
-
-                {/* Available codes hint */}
-                <p className="mt-3 text-xs text-gray-500">
-                  Mã có sẵn: GLOWIC10, BEAUTY20, NEWUSER
-                </p>
               </motion.div>
 
               {/* Order Summary Box */}
@@ -375,12 +360,12 @@ export default function CartPage() {
                 variants={fadeIn}
                 className="rounded-2xl bg-white p-6 shadow-sm"
               >
-                <h3
-                  className="mb-4 text-lg font-bold"
-                  style={{ color: "#450920" }}
-                >
-                  Xem trước đơn hàng
-                </h3>
+               <h3
+               className="text-center text-[18px] font-bold text-[#A53860]"
+              style={{ fontFamily: "Be Vietnam Pro, sans-serif" }}
+>
+                 Xem trước đơn hàng
+              </h3>
 
                 {/* Summary Items */}
                 <div className="mb-4 max-h-48 overflow-y-auto">
