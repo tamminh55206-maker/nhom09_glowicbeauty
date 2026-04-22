@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -415,6 +415,7 @@ function ProductCard({
 }
 
 export default function QuizPage() {
+  const [mounted, setMounted] = useState(false);
   const {
     quizAnswers: answers,
     quizCompleted: showResult,
@@ -425,6 +426,13 @@ export default function QuizPage() {
     resetQuiz,
   } = useQuizStore();
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setMounted(true), 0);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!mounted) return null;
 
   const question = allQuestions[currentQuestion];
   const progress = ((currentQuestion + 1) / allQuestions.length) * 100;

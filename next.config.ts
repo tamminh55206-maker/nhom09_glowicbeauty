@@ -7,8 +7,8 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
 
-  basePath: "/nhom09_glowicbeauty",       // ⚠️ sửa lại đúng tên repo
-  assetPrefix: "/nhom09_glowicbeauty/",   // ⚠️ thêm dòng này
+  basePath: "/nhom09_glowicbeauty",     
+  assetPrefix: "/nhom09_glowicbeauty/",   
 };
 
 export default nextConfig;

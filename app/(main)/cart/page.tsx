@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { useCartStore } from "@/lib/store";
 import { toast } from "sonner";
+import { formatPrice } from "@/lib/utils";
 
 // Animation variants
 const fadeIn = {
@@ -31,10 +32,7 @@ const staggerContainer = {
   },
 } as const;
 
-// Format price helper
-const formatPrice = (price: number) => {
-  return price.toLocaleString("vi-VN") + "đ";
-};
+// formatPrice is now imported from @/lib/utils (stable across SSR/client)
 
 // Mock discount codes
 const DISCOUNT_CODES: Record<
@@ -54,11 +52,19 @@ export default function CartPage() {
   const removeFromCart = useCartStore((state) => state.removeFromCart);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
 
+  const [mounted, setMounted] = useState(false);
   const [discountCode, setDiscountCode] = useState("");
   const [appliedDiscount, setAppliedDiscount] = useState<{
     code: string;
     amount: number;
   } | null>(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setMounted(true), 0);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!mounted) return null;
 
   // Calculate final price after discount
   const finalPrice = appliedDiscount
