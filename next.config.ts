@@ -1,15 +1,9 @@
-import type { NextConfig } from 'next';
-
-const repoName = 'nhom09_glowicbeauty';   // ← THAY BẰNG TÊN REPO THẬT CỦA BẠN (chữ thường)
+import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export',                    // Bắt buộc để xuất file tĩnh
   images: {
-    unoptimized: true,                 // Bắt buộc khi dùng next/image với GitHub Pages
+    unoptimized: true, // ← fix hết tất cả lỗi domain 1 lần
   },
-  basePath: `/${repoName}`,            // Rất quan trọng
-  assetPrefix: `/${repoName}/`,
-  trailingSlash: true,                 // Khuyến khích
 };
 
 export default nextConfig;
