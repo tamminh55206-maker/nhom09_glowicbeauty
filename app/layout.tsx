@@ -4,7 +4,6 @@ import { Toaster } from "sonner";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { StoreHydrator } from "@/components/StoreHydrator";
 
 const alice = Alice({
   subsets: ["latin"],
@@ -27,12 +26,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="vi" className={`${alice.variable} ${beVietnamPro.variable}`}>
       <body>
-        <StoreHydrator>
-          <Header />
-          <main>{children}</main>
-          <Footer />
-          <Toaster />
-        </StoreHydrator>
+        <Header />
+        <main>{children}</main>
+        <Footer />
+        <Toaster />
       </body>
     </html>
   );

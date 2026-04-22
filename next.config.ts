@@ -1,14 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "export",
-
   images: {
-    unoptimized: true,
+    unoptimized: true, // ← fix hết tất cả lỗi domain 1 lần
   },
-
-  basePath: "/nhom09_glowicbeauty",     
-  assetPrefix: "/nhom09_glowicbeauty/",   
 };
 
 export default nextConfig;
