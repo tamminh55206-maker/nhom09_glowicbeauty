@@ -75,7 +75,7 @@ export const useCartStore = create<CartState>()(
         );
       },
     }),
-    { name: "glowic-cart" },
+    { name: "glowic-cart", skipHydration: true },
   ),
 );
 
@@ -106,6 +106,6 @@ export const useQuizStore = create<QuizState>()(
           currentQuestion: 0,
         }),
     }),
-    { name: "glowic-quiz" },
+    { name: "glowic-quiz", skipHydration: true },
   ),
 );

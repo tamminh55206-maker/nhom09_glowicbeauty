@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { getFeaturedProducts, products } from "@/lib/data";
 import { useCartStore } from "@/lib/store";
 import { toast } from "sonner";
+import { assetPath, formatPrice } from "@/lib/utils";
 
 // Animation variants
 const fadeInUp = {
@@ -119,7 +120,7 @@ function ProductCard({ product }: { product: (typeof products)[0] }) {
 
         <div className="flex items-center justify-between">
           <span className="text-base font-bold text-rose-600">
-            {product.price.toLocaleString("vi-VN")}đ
+            {formatPrice(product.price)}
           </span>
           <button
             onClick={handleAddToCart}
@@ -381,14 +382,14 @@ function CategoriesSection() {
 // Brands Section
 function BrandsSection() {
   const brands = [
-    { name: "Carslan", image: "/images/brands/carslan.png" },
-    { name: "Cocoon", image: "/images/brands/cocoon.png" },
-    { name: "L'Oréal", image: "/images/brands/loreal.png" },
-    { name: "Cerave", image: "/images/brands/cerave.png" },
-    { name: "Maybelline", image: "/images/brands/maybelline.png" },
-    { name: "Peripera", image: "/images/brands/peripera.png" },
-    { name: "Romand", image: "/images/brands/romand.png" },
-    { name: "3CE", displayName: "3CE" },
+    { name: "Carslan", image: assetPath("/images/brands/carslan.png") },
+    { name: "Cocoon", image: assetPath("/images/brands/cocoon.png") },
+    { name: "L'Oréal", image: assetPath("/images/brands/loreal.png") },
+    { name: "Cerave", image: assetPath("/images/brands/cerave.png") },
+    { name: "Maybelline", image: assetPath("/images/brands/maybelline.png") },
+    { name: "Peripera", image: assetPath("/images/brands/peripera.png") },
+    { name: "Romand", image: assetPath("/images/brands/romand.png") },
+    { name: "3CE", image: assetPath("/images/brands/logo8.png") },
   ];
 
   return (
@@ -427,21 +428,15 @@ function BrandsSection() {
                 className="flex items-center justify-center rounded-full bg-white px-6 py-3 transition-all hover:bg-white/90"
                 style={{ borderRadius: "999px", padding: "12px 24px" }}
               >
-                {brand.image ? (
-                  <div className="relative h-8 w-full">
-                    <Image
-                      src={brand.image}
-                      alt={brand.name}
-                      fill
-                      className="object-contain"
-                      sizes="(max-width: 768px) 50vw, 25vw"
-                    />
-                  </div>
-                ) : (
-                  <span className="text-lg font-bold text-gray-800">
-                    {brand.displayName}
-                  </span>
-                )}
+                <div className="relative h-8 w-full">
+                  <Image
+                    src={brand.image}
+                    alt={brand.name}
+                    fill
+                    className="object-contain"
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                  />
+                </div>
               </Link>
             </motion.div>
           ))}
