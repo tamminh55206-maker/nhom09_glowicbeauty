@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Alice, Be_Vietnam_Pro } from "next/font/google";
 import { Toaster } from "sonner";
-import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import "./globals.css";
 
 const alice = Alice({
   subsets: ["latin"],
@@ -22,14 +22,20 @@ export const metadata: Metadata = {
   description: "Beauty for everyone.",
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#DA627D",
+};
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="vi" className={`${alice.variable} ${beVietnamPro.variable}`}>
+    <html lang="vi" className={`${alice.variable} ${beVietnamPro.variable}`} suppressHydrationWarning>
       <body className="transition-colors duration-300">
         <Header />
         <main>{children}</main>
         <Footer />
-        <Toaster />
+        <Toaster position="top-right" richColors closeButton />
       </body>
     </html>
   );
