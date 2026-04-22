@@ -1,8 +1,9 @@
 "use client";
 
+import { Moon, Sun } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 /* ============================================
    Sub-components
@@ -42,11 +43,11 @@ function SearchBar() {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Tìm kiếm sản phẩm..."
-        className="h-full w-full rounded-full border border-[#A53860] bg-white py-2 pl-5 pr-12 text-sm text-[#450920] placeholder:text-[#450920]/40 shadow-[0px_4px_4px_rgba(69,9,32,0.25)] focus:outline-none focus:ring-2 focus:ring-[#A53860]/20"
+        className="h-full w-full rounded-full border border-[#A53860] bg-white py-2 pl-5 pr-12 text-sm text-[#450920] placeholder:text-[#450920]/40 shadow-[0px_4px_4px_rgba(69,9,32,0.25)] transition-colors focus:outline-none focus:ring-2 focus:ring-[#A53860]/20 dark:border-[#6F4760] dark:bg-[#241720] dark:text-[#F6E8ED] dark:placeholder:text-[#E8CCD6]/45 dark:focus:ring-[#E8CCD6]/15"
       />
       <button
         type="submit"
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#450920]"
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#450920] transition-colors dark:text-[#F6E8ED]"
         aria-label="Tìm kiếm"
       >
         <svg
@@ -205,10 +206,38 @@ export function Header() {
     }
   };
 
+  useEffect(() => {
+    const storedTheme = window.localStorage.getItem("glowic-theme");
+    const nextThemeIsDark =
+      storedTheme === "dark" ||
+      (!storedTheme &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches);
+
+    document.documentElement.classList.toggle("dark", nextThemeIsDark);
+    document.documentElement.style.colorScheme = nextThemeIsDark
+      ? "dark"
+      : "light";
+  }, []);
+
+  const toggleTheme = () => {
+    const nextThemeIsDark = !document.documentElement.classList.contains(
+      "dark",
+    );
+
+    document.documentElement.classList.toggle("dark", nextThemeIsDark);
+    document.documentElement.style.colorScheme = nextThemeIsDark
+      ? "dark"
+      : "light";
+    window.localStorage.setItem(
+      "glowic-theme",
+      nextThemeIsDark ? "dark" : "light",
+    );
+  };
+
   return (
-    <header className="sticky top-0 z-50 w-full">
+    <header className="sticky top-0 z-50 w-full transition-colors duration-300">
       {/* ===== HEAD SECTION (103px) ===== */}
-      <div className="relative h-[103px] w-full border-b border-[#A53860] bg-[#DA627D]">
+      <div className="relative h-[103px] w-full border-b border-[#A53860] bg-[#DA627D] transition-colors duration-300 dark:border-[#5B3348] dark:bg-[#3B1D2C]">
         <div className="mx-auto flex h-full max-w-[1280px] items-center justify-between px-5">
           {/* Logo */}
           <Logo />
@@ -246,6 +275,17 @@ export function Header() {
               <ChatIcon />
             </button>
 
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="hidden rounded-full border border-white/45 p-1.5 text-white transition-all duration-200 hover:scale-110 hover:bg-white/10 sm:flex"
+              aria-label="Chuyển giao diện sáng hoặc tối"
+              title="Chuyển giao diện sáng/tối"
+            >
+              <Moon className="h-[18px] w-[18px] dark:hidden" />
+              <Sun className="hidden h-[18px] w-[18px] dark:block" />
+            </button>
+
             {/* User / Login */}
             <Link
               href="/login"
@@ -271,7 +311,7 @@ export function Header() {
       </div>
 
       {/* ===== MENU SECTION (40px) ===== */}
-      <nav className="h-10 w-full bg-[#A53860]">
+      <nav className="h-10 w-full bg-[#A53860] transition-colors duration-300 dark:bg-[#54263F]">
         <div className="mx-auto flex h-full max-w-[1280px] items-center px-6">
           {/* Desktop navigation */}
           <div className="hidden h-[23px] items-center gap-[97px] lg:flex">
@@ -309,13 +349,13 @@ export function Header() {
 
       {/* ===== MOBILE DROPDOWN MENU ===== */}
       <div
-        className={`overflow-hidden bg-[#DA627D] transition-all duration-300 lg:hidden ${
+        className={`overflow-hidden bg-[#DA627D] transition-all duration-300 dark:bg-[#3B1D2C] lg:hidden ${
           mobileOpen
             ? "max-h-[500px] opacity-100"
             : "max-h-0 opacity-0"
         }`}
       >
-        <div className="border-b border-[#A53860] px-6 py-4">
+        <div className="border-b border-[#A53860] px-6 py-4 dark:border-[#54263F]">
           {/* Mobile search */}
           <form onSubmit={handleMobileSearch} className="relative mb-4">
             <input
@@ -323,16 +363,28 @@ export function Header() {
               value={mobileQuery}
               onChange={(e) => setMobileQuery(e.target.value)}
               placeholder="Tìm kiếm sản phẩm..."
-              className="h-11 w-full rounded-full border border-[#A53860] bg-white py-2 pl-4 pr-10 text-sm text-[#450920] placeholder:text-[#450920]/40 shadow-[0px_4px_4px_rgba(69,9,32,0.25)] focus:outline-none focus:ring-2 focus:ring-[#A53860]/20"
+              className="h-11 w-full rounded-full border border-[#A53860] bg-white py-2 pl-4 pr-10 text-sm text-[#450920] placeholder:text-[#450920]/40 shadow-[0px_4px_4px_rgba(69,9,32,0.25)] transition-colors focus:outline-none focus:ring-2 focus:ring-[#A53860]/20 dark:border-[#6F4760] dark:bg-[#241720] dark:text-[#F6E8ED] dark:placeholder:text-[#E8CCD6]/45 dark:focus:ring-[#E8CCD6]/15"
             />
             <button
               type="submit"
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#450920]"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#450920] transition-colors dark:text-[#F6E8ED]"
               aria-label="Tìm kiếm"
             >
               <SearchIcon className="h-5 w-5" />
             </button>
           </form>
+
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="mb-3 flex items-center gap-2 text-sm font-medium text-white transition-opacity hover:opacity-80"
+            aria-label="Chuyển giao diện sáng hoặc tối"
+          >
+            <Moon className="h-4 w-4 dark:hidden" />
+            <Sun className="hidden h-4 w-4 dark:block" />
+            <span className="dark:hidden">Chế độ tối</span>
+            <span className="hidden dark:inline">Chế độ sáng</span>
+          </button>
 
           {/* Mobile nav links */}
           <div className="flex flex-col gap-1">

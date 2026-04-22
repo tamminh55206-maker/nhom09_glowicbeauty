@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="vi" className={`${alice.variable} ${beVietnamPro.variable}`}>
-      <body>
+      <body className="transition-colors duration-300">
         <Header />
         <main>{children}</main>
         <Footer />
