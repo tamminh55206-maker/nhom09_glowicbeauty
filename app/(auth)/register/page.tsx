@@ -1,24 +1,39 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 
 const registerSchema = z
   .object({
-    tenTaiKhoan: z.string().min(2, "Tên tối thiểu 2 ký tự"),
-    soDienThoai: z.string().regex(/^[0-9]{10}$/, "Số điện thoại không hợp lệ"),
-    email: z.string().email("Email không hợp lệ"),
-    matKhau: z.string().min(6, "Mật khẩu tối thiểu 6 ký tự"),
-    nhapLaiMatKhau: z.string(),
-    ngaySinh: z.string().min(1, "Vui lòng nhập ngày sinh"),
-    dongY: z.boolean().refine((val) => val === true, {
-      message: "Vui lòng đồng ý với điều khoản",
+    tenTaiKhoan: z
+      .string()
+      .trim()
+      .min(1, "Vui lòng nhập tên tài khoản")
+      .min(2, "Tên tối thiểu 2 ký tự"),
+    soDienThoai: z
+      .string()
+      .trim()
+      .min(1, "Vui lòng nhập số điện thoại")
+      .regex(/^[0-9]+$/, "Số điện thoại chỉ được chứa 10 chữ số")
+      .length(10, "Số điện thoại phải gồm 10 số"),
+    email: z
+      .string()
+      .trim()
+      .min(1, "Vui lòng nhập e-mail")
+      .email("E-mail không hợp lệ"),
+    matKhau: z
+      .string()
+      .trim()
+      .min(1, "Vui lòng nhập mật khẩu")
+      .min(6, "Mật khẩu tối thiểu 6 ký tự"),
+    nhapLaiMatKhau: z.string().trim().min(1, "Vui lòng nhập lại mật khẩu"),
+    ngaySinh: z.string().min(1, "Vui lòng chọn ngày sinh"),
+    dongY: z.boolean().refine((value) => value === true, {
+      message: "Vui lòng tích vào ô đồng ý điều khoản",
     }),
   })
   .refine((data) => data.matKhau === data.nhapLaiMatKhau, {
@@ -28,10 +43,18 @@ const registerSchema = z
 
 type RegisterForm = z.infer<typeof registerSchema>;
 
+const beVietnamFontStyle = {
+  fontFamily: 'var(--font-be-vietnam), "Be Vietnam Pro", sans-serif',
+} as const;
+
+const fieldClassName =
+  "flex h-[36.47px] w-[280.6px] items-center rounded-[5.95443px] border-[0.37px] border-[#A53860] bg-white px-[7.44px] text-[15.8605px] font-normal leading-5 text-black outline-none transition placeholder:text-[#B48996] focus:border-[#B13D67] focus:ring-2 focus:ring-[#B13D67]/10 dark:bg-[#1F151B] dark:text-[#F7E8EC] dark:placeholder:text-[#CFAABB]";
+
+const fieldLabelClassName =
+  "mb-[4px] block text-[15.8605px] font-medium leading-5 text-black transition-colors duration-300 dark:text-[#F3E1E7]";
+
 export default function RegisterPage() {
   const router = useRouter();
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const {
     register,
@@ -46,186 +69,239 @@ export default function RegisterPage() {
 
   const onSubmit = () => {
     toast.success("Đăng ký thành công! Chào mừng bạn đến với Glowic.");
-    router.push("/");
+    router.push("/login");
   };
 
   return (
-    <section className="w-full bg-white">
-      <div className="mx-auto max-w-[1280px] px-4 pt-5 md:px-6">
-        <nav className="border-b border-[#E8E0E3] pb-3 text-sm text-[#564C4F]">
-          <Link href="/" className="transition-colors hover:text-[#B13D67]">
-            Trang chủ
-          </Link>
-          <span className="px-1.5 text-[#9D8E93]">&gt;</span>
-          <span className="text-[#2F2528]">Đăng ký</span>
-        </nav>
-      </div>
+    <section className="w-full bg-white transition-colors duration-300 dark:bg-[#140F13]">
+      <div className="relative min-h-160 w-full overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,#FFFFFF_36.96%,#EAA29F_78.8%,#DA627D_97.39%)] transition-colors duration-300 dark:bg-[linear-gradient(180deg,#171017_0%,#21131C_35%,#462435_78%,#24131D_100%)]" />
 
-      <div className="relative overflow-hidden bg-[linear-gradient(180deg,#FFFFFF_0%,#FFFFFF_28%,#FFF2F5_100%)]">
-        <div
-          className="absolute -bottom-28 right-[-12%] h-[420px] w-[68%] rounded-full blur-[10px]"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(218,98,125,0.28) 0%, rgba(248,206,216,0.58) 42%, rgba(255,255,255,0) 72%)",
-          }}
-        />
-
-        <div className="relative mx-auto flex min-h-[690px] max-w-[1280px] items-center justify-center px-4 py-16 md:px-6">
-          <div className="w-full max-w-[480px] rounded-[12px] border border-[#F1D8DF] bg-white p-8 shadow-[0_12px_28px_rgba(69,9,32,0.12)] sm:p-10">
-            <h1
-              className="mb-8 text-center text-2xl font-bold"
-              style={{ color: "#450920", fontFamily: '"Black Mango", serif' }}
+        <div className="relative mx-auto h-full max-w-7xl px-4 pt-6.5 md:px-9.5">
+          <nav className="flex items-center gap-1 text-[14px] text-[#2F2528] transition-colors duration-300 dark:text-[#F3E1E7]">
+            <Link
+              href="/"
+              className="transition-colors hover:text-[#B13D67] dark:hover:text-[#F3AABD]"
             >
-              Đăng ký tài khoản
-            </h1>
+              Trang chủ
+            </Link>
+            <span className="text-[#8E8186] dark:text-[#CDB7BF]">&gt;</span>
+            <Link
+              href="/login"
+              className="transition-colors hover:text-[#B13D67] dark:hover:text-[#F3AABD]"
+            >
+              Đăng nhập
+            </Link>
+            <span className="text-[#8E8186] dark:text-[#CDB7BF]">&gt;</span>
+            <span>Đăng ký tài khoản</span>
+          </nav>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-              <div>
-                <input
-                  type="text"
-                  {...register("tenTaiKhoan")}
-                  placeholder="Tên tài khoản"
-                  className="w-full border-b border-gray-300 bg-transparent px-0 py-3 text-sm outline-none transition-colors placeholder:text-gray-400 focus:border-[#C1475A]"
-                />
-                {errors.tenTaiKhoan && (
-                  <p className="mt-1 text-xs text-red-500">
-                    {errors.tenTaiKhoan.message}
-                  </p>
-                )}
-              </div>
+          <div className="mt-2 h-px w-full bg-[#D9D9D9] transition-colors duration-300 dark:bg-[#594A52]" />
 
-              <div>
-                <input
-                  type="tel"
-                  {...register("soDienThoai")}
-                  placeholder="Số điện thoại"
-                  className="w-full border-b border-gray-300 bg-transparent px-0 py-3 text-sm outline-none transition-colors placeholder:text-gray-400 focus:border-[#C1475A]"
-                />
-                {errors.soDienThoai && (
-                  <p className="mt-1 text-xs text-red-500">
-                    {errors.soDienThoai.message}
-                  </p>
-                )}
-              </div>
+          <div className="mt-7 flex justify-center pb-12">
+            <div className="w-[337.17px] rounded-[8.18px] border-[0.74px] border-[#BFBFBF] bg-white px-[28.28px] pb-5 pt-[12.61px] shadow-[-2.23px_0.74px_11.16px_rgba(0,0,0,0.25)] transition-colors duration-300 dark:border-[#5A444F] dark:bg-[#24171F]">
+              <h1
+                className="text-center text-[26.9628px] font-black leading-10.25"
+                style={{
+                  fontFamily: '"Black Mango", serif',
+                  background: "linear-gradient(170.56deg, #DA627D 5.47%, #450920 256.63%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                Đăng ký tài khoản
+              </h1>
 
-              <div>
-                <input
-                  type="email"
-                  {...register("email")}
-                  placeholder="E-mail"
-                  className="w-full border-b border-gray-300 bg-transparent px-0 py-3 text-sm outline-none transition-colors placeholder:text-gray-400 focus:border-[#C1475A]"
-                />
-                {errors.email && (
-                  <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>
-                )}
-              </div>
-
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  {...register("matKhau")}
-                  placeholder="Mật khẩu"
-                  className="w-full border-b border-gray-300 bg-transparent px-0 py-3 text-sm outline-none transition-colors placeholder:text-gray-400 focus:border-[#C1475A]"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                  aria-label={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5" />
-                  ) : (
-                    <Eye className="h-5 w-5" />
-                  )}
-                </button>
-                {errors.matKhau && (
-                  <p className="mt-1 text-xs text-red-500">
-                    {errors.matKhau.message}
-                  </p>
-                )}
-              </div>
-
-              <div className="relative">
-                <input
-                  type={showConfirmPassword ? "text" : "password"}
-                  {...register("nhapLaiMatKhau")}
-                  placeholder="Nhập lại mật khẩu"
-                  className="w-full border-b border-gray-300 bg-transparent px-0 py-3 text-sm outline-none transition-colors placeholder:text-gray-400 focus:border-[#C1475A]"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                  aria-label={
-                    showConfirmPassword ? "Ẩn nhập lại mật khẩu" : "Hiện nhập lại mật khẩu"
-                  }
-                >
-                  {showConfirmPassword ? (
-                    <EyeOff className="h-5 w-5" />
-                  ) : (
-                    <Eye className="h-5 w-5" />
-                  )}
-                </button>
-                {errors.nhapLaiMatKhau && (
-                  <p className="mt-1 text-xs text-red-500">
-                    {errors.nhapLaiMatKhau.message}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label className="mb-1 block text-xs text-gray-500">Ngày sinh</label>
-                <input
-                  type="date"
-                  {...register("ngaySinh")}
-                  className="w-full border-b border-gray-300 bg-transparent px-0 py-2 text-sm outline-none transition-colors focus:border-[#C1475A]"
-                />
-                {errors.ngaySinh && (
-                  <p className="mt-1 text-xs text-red-500">
-                    {errors.ngaySinh.message}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label className="flex items-start gap-2">
+              <form
+                noValidate
+                onSubmit={handleSubmit(onSubmit)}
+                className="mt-1.5 space-y-2.25"
+              >
+                <div>
+                  <label
+                    htmlFor="tenTaiKhoan"
+                    className={fieldLabelClassName}
+                    style={beVietnamFontStyle}
+                  >
+                    Tên tài khoản
+                  </label>
                   <input
-                    type="checkbox"
-                    {...register("dongY")}
-                    className="mt-1 h-4 w-4 rounded border-gray-300"
+                    id="tenTaiKhoan"
+                    type="text"
+                    {...register("tenTaiKhoan")}
+                    className={fieldClassName}
+                    style={beVietnamFontStyle}
                   />
-                  <span className="text-sm text-gray-600">
-                    Tôi đồng ý với tất cả các{" "}
-                    <Link href="/faq" className="underline hover:text-rose-500">
-                      điều khoản sử dụng
-                    </Link>
-                  </span>
-                </label>
-                {errors.dongY && (
-                  <p className="mt-1 text-xs text-red-500">{errors.dongY.message}</p>
-                )}
-              </div>
+                  {errors.tenTaiKhoan && (
+                    <p className="mt-1 text-xs text-red-500" style={beVietnamFontStyle}>
+                      {errors.tenTaiKhoan.message}
+                    </p>
+                  )}
+                </div>
 
-              <button
-                type="submit"
-                className="w-full rounded-full py-3 font-medium text-white transition-opacity hover:opacity-90"
-                style={{ backgroundColor: "#C1475A" }}
-              >
-                Đăng ký
-              </button>
-            </form>
+                <div>
+                  <label
+                    htmlFor="soDienThoai"
+                    className={fieldLabelClassName}
+                    style={beVietnamFontStyle}
+                  >
+                    Số điện thoại
+                  </label>
+                  <input
+                    id="soDienThoai"
+                    type="tel"
+                    {...register("soDienThoai")}
+                    className={fieldClassName}
+                    style={beVietnamFontStyle}
+                  />
+                  {errors.soDienThoai && (
+                    <p className="mt-1 text-xs text-red-500" style={beVietnamFontStyle}>
+                      {errors.soDienThoai.message}
+                    </p>
+                  )}
+                </div>
 
-            <p className="mt-6 text-center text-sm text-gray-600">
-              Bạn có tài khoản rồi?{" "}
-              <Link
-                href="/login"
-                className="font-medium hover:underline"
-                style={{ color: "#C1475A" }}
+                <div>
+                  <label
+                    htmlFor="email"
+                    className={fieldLabelClassName}
+                    style={beVietnamFontStyle}
+                  >
+                    E-mail
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    {...register("email")}
+                    className={fieldClassName}
+                    style={beVietnamFontStyle}
+                  />
+                  {errors.email && (
+                    <p className="mt-1 text-xs text-red-500" style={beVietnamFontStyle}>
+                      {errors.email.message}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="matKhau"
+                    className={fieldLabelClassName}
+                    style={beVietnamFontStyle}
+                  >
+                    Mật khẩu
+                  </label>
+                  <input
+                    id="matKhau"
+                    type="password"
+                    {...register("matKhau")}
+                    className={fieldClassName}
+                    style={beVietnamFontStyle}
+                  />
+                  {errors.matKhau && (
+                    <p className="mt-1 text-xs text-red-500" style={beVietnamFontStyle}>
+                      {errors.matKhau.message}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="nhapLaiMatKhau"
+                    className={fieldLabelClassName}
+                    style={beVietnamFontStyle}
+                  >
+                    Nhập lại mật khẩu
+                  </label>
+                  <input
+                    id="nhapLaiMatKhau"
+                    type="password"
+                    {...register("nhapLaiMatKhau")}
+                    className={fieldClassName}
+                    style={beVietnamFontStyle}
+                  />
+                  {errors.nhapLaiMatKhau && (
+                    <p className="mt-1 text-xs text-red-500" style={beVietnamFontStyle}>
+                      {errors.nhapLaiMatKhau.message}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="ngaySinh"
+                    className={fieldLabelClassName}
+                    style={beVietnamFontStyle}
+                  >
+                    Ngày sinh
+                  </label>
+                  <input
+                    id="ngaySinh"
+                    type="date"
+                    autoComplete="bday"
+                    {...register("ngaySinh")}
+                    className={fieldClassName}
+                    style={beVietnamFontStyle}
+                  />
+                  {errors.ngaySinh && (
+                    <p className="mt-1 text-xs text-red-500" style={beVietnamFontStyle}>
+                      {errors.ngaySinh.message}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label
+                    className="flex items-center gap-[5.21px] text-[13.3765px] font-normal leading-4.25 text-black transition-colors duration-300 dark:text-[#EEE2E6]"
+                    style={beVietnamFontStyle}
+                  >
+                    <input
+                      type="checkbox"
+                      {...register("dongY")}
+                      className="h-2.25 w-2.25 rounded-[0.74px] border-[0.74px] border-[#A53860] bg-white accent-[#A53860]"
+                    />
+                    <span>
+                      Tôi đồng ý với tất cả các{" "}
+                      <Link
+                        href="/faq"
+                        className="text-[#A53860] transition-colors hover:text-[#9E3C59] dark:text-[#F3AABD] dark:hover:text-[#FFD6E1]"
+                        style={beVietnamFontStyle}
+                      >
+                        điều khoản sử dụng.
+                      </Link>
+                    </span>
+                  </label>
+                  {errors.dongY && (
+                    <p className="mt-1 text-xs text-red-500" style={beVietnamFontStyle}>
+                      {errors.dongY.message}
+                    </p>
+                  )}
+                </div>
+
+                <button
+                  type="submit"
+                  className="h-[36.47px] w-[280.6px] rounded-[5.95px] bg-[#A53860] text-[17.4465px] font-medium leading-5.5 text-white transition-colors hover:bg-[#8E3B55]"
+                  style={beVietnamFontStyle}
+                >
+                  Đăng ký
+                </button>
+              </form>
+
+              <p
+                className="mt-3 text-center text-[15.8605px] font-normal leading-5 text-black transition-colors duration-300 dark:text-[#EEE2E6]"
+                style={beVietnamFontStyle}
               >
-                Đăng nhập
-              </Link>
-            </p>
+                Bạn có tài khoản rồi?{" "}
+                <Link
+                  href="/login"
+                  className="text-[#DA627D] transition-colors hover:text-[#9E3C59] dark:text-[#F3AABD] dark:hover:text-[#FFD6E1]"
+                  style={beVietnamFontStyle}
+                >
+                  Đăng nhập ngay
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
       </div>
