@@ -18,7 +18,7 @@ type LoginForm = z.infer<typeof loginSchema>;
 export default function LoginPage() {
   const router = useRouter();
   const inputClassName =
-    "h-10 w-full rounded-[4px] border border-[#E5A8B8] bg-white px-3 text-sm text-[#512A36] outline-none transition placeholder:text-[#D18B9F] focus:border-[#B13D67] focus:ring-2 focus:ring-[#B13D67]/10 dark:border-[#7A5A67] dark:bg-[#1F151B] dark:text-[#F7E8EC] dark:placeholder:text-[#CFAABB] dark:focus:border-[#D06482] dark:focus:ring-[#D06482]/15";
+    "flex flex-row justify-center items-center h-[36.47px] w-[280.6px] rounded-[5.95443px] border-[0.37px] border-[#A53860] bg-white px-[7.44px] text-base text-[#DA627D] outline-none transition placeholder:font-['Be_Vietnam_Pro'] placeholder:text-[#DA627D] focus:border-[#B13D67] focus:ring-2 focus:ring-[#B13D67]/10 dark:bg-[#1F151B] dark:text-[#F7E8EC] dark:placeholder:text-[#CFAABB]";
 
   const {
     register,
@@ -56,10 +56,16 @@ export default function LoginPage() {
           <div className="mt-[8px] h-px w-full bg-[#D9D9D9] transition-colors duration-300 dark:bg-[#594A52]" />
 
           <div className="mt-[36px] flex justify-center">
-            <div className="min-h-[294px] w-full max-w-[337px] rounded-[4px] border border-[#D8D0D3] bg-white px-[18px] pb-4 pt-3 shadow-[0_6px_14px_rgba(69,9,32,0.18)] transition-colors duration-300 dark:border-[#5A444F] dark:bg-[#24171F] dark:shadow-[0_10px_20px_rgba(0,0,0,0.3)]">
+            <div className="min-h-[294px] w-[337.17px] rounded-[8.18px] border-[0.74px] border-[#BFBFBF] bg-white px-[28.28px] pb-4 pt-[12.61px] shadow-[-2.23px_0.74px_11.16px_rgba(0,0,0,0.25)] transition-colors duration-300 dark:border-[#5A444F] dark:bg-[#24171F]">
               <h1
-                className="text-center text-[2rem] leading-none text-[#D06482] dark:text-[#F19AB0]"
-                style={{ fontFamily: '"Black Mango", serif' }}
+                className="text-center text-[25.3px] font-bold leading-[38px]"
+                style={{
+                  fontFamily: '"Black Mango", serif',
+                  background: 'linear-gradient(170.56deg, #DA627D 5.47%, #450920 256.63%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
               >
                 Đăng nhập
               </h1>
@@ -93,19 +99,19 @@ export default function LoginPage() {
                   )}
                 </div>
 
-                <div className="flex items-center justify-between gap-3 text-[11px] text-[#574D51] transition-colors duration-300 dark:text-[#E5D5DB]">
-                  <label className="flex items-center gap-1.5">
+                <div className="flex items-center justify-between gap-3 text-[11px] text-black transition-colors duration-300 dark:text-[#E5D5DB]">
+                  <label className="flex items-center gap-[5.21px]">
                     <input
                       type="checkbox"
                       {...register("duyTriDangNhap")}
-                      className="h-3.5 w-3.5 rounded border-[#DAB0BC] accent-[#B13D67] dark:border-[#8A6677]"
+                      className="h-[9px] w-[9px] rounded-[0.74px] border-[0.74px] border-[#A53860] bg-white accent-[#A53860]"
                     />
-                    <span>Duy trì đăng nhập</span>
+                    <span className="text-[12px] leading-[15px]">Duy trì đăng nhập</span>
                   </label>
 
                   <Link
                     href="/faq"
-                    className="font-medium text-[#8E3B55] transition-colors hover:text-[#B13D67] dark:text-[#F3B3C4] dark:hover:text-[#FFD6E1]"
+                    className="text-[11px] leading-[14px] underline transition-colors hover:text-[#9E3C59] dark:text-white dark:hover:text-[#F19AB0]"
                   >
                     Quên mật khẩu?
                   </Link>
@@ -113,24 +119,24 @@ export default function LoginPage() {
 
                 <button
                   type="submit"
-                  className="h-10 w-full rounded-[4px] bg-[#B13D67] text-base font-semibold text-white transition-colors hover:bg-[#972D55]"
+                  className="h-[36.47px] w-[280.6px] rounded-[5.95px] bg-[#A53860] text-[16.37px] font-medium text-white transition-colors hover:bg-[#8E3B55]"
                 >
                   Đăng nhập
                 </button>
               </form>
 
-              <p className="mt-4 text-center text-[12px] text-[#5F5458] transition-colors duration-300 dark:text-[#EEE2E6]">
+              <p className="mt-6 text-center text-[12px] text-black transition-colors duration-300 dark:text-[#EEE2E6]">
                 Bạn chưa có tài khoản?{" "}
                 <Link
                   href="/register"
-                  className="font-medium text-[#B13D67] transition-colors hover:text-[#972D55] dark:text-[#F3AABD] dark:hover:text-[#FFD6E1]"
+                  className="text-[#A53860] transition-colors hover:text-[#9E3C59] dark:text-[#F3AABD] dark:hover:text-[#FFD6E1]"
                 >
                   Đăng ký ngay
                 </Link>
               </p>
 
-              <p className="mt-2 text-center text-[9px] leading-[1.5] text-[#A49A9E] transition-colors duration-300 dark:text-[#B89FA8]">
-                Bằng việc đăng nhập, bạn đồng ý với điều khoản và chính sách của
+              <p className="mt-4 text-center text-[8px] leading-[10px] text-[#878787] transition-colors duration-300 dark:text-[#B89FA8]">
+                Bằng việc đăng nhập, bạn đồng ý với điều khoản & chính sách của
                 Glowic.
               </p>
             </div>
