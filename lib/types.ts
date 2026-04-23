@@ -20,6 +20,8 @@ export interface Product {
   stock: number;
   skinType: string[];
   slug: string;
+  variant: string;
+  AppliedDiscount: string;
 }
 
 export interface CartItem {
