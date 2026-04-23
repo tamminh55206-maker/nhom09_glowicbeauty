@@ -3,14 +3,13 @@
 import { useState } from "react";
 import { Tag, X } from "lucide-react";
 
+import type { AppliedDiscount } from "@/lib/types";
+
 // 1. Định nghĩa khuôn (Interface) để nhận hàm từ file cha
 interface CartVoucherProps {
   onApply: (code: string) => void;
   onRemove: () => void;
-  appliedDiscount?: {
-    code: string;
-    amount: number;
-  } | null;
+  appliedDiscount?: AppliedDiscount | null;
 }
 
 export default function CartVoucher({ onApply, onRemove, appliedDiscount }: CartVoucherProps) {

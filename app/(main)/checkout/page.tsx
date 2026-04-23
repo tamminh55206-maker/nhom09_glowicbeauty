@@ -19,6 +19,7 @@ import {
   Tag,
 } from "lucide-react";
 import { useCartStore } from "@/lib/store";
+import type { AppliedDiscount } from "@/lib/types";
 import { toast } from "sonner";
 
 // Animation variants
@@ -80,10 +81,7 @@ export default function CheckoutPage() {
   const clearCart = useCartStore((state) => state.clearCart);
 
   const [selectedPayment, setSelectedPayment] = useState("cod");
-  const [appliedDiscount, setAppliedDiscount] = useState<{
-    code: string;
-    amount: number;
-  } | null>(null);
+  const [appliedDiscount, setAppliedDiscount] = useState<AppliedDiscount | null>(null);
 
   const {
     register,
@@ -546,7 +544,7 @@ export default function CheckoutPage() {
 
                   {/* Terms */}
                   <p className="mt-4 text-xs text-gray-500">
-                    Nhấn "Đặt hàng" đồng nghĩa với việc bạn đồng ý tuân theo{" "}
+                    Nhấn &quot;Đặt hàng&quot; đồng nghĩa với việc bạn đồng ý tuân theo&nbsp;
                     <Link href="#" className="underline hover:text-rose-500">
                       Điều khoản Glowic
                     </Link>

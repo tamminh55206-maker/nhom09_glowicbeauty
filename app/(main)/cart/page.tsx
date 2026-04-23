@@ -12,7 +12,7 @@ import CartVoucher from "@/app/components/cart/CartVoucher";
 import CartSummary from "@/app/components/cart/CartSummary";
 
 import { useCartStore } from "@/lib/store";
-import { AppliedDiscount } from "@/lib/types";
+import type { AppliedDiscount } from "@/lib/types";
 import { toast } from "sonner";
 
 // Animation variants
