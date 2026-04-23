@@ -1,7 +1,7 @@
 "use client";
 
 import { useCartStore } from "@/lib/store";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export function CartBadge() {
   const [mounted, setMounted] = useState(false);
