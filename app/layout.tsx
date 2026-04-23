@@ -38,7 +38,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="vi" className={`${alice.variable} ${beVietnamPro.variable} ${montserrat.variable}`} suppressHydrationWarning>
       <body className="transition-colors duration-300">
-        <Header />
+        <Header/>
         <main>{children}</main>
         <Footer />
         <Toaster position="top-right" richColors closeButton />
