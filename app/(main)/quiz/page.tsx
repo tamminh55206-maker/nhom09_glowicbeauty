@@ -2,11 +2,30 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight, ArrowRight, RotateCcw, Sparkles } from "lucide-react";
 import { products } from "@/lib/data";
 import { useQuizStore } from "@/lib/store";
+
+// Map quiz recommendation slugs to actual product IDs in data.ts
+const quizSlugToProductId: Record<string, string> = {
+  "cocoon-rose-serum-30ml": "product-19",
+  "cocoon-ben-tre-coconut-lip-balm-5g": "product-18",
+  "cocoon-winter-melon-gel-cream-30ml": "product-15",
+  "maybelline-lifter-gloss-54ml": "product-05",
+  "maybelline-super-stay-30h-lumi-matte-foundation": "product-02",
+  "loreal-glycolic-bright-glowing-peeling-toner": "product-23",
+  "cocoon-hung-yen-turmeric-gel-cream": "product-17",
+  "3ce-face-blush-55g": "product-33",
+  "cocoon-winter-melon-cleanser-310ml": "product-12",
+  "cocoon-winter-melon-serum-70ml": "product-14",
+  "loreal-infallible-32h-matte-cover-foundation": "product-26",
+  "maybelline-super-stay-matte-ink-city-edition": "product-06",
+  "cocoon-winter-melon-sunscreen-spf50": "product-11",
+  "maybelline-super-stay-30h-flex-powder": "product-09",
+  "cocoon-winter-melon-micellar-water-500ml": "product-16",
+  "maybelline-instant-age-rewind-concealer": "product-04",
+};
 
 // Quiz Data - Part 1: Skin Type (5 questions)
 const skinTypeQuestions = [
@@ -364,14 +383,18 @@ const personalColorResults: Record<
   },
 };
 
-// Get product info by name (fuzzy match)
-const getProductInfo = (productName: string) => {
-  const searchTerm = productName.toLowerCase().split(" ").slice(0, 3).join(" ");
-  const found = products.find((p) => p.name.toLowerCase().includes(searchTerm));
+// Get product info by direct slug mapping
+const getProductInfo = (product: { name: string; benefit: string; slug: string }) => {
+  const productId = quizSlugToProductId[product.slug];
+  const found = productId
+    ? products.find((p) => p.id === productId)
+    : undefined;
+
   return {
     slug: found ? `/products/${found.slug}` : "/products",
     image:
       found?.images[0] || "https://placehold.co/300x300/f9a8d4/9f1239?text=SP",
+    name: found?.name || product.name,
   };
 };
 
@@ -381,17 +404,19 @@ function ProductCard({
 }: {
   product: { name: string; benefit: string; slug: string };
 }) {
-  const { slug, image } = getProductInfo(product.name);
+  const { slug, image, name } = getProductInfo(product);
   return (
     <Link href={slug} className="group block">
       <div className="overflow-hidden rounded-xl bg-white shadow-sm transition-shadow hover:shadow-md">
         <div className="relative aspect-square overflow-hidden bg-gray-100">
-          <Image
+          <img
             src={image}
-            alt={product.name}
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-            sizes="150px"
+            alt={name}
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src =
+                "https://placehold.co/300x300/f9a8d4/9f1239?text=SP";
+            }}
           />
         </div>
         <div className="p-3">
@@ -399,7 +424,7 @@ function ProductCard({
             className="line-clamp-2 text-sm font-medium"
             style={{ color: "#450920" }}
           >
-            {product.name}
+            {name}
           </h4>
           <p className="mt-1 text-xs text-gray-500">{product.benefit}</p>
           <span
@@ -495,7 +520,7 @@ export default function QuizPage() {
         </p>
       </div>
 
-      <div className="mx-auto max-w-3xl px-4 pb-16">
+      <div className="mx-auto max-w-[1070px] px-4 pb-16">
         <AnimatePresence mode="wait">
           {!showResult ? (
             <motion.div
@@ -505,56 +530,55 @@ export default function QuizPage() {
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.3 }}
             >
-              {/* Progress Bar */}
-              <div className="mb-8">
-                <div className="mb-2 flex items-center justify-between text-sm">
-                  <span className="font-medium" style={{ color: "#450920" }}>
-                    Câu {currentQuestion + 1}/{allQuestions.length}
-                  </span>
-                  <span className="text-gray-500">{Math.round(progress)}%</span>
-                </div>
-                <div className="h-2 overflow-hidden rounded-full bg-gray-200">
-                  <motion.div
-                    className="h-full rounded-full"
-                    style={{ backgroundColor: "#C1475A" }}
-                    initial={{ width: 0 }}
-                    animate={{ width: `${progress}%` }}
-                    transition={{ duration: 0.3 }}
-                  />
-                </div>
-              </div>
-
               {/* Question Card */}
-              <div className="rounded-2xl bg-white p-6 shadow-lg md:p-8">
+              <div className="rounded-2xl bg-white p-6 shadow-lg md:p-8 mx-auto" style={{ fontFamily: '"Be Vietnam Pro", sans-serif', maxWidth: '1070px', minHeight: '340px' }}>
+                {/* Progress Header */}
+                <div className="mb-4 relative flex items-center">
+                  <span
+                    className="absolute left-0 text-base font-semibold whitespace-nowrap"
+                    style={{ color: "#450920" }}
+                  >
+                    Câu {currentQuestion + 1}/10
+                  </span>
+                  <div className="mx-auto flex w-full max-w-[558px] items-center gap-1">
+                    {Array.from({ length: 10 }).map((_, i) => (
+                      <div
+                        key={i}
+                        className={`flex-1 h-[10px] ${
+                          i === 0 ? "rounded-l-lg" : ""
+                        } ${i === 9 ? "rounded-r-lg" : ""}`}
+                        style={{
+                          backgroundColor:
+                            i <= currentQuestion ? "#FFA5AB" : "#D9D9D9",
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+
                 {/* Section Label */}
                 <p
-                  className="mb-4 text-center text-sm font-semibold"
-                  style={{ color: "#C1475A" }}
+                  className="mb-4 text-center text-base font-semibold"
+                  style={{ color: "#450920", fontFamily: '"Be Vietnam Pro", sans-serif' }}
                 >
                   {question.section}
                 </p>
 
                 {/* Question */}
                 <h2
-                  className="mb-8 text-center text-lg font-medium md:text-xl"
-                  style={{ color: "#450920" }}
+                  className="mb-8 text-center text-base font-medium"
+                  style={{ color: "#450920", fontFamily: '"Be Vietnam Pro", sans-serif' }}
                 >
-                  {question.question}
+                  Câu {currentQuestion + 1}: {question.question}
                 </h2>
 
                 {/* Options */}
-                <div
-                  className={`grid gap-3 ${
-                    question.options.length === 3
-                      ? "grid-cols-1 md:grid-cols-3"
-                      : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-                  }`}
-                >
+                <div className="flex flex-row gap-3">
                   {question.options.map((option) => (
                     <button
                       key={option.key}
                       onClick={() => handleSelect(option.key)}
-                      className={`rounded-xl border-2 p-4 text-left text-sm transition-all ${
+                      className={`flex-1 min-w-0 rounded-xl border-2 p-4 text-center text-sm transition-all ${
                         selectedOption === option.key
                           ? "border-[#C1475A] bg-rose-200 font-semibold"
                           : "border-rose-100 bg-rose-50 hover:border-rose-300 hover:bg-rose-100"
@@ -562,7 +586,7 @@ export default function QuizPage() {
                       style={{ color: "#450920" }}
                     >
                       <span
-                        className="mr-2 font-bold"
+                        className="mr-1 font-bold"
                         style={{ color: "#C1475A" }}
                       >
                         {option.key}.
