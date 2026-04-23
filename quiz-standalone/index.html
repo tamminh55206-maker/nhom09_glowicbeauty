@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Cá Nhân - Glowic Beauty</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alice&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-wrapper">
+    <!-- Navbar -->
+    <header class="navbar">
+      <div class="navbar-head">
+        <div class="navbar-inner">
+          <!-- Logo -->
+          <a href="#" class="logo">
+            <span class="logo-main">Glowic</span>
+            <span class="logo-sub">beauty</span>
+          </a>
+
+          <!-- Search Box -->
+          <div class="search-box-wrapper">
+            <div class="search-box">
+              <input type="text" placeholder="Tìm kiếm sản phẩm..." class="search-input">
+              <button class="search-btn" aria-label="Tìm kiếm">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#450920" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <path d="m21 21-4.35-4.35"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Icons -->
+          <div class="nav-icons">
+            <a href="#" class="icon-btn" aria-label="Giỏ hàng">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
+              </svg>
+            </a>
+            <a href="#" class="icon-btn" aria-label="Thông báo">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75v-.7V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/>
+              </svg>
+            </a>
+            <a href="#" class="icon-btn" aria-label="Tin nhắn">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z"/>
+              </svg>
+            </a>
+            <a href="#" class="user-link">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+              </svg>
+              <span>Đăng nhập/ Đăng ký</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <nav class="navbar-menu">
+        <div class="navbar-menu-inner">
+          <button class="menu-toggle" aria-label="Menu">
+            <svg width="28" height="18" viewBox="0 0 29 18" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" d="M0 1h29M0 9h29M0 17h29"/>
+            </svg>
+          </button>
+          <div class="menu-links">
+            <a href="#">Trang chủ</a>
+            <a href="#">Danh mục sản phẩm</a>
+            <a href="#">Flash Sale</a>
+            <a href="#">Thương hiệu nổi bật</a>
+            <a href="#" class="active">Bài test cá nhân</a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <h1 class="hero-title">Khám phá vẻ đẹp cá nhân của bạn</h1>
+      <p class="hero-subtitle">Thấu hiểu làn da, định hình phong cách</p>
+    </section>
+
+    <!-- Quiz Section -->
+    <main class="quiz-section">
+      <div class="quiz-card">
+        <!-- Progress -->
+        <div class="quiz-header">
+          <div class="progress-bar" id="progressBar"></div>
+          <span class="question-counter" id="questionCounter">Câu 1/10</span>
+        </div>
+
+        <!-- Question -->
+        <div class="question-content">
+          <p class="section-label" id="sectionLabel">PHẦN 1: BẠN THUỘC LOẠI DA NÀO?</p>
+          <h2 class="question-text" id="questionText">
+            Sau khi rửa mặt sạch và chờ 20–30 phút không thoa bất kỳ sản phẩm gì, da bạn cảm thấy:
+          </h2>
+        </div>
+
+        <!-- Options -->
+        <div class="options-grid" id="optionsGrid"></div>
+
+        <!-- Navigation -->
+        <div class="quiz-nav">
+          <button class="btn-continue" id="btnContinue" disabled>
+            Tiếp tục
+          </button>
+        </div>
+      </div>
+
+      <!-- Result View (hidden by default) -->
+      <div class="result-card" id="resultCard" style="display: none;">
+        <div class="result-icon">✨</div>
+        <h2 class="result-title">Kết quả của bạn</h2>
+        <div class="result-box">
+          <h3 id="skinTypeTitle">Da hỗn hợp</h3>
+          <p id="skinTypeDesc">Da bạn có đặc điểm của nhiều loại da khác nhau, đặc biệt là vùng T-zone dầu và hai má khô.</p>
+        </div>
+        <div class="result-actions">
+          <button class="btn-retry" id="btnRetry">Làm lại bài test</button>
+          <a href="#" class="btn-products">Xem sản phẩm phù hợp</a>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <p>&copy; 2024 Glowic Beauty. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Quiz Data
+    const quizData = [
+      {
+        section: "PHẦN 1: BẠN THUỘC LOẠI DA NÀO?",
+        question: "Sau khi rửa mặt sạch và chờ 20–30 phút không thoa bất kỳ sản phẩm gì, da bạn cảm thấy:",
+        options: [
+          { key: "A", text: "Căng rát, khô ráp, như kéo da" },
+          { key: "B", text: "Mềm mại, cân bằng, dễ chịu" },
+          { key: "C", text: "Vùng trán-mũi hơi bóng dầu, hai má hơi khô hoặc căng" },
+          { key: "D", text: "Toàn mặt bóng dầu, nhờn rít" },
+          { key: "E", text: "Da hơi đỏ, châm chích hoặc khó chịu" }
+        ]
+      },
+      {
+        section: "PHẦN 1: BẠN THUỘC LOẠI DA NÀO?",
+        question: "Trong ngày, da bạn bóng dầu nhiều nhất ở đâu?",
+        options: [
+          { key: "A", text: "Không bóng dầu, thậm chí khô" },
+          { key: "B", text: "Ít hoặc không bóng" },
+          { key: "C", text: "Chỉ ở vùng T-zone (trán – mũi – cằm)" },
+          { key: "D", text: "Khắp mặt, đặc biệt nhiều dầu" },
+          { key: "E", text: "Không rõ bóng dầu nhưng da dễ đỏ hoặc kích ứng" }
+        ]
+      },
+      {
+        section: "PHẦN 1: BẠN THUỘC LOẠI DA NÀO?",
+        question: "Da bạn có thường bị bong tróc, khô nứt hoặc căng rát không?",
+        options: [
+          { key: "A", text: "Có, thường xuyên (đặc biệt má và quanh miệng)" },
+          { key: "B", text: "Hiếm khi" },
+          { key: "C", text: "Chỉ ở vùng má" },
+          { key: "D", text: "Không bao giờ" },
+          { key: "E", text: "Không khô nhưng dễ mẩn đỏ, ngứa hoặc kích ứng" }
+        ]
+      },
+      {
+        section: "PHẦN 1: BẠN THUỘC LOẠI DA NÀO?",
+        question: "Lỗ chân lông của bạn ở trạng thái nào?",
+        options: [
+          { key: "A", text: "Nhỏ, khó thấy, đôi khi bong tróc xung quanh" },
+          { key: "B", text: "Nhỏ đến trung bình, đều khắp mặt" },
+          { key: "C", text: "To ở vùng T-zone, nhỏ ở hai má" },
+          { key: "D", text: "To và rõ ràng khắp mặt" },
+          { key: "E", text: "Không đều, dễ đỏ khi chạm vào" }
+        ]
+      },
+      {
+        section: "PHẦN 1: BẠN THUỘC LOẠI DA NÀO?",
+        question: "Da bạn phản ứng thế nào với thời tiết thay đổi?",
+        options: [
+          { key: "A", text: "Càng lạnh càng khô, dễ nứt nẻ" },
+          { key: "B", text: "Ổn định, ít thay đổi" },
+          { key: "C", text: "T-zone dầu hơn vào mùa hè, má khô vào mùa đông" },
+          { key: "D", text: "Luôn bóng dầu bất kể thời tiết" },
+          { key: "E", text: "Dễ đỏ, ngứa hoặc kích ứng khi trời lạnh hoặc nóng" }
+        ]
+      },
+      {
+        section: "PHẦN 2: TÔNG MÀU DA CỦA BẠN",
+        question: "Mạch máu ở cổ tay bạn có màu gì?",
+        options: [
+          { key: "A", text: "Xanh lá hoặc tím" },
+          { key: "B", text: "Xanh dương hoặc tím" },
+          { key: "C", text: "Khó xác định, có cả xanh và tím" },
+          { key: "D", text: "Xanh lá đậm" },
+          { key: "E", text: "Không rõ, da dễ đỏ khi chạm" }
+        ]
+      },
+      {
+        section: "PHẦN 2: TÔNG MÀU DA CỦA BẠN",
+        question: "Trang sức màu nào làm da bạn sáng hơn?",
+        options: [
+          { key: "A", text: "Vàng, đồng" },
+          { key: "B", text: "Bạc, trắng kim" },
+          { key: "C", text: "Cả hai đều đẹp như nhau" },
+          { key: "D", text: "Vàng đậm, vàng hồng" },
+          { key: "E", text: "Không đeo trang sức vì da dễ kích ứng" }
+        ]
+      },
+      {
+        section: "PHẦN 2: TÔNG MÀU DA CỦA BẠN",
+        question: "Màu môi tự nhiên của bạn là?",
+        options: [
+          { key: "A", text: "Hồng đào, cam nhạt" },
+          { key: "B", text: "Hồng tím, mận chín" },
+          { key: "C", text: "Hồng tự nhiên, không rõ tông" },
+          { key: "D", text: "Nâu đỏ, cam đất" },
+          { key: "E", text: "Nhợt nhạt, dễ thâm" }
+        ]
+      },
+      {
+        section: "PHẦN 2: TÔNG MÀU DA CỦA BẠN",
+        question: "Màu tóc tự nhiên của bạn là?",
+        options: [
+          { key: "A", text: "Vàng, vàng nâu, nâu sáng" },
+          { key: "B", text: "Đen, nâu đen, nâu tối" },
+          { key: "C", text: "Nâu trung bình, khó phân loại" },
+          { key: "D", text: "Nâu đỏ, đỏ tự nhiên" },
+          { key: "E", text: "Bạc sớm, tóc mỏng" }
+        ]
+      },
+      {
+        section: "PHẦN 2: TÔNG MÀU DA CỦA BẠN",
+        question: "Khi phơi nắng, da bạn phản ứng thế nào?",
+        options: [
+          { key: "A", text: "Dễ cháy nắng, sau đó ngả vàng" },
+          { key: "B", text: "Dễ cháy nắng, sau đó ngả nâu hồng" },
+          { key: "C", text: "Vừa cháy vừa ngả nâu" },
+          { key: "D", text: "Ít cháy, nhanh ngả nâu đen" },
+          { key: "E", text: "Dễ đỏ rát, không bao giờ ngả nâu" }
+        ]
+      }
+    ];
+
+    // Results mapping
+    const skinTypes = {
+      "AAAAA": { title: "Da khô", desc: "Da bạn thiếu độ ẩm, dễ bong tróc và căng rát. Cần bổ sung độ ẩm đậm đặc và dầu dưỡng." },
+      "BBBBB": { title: "Da thường", desc: "Da bạn cân bằng tốt, ít gặp vấn đề. Duy trì routine cơ bản là đủ." },
+      "CCCCC": { title: "Da hỗn hợp", desc: "Da bạn có đặc điểm của nhiều loại da khác nhau, đặc biệt là vùng T-zone dầu và hai má khô." },
+      "DDDDD": { title: "Da dầu", desc: "Da bạn tiết nhiều bã nhờn, lỗ chân lông to. Cần kiểm soát dầu và làm sạch sâu." },
+      "EEEEE": { title: "Da nhạy cảm", desc: "Da bạn dễ kích ứng, đỏ rát. Cần sản phẩm dịu nhẹ, không mùi." }
+    };
+
+    // State
+    let currentQuestion = 0;
+    let answers = [];
+    let selectedOption = null;
+
+    // Elements
+    const progressBar = document.getElementById('progressBar');
+    const questionCounter = document.getElementById('questionCounter');
+    const sectionLabel = document.getElementById('sectionLabel');
+    const questionText = document.getElementById('questionText');
+    const optionsGrid = document.getElementById('optionsGrid');
+    const btnContinue = document.getElementById('btnContinue');
+    const resultCard = document.getElementById('resultCard');
+    const btnRetry = document.getElementById('btnRetry');
+
+    // Render progress bar
+    function renderProgress() {
+      let html = '';
+      for (let i = 0; i < 10; i++) {
+        const filled = i < currentQuestion;
+        const current = i === currentQuestion;
+        let classes = 'progress-segment';
+        if (filled) classes += ' filled';
+        if (current) classes += ' current';
+        if (i === 0) classes += ' first';
+        if (i === 9) classes += ' last';
+        html += `<div class="${classes}"></div>`;
+      }
+      progressBar.innerHTML = html;
+    }
+
+    // Render question
+    function renderQuestion() {
+      const q = quizData[currentQuestion];
+      questionCounter.textContent = `Câu ${currentQuestion + 1}/10`;
+      sectionLabel.textContent = q.section;
+      questionText.textContent = q.question;
+      selectedOption = null;
+      btnContinue.disabled = true;
+
+      optionsGrid.innerHTML = q.options.map(opt => `
+        <button class="option-btn" data-key="${opt.key}" onclick="selectOption('${opt.key}')">
+          <span class="option-key">${opt.key}.</span>
+          <span class="option-text">${opt.text}</span>
+        </button>
+      `).join('');
+
+      renderProgress();
+    }
+
+    // Select option
+    window.selectOption = function(key) {
+      selectedOption = key;
+      btnContinue.disabled = false;
+
+      document.querySelectorAll('.option-btn').forEach(btn => {
+        btn.classList.toggle('selected', btn.dataset.key === key);
+      });
+    };
+
+    // Continue / Next
+    btnContinue.addEventListener('click', () => {
+      if (selectedOption === null) return;
+
+      answers.push(selectedOption);
+
+      if (currentQuestion < quizData.length - 1) {
+        currentQuestion++;
+        renderQuestion();
+      } else {
+        showResult();
+      }
+    });
+
+    // Show result
+    function showResult() {
+      document.querySelector('.quiz-card').style.display = 'none';
+      resultCard.style.display = 'block';
+
+      // Simple scoring: find most common answer key
+      const counts = {};
+      answers.forEach(a => { counts[a] = (counts[a] || 0) + 1; });
+      const mostCommon = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
+
+      const result = skinTypes[mostCommon.repeat(5)] || skinTypes["CCCCC"];
+      document.getElementById('skinTypeTitle').textContent = result.title;
+      document.getElementById('skinTypeDesc').textContent = result.desc;
+    }
+
+    // Retry
+    btnRetry.addEventListener('click', () => {
+      currentQuestion = 0;
+      answers = [];
+      selectedOption = null;
+      document.querySelector('.quiz-card').style.display = 'block';
+      resultCard.style.display = 'none';
+      renderQuestion();
+    });
+
+    // Init
+    renderQuestion();
+  </script>
+</body>
+</html>

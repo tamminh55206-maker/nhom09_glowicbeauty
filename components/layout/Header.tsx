@@ -2,8 +2,10 @@
 
 import { Moon, Sun } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { assetPath } from "@/lib/utils";
 
 /* ============================================
    Sub-components
@@ -11,16 +13,14 @@ import { useEffect, useState } from "react";
 
 function Logo() {
   return (
-    <Link
-      href="/"
-      className="flex flex-col items-start leading-none text-shadow-glowic"
-    >
-      <span className="font-mistesy text-[48px] leading-[47px] text-white">
-        Glowic
-      </span>
-      <span className="font-alice w-[142px] pr-1 text-right text-[12px] leading-[14px] text-white text-shadow-glowic">
-        beauty
-      </span>
+    <Link href="/" className="flex items-center">
+      <Image
+        src={assetPath("/images/logo/LOGO_white.svg")}
+        alt="Glowic beauty"
+        width={142}
+        height={50}
+        priority
+      />
     </Link>
   );
 }
@@ -43,12 +43,14 @@ function SearchBar() {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Tìm kiếm sản phẩm..."
-        className="h-full w-full rounded-full border border-[#A53860] bg-white py-2 pl-5 pr-12 text-sm text-[#450920] placeholder:text-[#450920]/40 shadow-[0px_4px_4px_rgba(69,9,32,0.25)] transition-colors focus:outline-none focus:ring-2 focus:ring-[#A53860]/20 dark:border-[#6F4760] dark:bg-[#241720] dark:text-[#F6E8ED] dark:placeholder:text-[#E8CCD6]/45 dark:focus:ring-[#E8CCD6]/15"
+        className="h-full w-full rounded-full border border-[#A53860] bg-white py-2 pl-5 pr-12 text-sm text-[#450920] placeholder:text-[#450920]/40 shadow-[0px_4px_4px_rgba(69,9,32,0.25)] focus:outline-none focus:ring-2 focus:ring-[#A53860]/20"
+        suppressHydrationWarning
       />
       <button
         type="submit"
         className="absolute right-3 top-1/2 -translate-y-1/2 text-[#450920] transition-colors dark:text-[#F6E8ED]"
         aria-label="Tìm kiếm"
+        suppressHydrationWarning
       >
         <svg
           className="h-[22.5px] w-[22.5px]"
@@ -262,6 +264,7 @@ export function Header() {
             <button
               className="relative text-white transition-all duration-200 hover:scale-110 hover:text-[#FFD8A8]"
               aria-label="Thông báo"
+              suppressHydrationWarning
             >
               <BellIcon />
               <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-[#F9DBBD]" />
@@ -271,6 +274,7 @@ export function Header() {
             <button
               className="text-white transition-all duration-200 hover:scale-110 hover:text-[#FFD8A8]"
               aria-label="Tin nhắn"
+              suppressHydrationWarning
             >
               <ChatIcon />
             </button>
@@ -303,6 +307,7 @@ export function Header() {
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Mở menu"
               aria-expanded={mobileOpen}
+              suppressHydrationWarning
             >
               <HamburgerIcon className="text-white transition-colors hover:text-[#FFD8A8]" />
             </button>
@@ -363,12 +368,14 @@ export function Header() {
               value={mobileQuery}
               onChange={(e) => setMobileQuery(e.target.value)}
               placeholder="Tìm kiếm sản phẩm..."
-              className="h-11 w-full rounded-full border border-[#A53860] bg-white py-2 pl-4 pr-10 text-sm text-[#450920] placeholder:text-[#450920]/40 shadow-[0px_4px_4px_rgba(69,9,32,0.25)] transition-colors focus:outline-none focus:ring-2 focus:ring-[#A53860]/20 dark:border-[#6F4760] dark:bg-[#241720] dark:text-[#F6E8ED] dark:placeholder:text-[#E8CCD6]/45 dark:focus:ring-[#E8CCD6]/15"
+              className="h-11 w-full rounded-full border border-[#A53860] bg-white py-2 pl-4 pr-10 text-sm text-[#450920] placeholder:text-[#450920]/40 shadow-[0px_4px_4px_rgba(69,9,32,0.25)] focus:outline-none focus:ring-2 focus:ring-[#A53860]/20"
+              suppressHydrationWarning
             />
             <button
               type="submit"
               className="absolute right-3 top-1/2 -translate-y-1/2 text-[#450920] transition-colors dark:text-[#F6E8ED]"
               aria-label="Tìm kiếm"
+              suppressHydrationWarning
             >
               <SearchIcon className="h-5 w-5" />
             </button>
