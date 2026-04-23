@@ -19,7 +19,6 @@ import { products } from "@/lib/data";
 import type { Product } from "@/lib/types";
 import { useCartStore } from "@/lib/store";
 import { toast } from "sonner";
-import { formatPrice } from "@/lib/utils";
 
 // Animation variants
 const fadeInUp = {
@@ -93,7 +92,7 @@ function ProductCard({ product }: { product: Product }) {
 
         <div className="flex items-center justify-between">
           <span className="text-base font-bold" style={{ color: "#A53860" }}>
-            {formatPrice(product.price)}
+            {product.price.toLocaleString("vi-VN")}đ
           </span>
           <button
             onClick={handleAddToCart}
