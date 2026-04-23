@@ -16,11 +16,7 @@ const fadeIn = {
 } as const;
 
 // Product Card Component for related products
-function ProductCard({
-  product,
-}: {
-  product: Product;
-}) {
+function ProductCard({ product }: { product: Product }) {
   const addToCart = useCartStore((state) => state.addToCart);
 
   const handleAddToCart = () => {
