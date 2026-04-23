@@ -51,7 +51,7 @@ function PaymentChip({
 
 function FooterHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="text-lg font-semibold uppercase tracking-[0.02em] text-white">
+    <h3 className="font-be-vietnam text-[18px] font-semibold leading-[23px] text-white !font-sans">
       {children}
     </h3>
   );
@@ -81,12 +81,12 @@ export function Footer() {
     <footer className="w-full bg-[#DA627D] text-white transition-colors duration-300 dark:bg-[#2A1620]">
       <div className="mx-auto min-h-[599px] max-w-[1280px] px-6 py-10 sm:px-8 lg:px-10 lg:py-14">
         <div className="mb-10 text-shadow-glowic lg:mb-8">
-          <p className="font-mistesy text-[88px] leading-[0.78] text-white sm:text-[98px]">
+          <p className="font-mistesy text-[104.045px] leading-[103px] text-white" style={{ textShadow: '0px 8.67042px 8.67042px rgba(69, 9, 32, 0.25)' }}>
             Glowic
           </p>
           <p
-            className="mt-[-4px] pl-[136px] text-[28px] leading-none text-white sm:pl-[150px]"
-            style={{ fontFamily: '"Alice", serif' }}
+            className="mt-[-20px] w-full max-w-[307.8px] text-right text-[26.01px] leading-[30px] text-white"
+            style={{ fontFamily: '"Alice", serif', textShadow: '0px 8.67042px 8.67042px rgba(69, 9, 32, 0.25)' }}
           >
             beauty
           </p>
@@ -95,36 +95,37 @@ export function Footer() {
         <div className="grid gap-12 lg:grid-cols-[1.55fr_1fr_1.1fr_1.15fr] lg:gap-10">
           <div>
             <div className="space-y-5">
-              <FooterHeading>Thông Tin Liên Hệ</FooterHeading>
+              <FooterHeading>THÔNG TIN LIÊN HỆ</FooterHeading>
 
-              <div className="space-y-3 text-[14px] leading-6 text-white/95">
-                <p>Hotline: 1900241202 (8:00 - 21:00)</p>
-                <p>Hợp tác kinh doanh hàng hóa: sales@glowic.com</p>
-                <p>Hợp tác truyền thông/ Quảng cáo: marketing@glowic.com</p>
+              <div className="flex flex-col gap-5 font-be-vietnam text-[14px] leading-[22px] text-white">
+                <div className="space-y-1">
+                  <p>Hotline: 1900241202 (8:00-21:00)</p>
+                  <p>• Hợp tác kinh doanh hàng hoá: sales@glowic.com</p>
+                  <p>• Hợp tác truyền thông/ Quảng cáo: marketing@glowic.com</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="font-semibold uppercase">
+                    CÔNG TY TNHH MỘT THÀNH VIÊN THƯƠNG MẠI DỊCH VỤ GLOWIC
+                  </p>
+                  <p>Giấy CNĐKDN Số: 0427048766 do sở kế hoạch và đầu tư cấp ngày 24/2/2026</p>
+                </div>
               </div>
 
-              <div className="space-y-2 text-[14px] leading-6 text-white/95">
-                <p className="font-medium uppercase">
-                  CÔNG TY TNHH MỘT THÀNH VIÊN THƯƠNG MẠI DỊCH VỤ GLOWIC
-                </p>
-                <p>Giấy CNĐKDN Số: 0427048766 do sở kế hoạch và đầu tư cấp ngày 24/2/2026</p>
-              </div>
-
-              <div className="flex max-w-[290px] items-start gap-3 text-[14px] leading-6 text-white/95">
-                <MapPin className="mt-1 h-5 w-5 shrink-0" />
-                <p>1 Võ Văn Ngân, Phường Thủ Đức, Thành phố Hồ Chí Minh</p>
+              <div className="mt-8 flex items-start gap-[6.58px] font-be-vietnam text-[14px] leading-[18px] text-white">
+                <MapPin className="h-[26.42px] w-[26.42px] shrink-0" />
+                <p>1 Võ Văn Ngân, Phường Thủ Đức, Thành phố Hồ Chí Minh.</p>
               </div>
             </div>
           </div>
 
           <div>
-            <FooterHeading>Danh Mục</FooterHeading>
-            <div className="mt-8 space-y-3 text-[15px] leading-6 text-white/95">
+            <FooterHeading>DANH MỤC</FooterHeading>
+            <div className="mt-[22px] flex flex-col gap-8">
               {footerLinks.map((link) => (
                 <Link
                   key={link.href + link.label}
                   href={link.href}
-                  className="block transition-opacity hover:opacity-80"
+                  className="block font-be-vietnam text-[14px] leading-[22px] transition-opacity hover:opacity-80"
                 >
                   {link.label}
                 </Link>
@@ -133,13 +134,13 @@ export function Footer() {
           </div>
 
           <div>
-            <FooterHeading>Về Glowic</FooterHeading>
-            <div className="mt-8 space-y-3 text-[15px] leading-6 text-white/95">
+            <FooterHeading>VỀ GLOWIC</FooterHeading>
+            <div className="mt-[22px] flex flex-col gap-8">
               {aboutLinks.map((link) => (
                 <Link
                   key={link.href + link.label}
                   href={link.href}
-                  className="block transition-opacity hover:opacity-80"
+                  className="block font-be-vietnam text-[14px] leading-[22px] transition-opacity hover:opacity-80"
                 >
                   {link.label}
                 </Link>
@@ -149,8 +150,8 @@ export function Footer() {
 
           <div className="space-y-8">
             <div>
-              <FooterHeading>Kết Nối Với Chúng Tôi</FooterHeading>
-              <div className="mt-6 flex flex-wrap items-center gap-4 text-white">
+              <FooterHeading>KẾT NỐI VỚI CHÚNG TÔI</FooterHeading>
+              <div className="mt-6 flex flex-wrap items-center gap-[15px] text-white">
                 <a href="#" className="transition-opacity hover:opacity-80" aria-label="Facebook">
                   <FacebookIcon />
                 </a>
@@ -160,45 +161,52 @@ export function Footer() {
                 <a href="#" className="transition-opacity hover:opacity-80" aria-label="TikTok">
                   <TikTokIcon />
                 </a>
-                <a href="#" className="transition-opacity hover:opacity-80" aria-label="Zalo">
+                <a href="#" className="flex items-center gap-2 transition-opacity hover:opacity-80" aria-label="Zalo">
                   <ZaloIcon />
+                  <span className="text-sm font-semibold">Zalo</span>
                 </a>
               </div>
             </div>
 
             <div>
-              <FooterHeading>Phương Thức Thanh Toán</FooterHeading>
-              <div className="mt-5 flex flex-wrap gap-3">
-                <PaymentChip label="momo" className="bg-[#8F1D6C] text-white" />
-                <PaymentChip label="SPay" className="bg-white text-[#F58B00]" />
-                <PaymentChip label="VNPAY" className="bg-white text-[#1262B3]" />
+              <FooterHeading>PHƯƠNG THỨC THANH TOÁN</FooterHeading>
+              <div className="mt-4 flex flex-wrap items-center gap-[10px]">
+                <div className="h-[30px] w-[30px] bg-white p-1 rounded-sm flex items-center justify-center">
+                  <span className="text-[8px] font-bold text-[#8F1D6C] uppercase">MoMo</span>
+                </div>
+                <div className="h-[30px] w-[30px] bg-white p-1 rounded-sm flex items-center justify-center">
+                  <span className="text-[8px] font-bold text-[#F58B00] uppercase">SPay</span>
+                </div>
+                <div className="h-[30px] w-[60px] bg-white p-1 rounded-sm flex items-center justify-center">
+                  <span className="text-[10px] font-bold text-[#1262B3] uppercase italic">VNPay</span>
+                </div>
               </div>
             </div>
 
-            <div>
+            <div className="space-y-[15px]">
               <Link
                 href="/faq"
-                className="block text-lg font-semibold uppercase tracking-[0.02em] transition-opacity hover:opacity-80"
+                className="block font-be-vietnam text-[18px] font-semibold uppercase leading-[23px] transition-opacity hover:opacity-80"
               >
-                Câu Hỏi Thường Gặp
+                CÂU HỎI THƯỜNG GẶP
               </Link>
               <Link
                 href="/contact"
-                className="mt-4 block text-lg font-semibold uppercase tracking-[0.02em] transition-opacity hover:opacity-80"
+                className="block font-be-vietnam text-[18px] font-semibold uppercase leading-[23px] transition-opacity hover:opacity-80"
               >
-                Góp Ý - Khiếu Nại
+                GÓP Ý - KHIẾU NẠI
               </Link>
             </div>
 
-            <div className="space-y-3 text-[14px] text-white/95">
-              <div className="flex items-center gap-3">
-                <Phone className="h-4 w-4 shrink-0" />
+            <div className="space-y-[17px] font-be-vietnam text-[14px] leading-[18px] text-white">
+              <div className="flex items-center gap-[6.58px]">
+                <Phone className="h-[26.42px] w-[26.42px] shrink-0" />
                 <a href="tel:0870772779" className="transition-opacity hover:opacity-80">
                   0870 772 779 - 0399 990 0024
                 </a>
               </div>
-              <div className="flex items-center gap-3">
-                <Mail className="h-4 w-4 shrink-0" />
+              <div className="flex items-center gap-[6.58px]">
+                <Mail className="h-[26.42px] w-[26.42px] shrink-0" />
                 <a
                   href="mailto:cskh@glowicbeauty.vn"
                   className="transition-opacity hover:opacity-80"

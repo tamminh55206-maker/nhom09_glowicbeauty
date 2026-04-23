@@ -252,7 +252,7 @@ export function Header() {
             {/* Cart */}
             <Link
               href="/cart"
-              className="text-white transition-transform duration-200 hover:scale-110"
+              className="text-white transition-all duration-200 hover:scale-110 hover:text-[#FFD8A8]"
               aria-label="Giỏ hàng"
             >
               <CartIcon />
@@ -260,7 +260,7 @@ export function Header() {
 
             {/* Bell */}
             <button
-              className="relative text-white transition-transform duration-200 hover:scale-110"
+              className="relative text-white transition-all duration-200 hover:scale-110 hover:text-[#FFD8A8]"
               aria-label="Thông báo"
             >
               <BellIcon />
@@ -269,7 +269,7 @@ export function Header() {
 
             {/* Chat */}
             <button
-              className="text-white transition-transform duration-200 hover:scale-110"
+              className="text-white transition-all duration-200 hover:scale-110 hover:text-[#FFD8A8]"
               aria-label="Tin nhắn"
             >
               <ChatIcon />
@@ -289,7 +289,7 @@ export function Header() {
             {/* User / Login */}
             <Link
               href="/login"
-              className="hidden items-center gap-[11px] text-white transition-opacity duration-200 hover:opacity-90 sm:flex"
+              className="hidden items-center gap-[11px] text-white transition-colors duration-200 hover:text-[#FFD8A8] sm:flex"
             >
               <UserIcon />
               <span className="whitespace-nowrap text-lg font-semibold leading-[23px]">
@@ -304,7 +304,7 @@ export function Header() {
               aria-label="Mở menu"
               aria-expanded={mobileOpen}
             >
-              <HamburgerIcon className="text-white" />
+              <HamburgerIcon className="text-white transition-colors hover:text-[#FFD8A8]" />
             </button>
           </div>
         </div>
@@ -316,7 +316,7 @@ export function Header() {
           {/* Desktop navigation */}
           <div className="hidden h-[23px] items-center gap-[97px] lg:flex">
             {/* Decorative hamburger icon */}
-            <HamburgerIcon className="text-white" />
+            <HamburgerIcon className="text-white transition-colors hover:text-[#FFD8A8]" />
 
             {/* Menu links */}
             <div className="flex items-center gap-[70px]">
@@ -324,7 +324,7 @@ export function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="whitespace-nowrap text-lg leading-[23px] text-white transition-opacity hover:opacity-80"
+                  className="whitespace-nowrap text-lg leading-[23px] text-white transition-colors hover:text-[#FFD8A8]"
                 >
                   {link.label}
                 </Link>
