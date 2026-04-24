@@ -216,19 +216,25 @@ export const useAuthStore = create<AuthState>()(
   ),
 );
 
+export interface OrderItem {
+  product: Product;
+  quantity: number;
+  unitPrice: number;
+}
+
 export interface Order {
   id: string;
   ownerUserId: string;
-  item: {
-    product: Product;
-    quantity: number;
-    unitPrice: number;
-  };
+  items: OrderItem[];
+  totalPrice: number;
+  createdAt: string;
   status: string;
+  paymentMethod?: string;
 }
 
 interface OrderState {
   orders: Order[];
+  addOrder: (order: Order) => void;
   setOrders: (orders: Order[]) => void;
   cancelOrder: (orderId: string, ownerUserId: string) => { success: boolean; message: string };
 }
@@ -237,6 +243,10 @@ export const useOrderStore = create<OrderState>()(
   persist(
     (set, get) => ({
       orders: [],
+      addOrder: (order) =>
+        set((state) => ({
+          orders: [order, ...state.orders],
+        })),
       setOrders: (orders) => set({ orders }),
       cancelOrder: (orderId, ownerUserId) => {
         const existingOrder = get().orders.find(

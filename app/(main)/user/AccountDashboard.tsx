@@ -16,16 +16,23 @@ interface AccountNotification {
   highlights: string[];
 }
 
-interface AccountOrder {
+interface AccountOrderItem {
   id: string;
-  orderId: string;
   brand: string;
   name: string;
   image: string;
   quantity: number;
+  total: number;
+}
+
+interface AccountOrder {
+  id: string;
+  orderId: string;
+  createdAt: string;
   status: string;
   total: number;
   canCancel: boolean;
+  items: AccountOrderItem[];
 }
 
 interface ProfileDraft {
@@ -55,6 +62,21 @@ const recoverMojibake = (value: string) => {
 };
 
 const normalizeOrderStatus = (value: string) => recoverMojibake(value);
+
+const formatOrderDateTime = (value: string) => {
+  const parsedDate = new Date(value);
+  if (Number.isNaN(parsedDate.getTime())) {
+    return value;
+  }
+
+  return parsedDate.toLocaleString("vi-VN", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
 
 const formatDisplayDate = (value: string) => {
   const parts = value.split("-");
@@ -187,13 +209,18 @@ const buildOrders = (orders: Order[], ownerUserId?: string): AccountOrder[] => {
     .map((order) => ({
       id: order.id,
       orderId: order.id,
-      brand: order.item.product.brand,
-      name: order.item.product.name,
-      image: order.item.product.images[0] ?? "",
-      quantity: order.item.quantity,
+      createdAt: order.createdAt,
       status: normalizeOrderStatus(order.status).toLocaleUpperCase("vi-VN"),
-      total: order.item.unitPrice * order.item.quantity,
+      total: order.totalPrice,
       canCancel: normalizeOrderStatus(order.status) === "Đang vận chuyển",
+      items: order.items.map((item) => ({
+        id: `${order.id}-${item.product.id}`,
+        brand: item.product.brand,
+        name: item.product.name,
+        image: item.product.images[0] ?? "",
+        quantity: item.quantity,
+        total: item.unitPrice * item.quantity,
+      })),
     }));
 };
 
@@ -613,74 +640,28 @@ export function AccountDashboard({
                         paddingBottom: index === orders.length - 1 ? "0px" : "19px",
                       }}
                     >
-                      <div className="grid gap-y-3 sm:grid-cols-[102px_minmax(0,417px)_151px] sm:items-start sm:gap-x-6">
-                        <div
-                          className="relative overflow-hidden rounded-[10px] border border-[#D9D9D9] bg-white dark:border-[#4F3944] dark:bg-[#2A1C23]"
-                          style={{ width: "102px", height: "102px" }}
-                        >
-                          {order.image ? (
-                            <Image
-                              src={order.image}
-                              alt={order.name}
-                              fill
-                              sizes="102px"
-                              className="object-cover"
-                            />
-                          ) : (
-                            <div className="h-full w-full bg-[#F4EBEE] dark:bg-[#35242C]" />
-                          )}
-                        </div>
-                        <div
-                          className="min-w-0 pt-0.5"
-                          style={{ maxWidth: "417px", minHeight: "102px" }}
-                        >
-                          <p
-                            className="text-[#A53860]"
-                            style={{
-                              fontSize: "14px",
-                              fontWeight: 600,
-                              lineHeight: "18px",
-                            }}
-                          >
-                            {order.brand}
-                          </p>
-                          <p
-                            className="mt-0.75 text-[#000000] dark:text-white"
-                            style={{
-                              fontSize: "14px",
-                              fontWeight: 600,
-                              lineHeight: "18px",
-                            }}
-                          >
-                            {order.name}
-                          </p>
-                          <p
-                            className="mt-11.25 text-[#000000] dark:text-[#F6E8EC]"
-                            style={{
-                              fontSize: "14px",
-                              fontWeight: 700,
-                              lineHeight: "18px",
-                            }}
-                          >
-                            SL: {order.quantity}
-                          </p>
-                        </div>
-                        <div
-                          className="col-span-2 flex flex-col justify-between sm:col-span-1 sm:items-end"
-                          style={{ minHeight: "102px", width: "151px" }}
-                        >
-                          <p
-                            className="text-left text-[#D35A7B] sm:text-right"
-                            style={{
-                              fontSize: "14px",
-                              fontWeight: 700,
-                              lineHeight: "18px",
-                              color: "#A53860",
-                            }}
-                          >
-                            {order.status}
-                          </p>
+                      <div className="space-y-5">
+                        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                          <div className="space-y-1">
+                            <p className="text-[14px] font-semibold text-[#A53860]">
+                              Mã đơn: {order.orderId}
+                            </p>
+                            <p className="text-[13px] text-[#6E5A61] dark:text-[#E6D1D8]">
+                              Ngày đặt: {formatOrderDateTime(order.createdAt)}
+                            </p>
+                          </div>
                           <div className="flex flex-col items-start gap-2 sm:items-end">
+                            <p
+                              className="text-left text-[#D35A7B] sm:text-right"
+                              style={{
+                                fontSize: "14px",
+                                fontWeight: 700,
+                                lineHeight: "18px",
+                                color: "#A53860",
+                              }}
+                            >
+                              {order.status}
+                            </p>
                             <p
                               className="text-left text-[#000000] dark:text-white sm:text-right"
                               style={{
@@ -689,7 +670,7 @@ export function AccountDashboard({
                                 lineHeight: "18px",
                               }}
                             >
-                              {order.total.toLocaleString("vi-VN")} đ
+                              Tổng tiền: {order.total.toLocaleString("vi-VN")} đ
                             </p>
                             {order.canCancel && (
                               <button
@@ -701,6 +682,81 @@ export function AccountDashboard({
                               </button>
                             )}
                           </div>
+                        </div>
+                        <div className="space-y-4">
+                          {order.items.map((item) => (
+                            <div
+                              key={item.id}
+                              className="grid gap-y-3 border-t border-[#E8DDE1] pt-4 sm:grid-cols-[102px_minmax(0,1fr)_151px] sm:items-start sm:gap-x-6 dark:border-[#4A353F]"
+                            >
+                              <div
+                                className="relative overflow-hidden rounded-[10px] border border-[#D9D9D9] bg-white dark:border-[#4F3944] dark:bg-[#2A1C23]"
+                                style={{ width: "102px", height: "102px" }}
+                              >
+                                {item.image ? (
+                                  <Image
+                                    src={item.image}
+                                    alt={item.name}
+                                    fill
+                                    sizes="102px"
+                                    className="object-cover"
+                                  />
+                                ) : (
+                                  <div className="h-full w-full bg-[#F4EBEE] dark:bg-[#35242C]" />
+                                )}
+                              </div>
+                              <div
+                                className="min-w-0 pt-0.5"
+                                style={{ minHeight: "102px" }}
+                              >
+                                <p
+                                  className="text-[#A53860]"
+                                  style={{
+                                    fontSize: "14px",
+                                    fontWeight: 600,
+                                    lineHeight: "18px",
+                                  }}
+                                >
+                                  {item.brand}
+                                </p>
+                                <p
+                                  className="mt-0.75 text-[#000000] dark:text-white"
+                                  style={{
+                                    fontSize: "14px",
+                                    fontWeight: 600,
+                                    lineHeight: "18px",
+                                  }}
+                                >
+                                  {item.name}
+                                </p>
+                                <p
+                                  className="mt-4 text-[#000000] dark:text-[#F6E8EC]"
+                                  style={{
+                                    fontSize: "14px",
+                                    fontWeight: 700,
+                                    lineHeight: "18px",
+                                  }}
+                                >
+                                  SL: {item.quantity}
+                                </p>
+                              </div>
+                              <div
+                                className="flex flex-col justify-end sm:items-end"
+                                style={{ minHeight: "102px", width: "151px" }}
+                              >
+                                <p
+                                  className="text-left text-[#000000] dark:text-white sm:text-right"
+                                  style={{
+                                    fontSize: "14px",
+                                    fontWeight: 700,
+                                    lineHeight: "18px",
+                                  }}
+                                >
+                                  {item.total.toLocaleString("vi-VN")} đ
+                                </p>
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     </article>
