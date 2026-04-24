@@ -14,23 +14,23 @@ export default function CartItems({ items, onUpdateQty }: CartItemsProps) {
   const formatPrice = (price: number) => price.toLocaleString("vi-VN") + "đ";
 
   return (
-    <div className="rounded-2xl bg-white shadow-sm border border-gray-100 overflow-hidden">
+    <div className="rounded-2xl bg-white shadow-sm border border-gray-100 overflow-hidden dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-900/20 transition-colors duration-300">
       {/* 1. Header Lưới với các đường kẻ dọc */}
-      <div className="grid grid-cols-12">
-        <div className="col-span-6 p-4 font-medium text-[#000000] text-sm">Sản phẩm</div>
-        <div className="col-span-2 p-4 font-medium text-[#000000] text-center text-sm ">Giá</div>
-        <div className="col-span-2 p-4 font-medium text-[#000000] text-center text-sm ">Số lượng</div>
-        <div className="col-span-2 p-4 font-medium text-[#000000] text-center text-sm ">Thành tiền</div>
+      <div className="grid grid-cols-12 bg-gray-50 dark:bg-gray-900">
+        <div className="col-span-6 p-4 font-medium text-[#000000] dark:text-gray-100 text-sm">Sản phẩm</div>
+        <div className="col-span-2 p-4 font-medium text-[#000000] dark:text-gray-100 text-center text-sm ">Giá</div>
+        <div className="col-span-2 p-4 font-medium text-[#000000] dark:text-gray-100 text-center text-sm ">Số lượng</div>
+        <div className="col-span-2 p-4 font-medium text-[#000000] dark:text-gray-100 text-center text-sm ">Thành tiền</div>
       </div>
 
       {/* 2. Danh sách sản phẩm */}
-      <div className="divide-y divide-gray-100">
+      <div className="divide-y divide-gray-100 dark:divide-gray-700">
         {items.map((item) => (
-          <div key={item.product.id} className="grid grid-cols-12 group hover:bg-gray-50/20 transition-colors">
+          <div key={item.product.id} className="grid grid-cols-12 group hover:bg-gray-50/20 dark:hover:bg-gray-700/40 transition-colors duration-300">
             
             
-            <div className="col-span-6 p-5 flex items-center gap-5 border-r border-gray-100">
-              <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl border border-gray-100 bg-white">
+            <div className="col-span-6 p-5 flex items-center gap-5 border-r border-gray-100 dark:border-gray-700">
+              <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl border border-gray-100 bg-white dark:border-gray-700 dark:bg-gray-900">
                 <Image 
                   src={item.product.images[0]} 
                   alt={item.product.name} 
@@ -46,35 +46,35 @@ export default function CartItems({ items, onUpdateQty }: CartItemsProps) {
                 </p>
                 <Link 
                   href={`/products/${item.product.slug}`} 
-                  className="block text-[12px] font-medium text-[#000000] hover:text-[#C1475A] leading-relaxed normal-case transition-colors"
+                  className="block text-[12px] font-medium text-[#000000] dark:text-gray-100 hover:text-[#C1475A] leading-relaxed normal-case transition-colors"
                 >
                   {item.product.name}
                 </Link>
-                <p className=" block text-[12px] mt-1.5 text-xs text-[#000000]">Màu: {item.product.variant || "01"}</p> 
+                <p className=" block text-[12px] mt-1.5 text-xs text-[#1F2937] dark:text-gray-300">Màu: {item.product.variant || "01"}</p> 
               </div>
             </div>
 
             {/* Cột Giá */}
-            <div className="col-span-2 p-4 flex items-center justify-center border-r border-gray-100 text-[15px] font-semibold text-[#450920]">
+            <div className="col-span-2 p-4 flex items-center justify-center border-r border-gray-100 dark:border-gray-700 text-[15px] font-semibold text-[#450920] dark:text-[#F3B8CF]">
               {formatPrice(item.product.price)}
             </div>
 
             {/* Cột Số lượng */}
-            <div className="col-span-2 p-4 flex items-center justify-center border-r border-gray-100">
-              <div className="flex items-center gap-3 border border-gray-200 rounded-lg px-2 py-1 bg-white">
+            <div className="col-span-2 p-4 flex items-center justify-center border-r border-gray-100 dark:border-gray-700">
+              <div className="flex items-center gap-3 border border-gray-200 dark:border-gray-700 rounded-lg px-2 py-1 bg-white dark:bg-gray-800 transition-colors duration-300">
                 <button 
                   onClick={() => onUpdateQty(item.product.id, item.quantity - 1)}
-                  className="text-gray-400 hover:text-[#C1475A] transition-colors p-1"
+                  className="text-gray-400 dark:text-gray-300 hover:text-[#C1475A] transition-colors p-1"
                   disabled={item.quantity <= 1}
                 >
                   <Minus className="h-3.5 w-3.5" />
                 </button>
-                <span className="w-6 text-center font-bold text-sm text-[#450920]">
+                <span className="w-6 text-center font-bold text-sm text-[#450920] dark:text-gray-100">
                   {item.quantity}
                 </span>
                 <button 
                   onClick={() => onUpdateQty(item.product.id, item.quantity + 1)}
-                  className="text-gray-400 hover:text-[#C1475A] transition-colors p-1"
+                  className="text-gray-400 dark:text-gray-300 hover:text-[#C1475A] transition-colors p-1"
                 >
                   <Plus className="h-3.5 w-3.5" />
                 </button>
@@ -82,7 +82,7 @@ export default function CartItems({ items, onUpdateQty }: CartItemsProps) {
             </div>
 
             {/* Cột Thành tiền */}
-            <div className="col-span-2 p-4 flex items-center justify-center text-[15px] font-bold text-[#A53860]">
+            <div className="col-span-2 p-4 flex items-center justify-center text-[15px] font-bold text-[#A53860] dark:text-[#F0A7BC]">
               {formatPrice(item.product.price * item.quantity)}
             </div>
 
