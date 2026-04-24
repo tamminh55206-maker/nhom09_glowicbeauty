@@ -40,30 +40,14 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         {/* Logo */}
         <div className="mb-10" style={{ display: "inline-block" }}>
-          <span
-            style={{
-              fontFamily: '"Mistesy", serif',
-              fontSize: "104px",
-              lineHeight: "103px",
-              color: "white",
-              display: "block",
-              textShadow: "0px 8px 8px rgba(69, 9, 32, 0.25)",
-            }}
-          >
-            Glowic
-          </span>
-          <p
-            style={{
-              fontFamily: '"Alice", serif',
-              fontSize: "26px",
-              lineHeight: "30px",
-              textAlign: "right",
-              color: "white",
-              display: "block",
-            }}
-          >
-            beauty
-          </p>
+          <Image
+            src="/images/logo/LOGO_white.svg"
+            alt="Glowic Beauty Logo"
+            width={300}
+            height={108}
+            className="h-[108px] w-auto"
+            unoptimized
+          />
         </div>
 
         {/* 4-column grid */}

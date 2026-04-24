@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
+import Image from "next/image";
 import {
   ShoppingCart,
   Menu,
@@ -39,28 +40,15 @@ export function Header() {
       <div className="bg-[#DA627D]">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* Logo */}
-          <Link href="/" className="flex flex-col text-white">
-            <span
-              style={{
-                fontFamily: '"Mistesy", serif',
-                fontSize: "48px",
-                lineHeight: "47px",
-                textShadow: "0px 4px 4px rgba(69, 9, 32, 0.25)",
-              }}
-            >
-              Glowic
-            </span>
-            <span
-              className="self-end"
-              style={{
-                fontFamily: '"Alice", serif',
-                fontSize: "12px",
-                textAlign: "right",
-                textShadow: "0px 4px 4px rgba(69, 9, 32, 0.25)",
-              }}
-            >
-              beauty
-            </span>
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/images/logo/LOGO_white.svg"
+              alt="Glowic Beauty Logo"
+              width={150}
+              height={50}
+              className="h-[50px] w-auto"
+              unoptimized
+            />
           </Link>
 
           {/* Search Bar - Desktop */}
