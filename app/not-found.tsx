@@ -36,7 +36,7 @@ export default function NotFoundPage() {
         >
           <Link
             href="/"
-            className="inline-block rounded-[20px] bg-[#A53860] px-12 py-3.5 text-[15px] font-bold text-white transition-all duration-300 hover:scale-105 hover:bg-[#d41259] shadow-md"
+            className="inline-block rounded-[20px] bg-[#A53860] px-12 py-3.5 text-[15px] font-bold text-white transition-all duration-300 hover:scale-105 hover:bg-[#450920] shadow-md"
           >
             VỀ TRANG CHỦ
           </Link>
