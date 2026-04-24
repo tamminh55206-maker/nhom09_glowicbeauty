@@ -7,7 +7,6 @@ import { ShoppingCart, Star, ChevronRight, Clock } from "lucide-react";
 import { useState, useEffect } from "react";
 import { getFeaturedProducts, products } from "@/lib/data";
 import { useCartStore } from "@/lib/store";
-import { assetPath } from "@/lib/utils";
 import { toast } from "sonner";
 
 // Animation variants
@@ -518,7 +517,7 @@ function BrandsSection() {
                 {brand.image ? (
                   <div className="relative h-8 w-full">
                     <Image
-                      src={assetPath(brand.image)}
+                      src={brand.image}
                       alt={brand.name}
                       fill
                       className="object-contain"

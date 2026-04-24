@@ -46,6 +46,7 @@ export function Footer() {
             width={300}
             height={108}
             className="h-[108px] w-auto"
+            style={{ width: "auto", height: "108px" }}
             unoptimized
           />
         </div>
