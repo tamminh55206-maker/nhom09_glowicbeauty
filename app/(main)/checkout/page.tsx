@@ -11,10 +11,6 @@ import { z } from "zod";
 import {
   ChevronRight,
   ShoppingBag,
-  CreditCard,
-  Wallet,
-  Banknote,
-  Smartphone,
   Truck,
   Tag,
 } from "lucide-react";
@@ -51,26 +47,22 @@ const paymentMethods = [
   {
     id: "momo",
     name: "Thanh toán bằng MoMo",
-    icon: Smartphone,
-    color: "#D82D8B",
+    image: "/images/payment/momo.png",
   },
   {
     id: "shopeepay",
     name: "Thanh toán bằng Shopee Pay",
-    icon: Wallet,
-    color: "#EE4D2D",
+    image: "/images/payment/shopeepay.png",
   },
   {
     id: "vnpay",
     name: "Thanh toán bằng VNPay",
-    icon: CreditCard,
-    color: "#0056A7",
+    image: "/images/payment/vnpay.png",
   },
   {
     id: "cod",
     name: "Thanh toán khi nhận hàng",
-    icon: Banknote,
-    color: "#450920",
+    image: "/images/payment/cod.png",
   },
 ];
 
@@ -184,7 +176,7 @@ export default function CheckoutPage() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 py-8">
+      <div className="mx-auto max-w-7xl px-4 pt-4">
         <h1
           className="mb-8 text-2xl font-bold text-center"
           style={{ color: "#450920", fontFamily: '"Black Mango", serif' }}
@@ -201,7 +193,7 @@ export default function CheckoutPage() {
                 initial="hidden"
                 animate="visible"
                 variants={fadeIn}
-                className="mb-6 rounded-2xl border bg-white p-6 shadow-md hover:shadow-lg transition-shadow duration-300"
+                className="mb-6 rounded-2xl border bg-white p-6 shadow-md hover:shadow-lg transition-shadow duration-300 px-4 pt-4"
               >
                 <h2
                   className="mb-6 text-lg font-bold"
@@ -413,10 +405,10 @@ export default function CheckoutPage() {
                   initial="hidden"
                   animate="visible"
                   variants={fadeIn}
-                  className="rounded-2xl border bg-white p-6 shadow-md hover:shadow-lg transition-shadow duration-300"
+                  className="rounded-2xl border bg-white p-6 shadow-md hover:shadow-lg transition-shadow duration-300 px-4 pt-4"
                 >
                   <h2
-                    className="mb-4 text-lg font-bold"
+                    className="mb-4 text-lg font-bold text-center"
                     style={{ color: "#A53860", fontFamily: '"Be Vietnam Pro", sans-serif' }}
                   >
                     Phương thức thanh toán
@@ -424,7 +416,6 @@ export default function CheckoutPage() {
 
                   <div className="space-y-3">
                     {paymentMethods.map((method) => {
-                      const Icon = method.icon;
                       return (
                         <label
                           key={method.id}
@@ -448,9 +439,11 @@ export default function CheckoutPage() {
                             onChange={() => setSelectedPayment(method.id)}
                             className="h-4 w-4"
                           />
-                          <Icon
-                            className="h-5 w-5"
-                            style={{ color: method.color }}
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={method.image}
+                            alt={method.name}
+                            className="h-6 w-6 object-contain"
                           />
                           <span className="flex-1 text-sm font-medium">
                             {method.name}
@@ -537,7 +530,7 @@ export default function CheckoutPage() {
                   </div>
 
                   {/* Terms */}
-                  <p className="mt-4 text-xs text-gray-500">
+                  <p className="mt-4 text-xs text-gray-500 text-center">
                     Nhấn &quot;Đặt hàng&quot; đồng nghĩa với việc bạn đồng ý tuân theo&nbsp;
                     <Link href="#" className="underline hover:text-rose-500">
                       Điều khoản Glowic
