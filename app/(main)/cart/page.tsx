@@ -45,8 +45,6 @@ export default function CartPage() {
     return appliedDiscount ? Math.max(0, totalPrice - appliedDiscount.amount) : totalPrice;
   }, [totalPrice, appliedDiscount]);
 
-  // Tổng số lượng sản phẩm (để hiện tiêu đề)
-  const totalItems = items.reduce((acc, item) => acc + item.quantity, 0);
 
   // Xử lý Voucher
   const handleApplyDiscount = (code: string) => {

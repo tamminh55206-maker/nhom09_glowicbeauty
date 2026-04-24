@@ -1,3 +1,4 @@
+// start coding checkout
 "use client";
 
 import { useState } from "react";
