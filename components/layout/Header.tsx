@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { CartBadge } from "./CartBadge";
+import { useAuthStore } from "@/lib/store";
 
 export function Header() {
   const router = useRouter();
@@ -23,6 +24,8 @@ export function Header() {
   const [searchQuery, setSearchQuery] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const currentUser = useAuthStore((state) => state.currentUser);
+  const logout = useAuthStore((state) => state.logout);
 
   useEffect(() => {
     const saved = localStorage.getItem("darkMode");
@@ -47,6 +50,8 @@ export function Header() {
       setMobileMenuOpen(false);
     }
   };
+
+
 
   const navLinks = [
     { href: "/", label: "Trang chủ" },
@@ -125,22 +130,42 @@ export function Header() {
               )}
             </button>
 
-            <Link
-              href="/login"
-              className="flex items-center gap-1.5 text-sm text-white"
-            >
-              <User className="h-6 w-6" />
-              <span
-                className="hidden lg:inline"
-                style={{
-                  fontFamily: '"Be Vietnam Pro", sans-serif',
-                  fontSize: "18px",
-                  fontWeight: 600,
-                }}
+            {/* UPDATED: Simplified authentication - username as direct link, no dropdown */}
+            {currentUser ? (
+              <button
+                onClick={() => router.push("/user")}
+                className="flex items-center gap-1.5 text-sm text-white hover:opacity-80 transition-opacity"
               >
-                Đăng nhập/ Đăng ký
-              </span>
-            </Link>
+                <User className="h-6 w-6" />
+                <span
+                  className="hidden lg:inline truncate max-w-[120px]"
+                  style={{
+                    fontFamily: '"Be Vietnam Pro", sans-serif',
+                    fontSize: "18px",
+                    fontWeight: 600,
+                  }}
+                >
+                  {currentUser.tenTaiKhoan}
+                </span>
+              </button>
+            ) : (
+              <Link
+                href="/login"
+                className="flex items-center gap-1.5 text-sm text-white"
+              >
+                <User className="h-6 w-6" />
+                <span
+                  className="hidden lg:inline"
+                  style={{
+                    fontFamily: '"Be Vietnam Pro", sans-serif',
+                    fontSize: "18px",
+                    fontWeight: 600,
+                  }}
+                >
+                  Đăng nhập/ Đăng ký
+                </span>
+              </Link>
+            )}
           </div>
         </div>
       </div>

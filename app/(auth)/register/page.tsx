@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
+import { useAuthStore } from "@/lib/store";
 
 const registerSchema = z
   .object({
@@ -30,6 +31,7 @@ type RegisterForm = z.infer<typeof registerSchema>;
 
 export default function RegisterPage() {
   const router = useRouter();
+  const registerUser = useAuthStore((state) => state.registerUser);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -44,9 +46,22 @@ export default function RegisterPage() {
     },
   });
 
-  const onSubmit = () => {
-    toast.success("Đăng ký thành công! Chào mừng bạn đến với Glowic.");
-    router.push("/");
+  const onSubmit = (data: RegisterForm) => {
+    const result = registerUser({
+      tenTaiKhoan: data.tenTaiKhoan,
+      soDienThoai: data.soDienThoai,
+      email: data.email,
+      matKhau: data.matKhau,
+      ngaySinh: data.ngaySinh,
+      gioiTinh: "Nam",
+    });
+
+    if (result.success) {
+      toast.success("Đăng ký thành công! Chào mừng bạn đến với Glowic.");
+      router.push("/login");
+    } else {
+      toast.error(result.message);
+    }
   };
 
   return (
