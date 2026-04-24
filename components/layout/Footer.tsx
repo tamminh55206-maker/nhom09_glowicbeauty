@@ -36,7 +36,7 @@ function ZaloIcon() {
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/20 bg-[#DA627D]">
+    <footer className="border-t border-white/20 bg-[#DA627D] dark:bg-[#7a2840]">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         {/* Logo */}
         <div className="mb-10" style={{ display: "inline-block" }}>
@@ -382,6 +382,7 @@ export function Footer() {
                 width={35}
                 height={35}
                 className="rounded"
+                style={{ width: "auto", height: "auto" }}
               />
               <Image
                 src="/images/payment/shopeepay.png"
@@ -389,6 +390,7 @@ export function Footer() {
                 width={35}
                 height={35}
                 className="rounded"
+                style={{ width: "auto", height: "auto" }}
               />
               <Image
                 src="/images/payment/vnpay.png"
@@ -396,6 +398,7 @@ export function Footer() {
                 width={67}
                 height={13}
                 className="rounded"
+                style={{ width: "auto", height: "auto" }}
               />
             </div>
 
