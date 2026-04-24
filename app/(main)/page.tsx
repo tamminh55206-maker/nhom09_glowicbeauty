@@ -20,6 +20,17 @@ const staggerContainer = {
   visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
 } as const;
 
+// ADDED
+function scrollToSectionWithOffset(id: string) {
+  const element = document.getElementById(id);
+  if (!element) return;
+
+  const yOffset = -150;
+  const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+  window.scrollTo({ top: y, behavior: "smooth" });
+}
+
 // ─── Countdown Timer ───────────────────────────────────────────────────────────
 function CountdownTimer() {
   const [timeLeft, setTimeLeft] = useState({
@@ -232,6 +243,7 @@ function FlashSaleSection() {
 
   return (
     <motion.section
+      id="flash-sale"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
@@ -436,6 +448,7 @@ function BrandsSection() {
 
   return (
     <motion.section
+      id="featured-brands"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
@@ -763,6 +776,29 @@ function GlowicFeaturesSection() {
 
 // ─── Main Page ─────────────────────────────────────────────────────────────────
 export default function HomePage() {
+  // ADDED
+  useEffect(() => {
+    const scrollToHashSection = () => {
+      if (!window.location.hash) {
+        return;
+      }
+
+      const id = window.location.hash.replace("#", "");
+
+      // UPDATED
+      window.setTimeout(() => {
+        scrollToSectionWithOffset(id);
+      }, 100);
+    };
+
+    scrollToHashSection();
+    window.addEventListener("hashchange", scrollToHashSection);
+
+    return () => {
+      window.removeEventListener("hashchange", scrollToHashSection);
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       <BannerSection />

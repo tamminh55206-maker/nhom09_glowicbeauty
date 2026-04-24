@@ -194,7 +194,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/products"
+                  href="/#flash-sale"
                   className="transition-colors hover:text-white/80"
                   style={{
                     fontFamily: '"Be Vietnam Pro", sans-serif',
@@ -209,7 +209,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/products"
+                  href="/#featured-brands"
                   className="transition-colors hover:text-white/80"
                   style={{
                     fontFamily: '"Be Vietnam Pro", sans-serif',
