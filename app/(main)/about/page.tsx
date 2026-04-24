@@ -41,13 +41,13 @@ function MemberCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.4, delay: index * 0.1 }}
-      className="group relative flex h-[311px] w-[300px] flex-col items-center justify-start gap-4 rounded-2xl border border-white/40 bg-white/60 pt-[18px] pb-[30px] px-[20px] shadow-lg backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-2xl"
+      className="group relative flex h-[311px] w-[300px] flex-col items-center justify-start gap-4 rounded-2xl border border-white/40 bg-white/60 pt-[18px] pb-[30px] px-[20px] shadow-lg backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-2xl dark:border-gray-700 dark:bg-[#1a1a1f]/80 dark:shadow-black/40 dark:hover:shadow-pink-500/10"
     >
       {/* Gradient overlay */}
-      <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br from-pink-100/40 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br from-pink-100/40 to-transparent dark:from-[#2a1a22]/50" />
 
       {/* Avatar */}
-      <div className="relative h-[120px] w-[120px] overflow-hidden rounded-full bg-white ring-4 ring-white transition-shadow duration-300 group-hover:shadow-[0_0_20px_rgba(255,105,135,0.4)]">
+      <div className="relative h-[120px] w-[120px] overflow-hidden rounded-full bg-white ring-4 ring-white transition-shadow duration-300 group-hover:shadow-[0_0_20px_rgba(255,105,135,0.4)] dark:bg-gray-700 dark:ring-gray-600 dark:group-hover:shadow-[0_0_20px_rgba(255,105,135,0.2)]">
         <Image
           src={imageSrc}
           alt={member.name}
@@ -65,12 +65,12 @@ function MemberCard({
       </div>
 
       {/* Name */}
-      <h3 className="relative text-center text-[17px] font-semibold tracking-wide text-[#450920] font-[var(--font-be-vietnam)]">
+      <h3 className="relative text-center text-[17px] font-semibold tracking-wide text-[#450920] dark:text-gray-100 font-[var(--font-be-vietnam)]">
         {member.name}
       </h3>
 
       {/* Info section */}
-      <div className="relative flex flex-col items-center space-y-1 text-sm text-gray-700">
+      <div className="relative flex flex-col items-center space-y-1 text-sm text-gray-700 dark:text-gray-400 transition-colors duration-300">
         <p>MSSV: {member.studentId}</p>
         <span
           className="inline-block rounded-full px-3 py-1 text-xs font-semibold text-white"
@@ -83,7 +83,7 @@ function MemberCard({
             href={member.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-[#450920] underline underline-offset-2 transition-opacity hover:opacity-80 break-all"
+            className="flex items-center gap-1.5 text-[#450920] dark:text-gray-200 underline underline-offset-2 transition-opacity hover:opacity-80 break-all"
           >
             <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
@@ -98,16 +98,16 @@ function MemberCard({
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#0f0f12] transition-colors duration-300">
       {/* Breadcrumb */}
-      <div className="border-b bg-white">
+      <div className="border-b bg-white dark:bg-[#1a1a1f] dark:border-gray-700 transition-colors duration-300">
         <div className="mx-auto max-w-7xl px-4 py-4">
-          <nav className="flex items-center gap-2 text-sm">
-            <Link href="/" className="text-gray-500 hover:text-gray-700">
+          <nav className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 transition-colors duration-300">
+            <Link href="/" className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-300">
               Trang chủ
             </Link>
-            <ChevronRight className="h-4 w-4 text-gray-400" />
-            <span style={{ color: "#450920" }}>Về chúng tôi</span>
+            <ChevronRight className="h-4 w-4 text-gray-400 dark:text-gray-500" />
+            <span className="text-[#450920] dark:text-gray-100">Về chúng tôi</span>
           </nav>
         </div>
       </div>
@@ -121,31 +121,31 @@ export default function AboutPage() {
           className="mb-16"
         >
           <h1
-            className="mb-8 text-center text-3xl font-bold"
-            style={{ color: "#450920", fontFamily: '"Black Mango", serif' }}
+            className="mb-8 text-center text-3xl font-bold text-[#450920] dark:text-gray-100 transition-colors duration-300"
+            style={{ fontFamily: '"Black Mango", serif' }}
           >
             VỀ CHÚNG TÔI
           </h1>
 
-          <div className="rounded-2xl bg-rose-50/50 p-8 shadow-sm">
-            <p className="leading-relaxed text-gray-700">
+          <div className="rounded-2xl bg-rose-50/50 p-8 shadow-sm transition-colors duration-300 dark:bg-[#1a1a1f]/80 dark:shadow-black/40">
+            <p className="leading-relaxed text-[#450920] dark:text-gray-300">
               Glowic được thành lập vào năm 2026 tại TP. Hồ Chí Minh với sứ mệnh
-              mang đến cho mọi cô gái và chàng trai cơ hội tỏa sáng theo cách
-              riêng của mình.
+              mang đến cho mọi cô gái và chàng trai cơ hội <span className="font-bold text-[#450920] dark:text-[#DA627D]">tỏa sáng theo cách riêng</span> của mình.
             </p>
-            <p className="mt-4 leading-relaxed text-gray-700">
-              Chúng tôi tin rằng trang điểm là ngôn ngữ của sự tự tin. Mỗi lớp
+            <p className="mt-4 leading-relaxed text-[#450920] dark:text-gray-300">
+              Chúng tôi tin rằng trang điểm là <span className="font-bold text-[#450920] dark:text-[#DA627D]">ngôn ngữ của sự tự tin.</span> Mỗi lớp
               cushion mịn màng, mỗi thỏi son màu sắc cá tính, mỗi má hồng ửng
               hồng tự nhiên hay hàng mi cong vút đều giúp bạn thể hiện phiên bản
               đẹp nhất của chính mình.
             </p>
-            <p className="mt-4 leading-relaxed text-gray-700">
-              Tại Glowic, chúng tôi không chỉ bán sản phẩm trang điểm. Chúng tôi
-              xây dựng một hành trình làm đẹp toàn diện.
+            <p className="mt-4 leading-relaxed text-[#450920] dark:text-gray-300">
+              Tại Glowic, chúng tôi không chỉ bán sản phẩm trang điểm. Chúng tôi xây dựng một hành trình làm đẹp toàn diện: từ những sản phẩm chăm sóc da giúp làn da khỏe mạnh, căng mịn – làm nền tảng vững chắc cho lớp makeup sau này.
+            </p>
+            <p className="mt-4 leading-relaxed text-[#450920] dark:text-gray-300">
+            Dù bạn thích phong cách makeup nhẹ nhàng hàng ngày, cá tính táo bạo, hay chỉ cần một lớp makeup sáng da tự tin ra đường, Glowic luôn đồng hành cùng bạn với những sản phẩm chất lượng, dễ sử dụng.
             </p>
             <p
-              className="mt-4 text-center font-medium"
-              style={{ color: "#C1475A" }}
+              className="mt-4 font-bold text-[#450920] dark:text-[#DA627D]"
             >
               Glowic – Trang điểm cho nàng tỏa sáng, dưỡng da giữ trọn nét rạng ngời.
             </p>
@@ -154,7 +154,7 @@ export default function AboutPage() {
 
         {/* Section 2 - Team Members */}
         <section className="mx-auto max-w-[1158px]">
-          <h2 className="mb-6 text-center text-[18px] font-semibold text-[#450920]">
+          <h2 className="mb-6 text-center text-[18px] font-semibold text-[#450920] dark:text-gray-100 transition-colors duration-300">
             Thành viên
           </h2>
 
@@ -162,7 +162,7 @@ export default function AboutPage() {
           {(() => {
             const leader = teamMembers.find((m) => m.role === "Leader");
             return leader ? (
-              <div className="flex justify-center mb-10">
+              <div className="flex justify-center mb-10 [&_*]:!font-['Be_Vietnam_Pro',_sans-serif]">
                 <MemberCard member={leader} index={0} />
               </div>
             ) : null;
@@ -176,11 +176,20 @@ export default function AboutPage() {
             viewport={{ once: true, margin: "-50px" }}
             className="grid grid-cols-3 gap-8 justify-items-center"
           >
-            {teamMembers
-              .filter((m) => m.role !== "Leader")
-              .map((member, index) => (
-                <MemberCard key={member.studentId} member={member} index={index + 1} />
-              ))}
+           {teamMembers
+  .filter((m) => m.role !== "Leader")
+  .map((member, index) => (
+    <div 
+      key={member.studentId} 
+      // Lệnh này ép TẤT CẢ các thẻ con bên trong MemberCard phải dùng font này
+      className="[&_*]:!font-['Be_Vietnam_Pro',_sans-serif]"
+    >
+       <MemberCard 
+         member={member} 
+         index={index + 1}
+       />
+    </div>
+  ))}
           </motion.div>
         </section>
       </div>
