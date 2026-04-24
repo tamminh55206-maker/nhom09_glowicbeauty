@@ -47,6 +47,8 @@ export function Header() {
               width={150}
               height={50}
               className="h-[50px] w-auto"
+              style={{ width: "auto", height: "50px" }}
+              loading="eager"
               unoptimized
             />
           </Link>
