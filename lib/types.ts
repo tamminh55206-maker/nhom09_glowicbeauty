@@ -25,6 +25,7 @@ export interface Product {
   stock: number;
   skinType: string[];
   slug: string;
+  sales?: number;
   variant?: string;
   appliedDiscount?: AppliedDiscount;
 }
