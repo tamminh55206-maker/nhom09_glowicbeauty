@@ -8,7 +8,7 @@ interface CartSummaryProps {
   onCheckout: () => void;
 }
 
-export default function CartSummary({ items, finalPrice }: CartSummaryProps) {
+export default function CartSummary({ items, finalPrice, onCheckout }: CartSummaryProps) {
   const formatPrice = (p: number) => p.toLocaleString("vi-VN") + "đ";
 
   return (
@@ -89,7 +89,10 @@ export default function CartSummary({ items, finalPrice }: CartSummaryProps) {
       </div>
 
       {/* 4. NÚT THANH TOÁN */}
-      <button className="mt-8 w-full rounded-2xl py-4 font-bold text-white bg-[#A53860] hover:bg-[#DA627D] shadow-lg shadow-rose-100 transition-all active:scale-[0.98]">
+      <button
+        onClick={onCheckout}
+        className="mt-8 w-full rounded-2xl py-4 font-bold text-white bg-[#A53860] hover:bg-[#DA627D] shadow-lg shadow-rose-100 transition-all active:scale-[0.98]"
+      >
         Thanh toán
       </button>
     </div>
