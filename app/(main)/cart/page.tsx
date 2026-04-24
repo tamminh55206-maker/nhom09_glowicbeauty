@@ -7,9 +7,9 @@ import { motion } from "framer-motion";
 import { ShoppingCart, ChevronRight } from "lucide-react";
 
 // Import các components con đã tách
-import CartItems from "@/app/components/cart/CartItems";
-import CartVoucher from "@/app/components/cart/CartVoucher";
-import CartSummary from "@/app/components/cart/CartSummary";
+import CartItems from "@/components/cart/CartItems";
+import CartVoucher from "@/components/cart/CartVoucher";
+import CartSummary from "@/components/cart/CartSummary";
 
 import { useCartStore } from "@/lib/store";
 import { AppliedDiscount } from "@/lib/types";
