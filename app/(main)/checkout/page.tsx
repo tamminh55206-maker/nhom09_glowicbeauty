@@ -15,6 +15,7 @@ import {
   Tag,
 } from "lucide-react";
 import { useAuthStore, useCartStore, useOrderStore, type Order } from "@/lib/store";
+import { type OrderStatus } from "@/lib/order-status";
 import type { AppliedDiscount } from "@/lib/types";
 import { toast } from "sonner";
 
@@ -114,7 +115,7 @@ export default function CheckoutPage() {
       })),
       totalPrice: finalTotal,
       createdAt: new Date().toISOString(),
-      status: "Đang vận chuyển",
+      status: "shipping" satisfies OrderStatus,
       paymentMethod: selectedPayment,
     };
 
