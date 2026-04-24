@@ -85,21 +85,23 @@ function AccordionItem({
   itemId: string;
 }) {
   return (
-    <div className="overflow-hidden rounded-lg">
+    <div className="overflow-hidden rounded-xl transition-all duration-300">
       <button
         onClick={onToggle}
-        className={`flex w-full items-center justify-between p-4 text-left transition-colors ${
-          isOpen ? "bg-rose-200" : "bg-rose-100 hover:bg-rose-200/50"
+        className={`flex w-full items-center justify-between p-4 text-left transition-all duration-300 ${
+          isOpen
+            ? "bg-rose-100 dark:bg-gray-700 border border-pink-400/50"
+            : "bg-rose-50 hover:bg-rose-100 dark:bg-gray-800 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700"
         }`}
       >
-        <span className="pr-4 font-medium" style={{ color: "#450920" }}>
+        <span className="pr-4 font-medium text-[#450920] dark:text-white">
           {question}
         </span>
         <span className="flex-shrink-0">
           {isOpen ? (
-            <X className="h-5 w-5" style={{ color: "#A53860" }} />
+            <X className="h-5 w-5 text-[#A53860] dark:text-pink-400" />
           ) : (
-            <Plus className="h-5 w-5" style={{ color: "#A53860" }} />
+            <Plus className="h-5 w-5 text-[#A53860] dark:text-pink-400" />
           )}
         </span>
       </button>
@@ -112,8 +114,8 @@ function AccordionItem({
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
-            <div className="bg-rose-50 px-4 py-4">
-              <p className="text-gray-700 leading-relaxed">{answer}</p>
+            <div className="bg-white dark:bg-gray-800 px-5 py-5 border-x border-b border-gray-200 dark:border-gray-700">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{answer}</p>
             </div>
           </motion.div>
         )}
@@ -130,16 +132,16 @@ export default function FAQPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-rose-50 to-white">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Breadcrumb */}
-      <div className="border-b bg-white/80 backdrop-blur-sm">
+      <div className="border-b bg-white dark:bg-gray-800 dark:border-gray-700">
         <div className="mx-auto max-w-7xl px-4 py-4">
           <nav className="flex items-center gap-2 text-sm">
-            <Link href="/" className="text-gray-500 hover:text-gray-700">
+            <Link href="/" className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
               Trang chủ
             </Link>
             <ChevronRight className="h-4 w-4 text-gray-400" />
-            <span style={{ color: "#450920" }}>Câu hỏi thường gặp</span>
+            <span className="text-gray-500 dark:text-gray-400">Câu hỏi thường gặp</span>
           </nav>
         </div>
       </div>
@@ -147,8 +149,8 @@ export default function FAQPage() {
       {/* Header */}
       <div className="py-12 text-center">
         <h1
-          className="text-3xl font-bold"
-          style={{ color: "#450920", fontFamily: '"Black Mango", serif' }}
+          className="text-3xl font-bold text-[#450920] dark:text-white"
+          style={{ fontFamily: '"Black Mango", serif' }}
         >
           Câu hỏi thường gặp
         </h1>
@@ -162,8 +164,7 @@ export default function FAQPage() {
               {/* Category Name */}
               <div className="hidden w-[150px] flex-shrink-0 sm:block">
                 <h2
-                  className="sticky top-24 font-semibold"
-                  style={{ color: "#450920" }}
+                  className="sticky top-24 font-semibold text-[#450920] dark:text-white text-lg"
                 >
                   {category.category}
                 </h2>
@@ -173,8 +174,7 @@ export default function FAQPage() {
               <div className="flex-1 space-y-3">
                 {/* Mobile Category Name */}
                 <h2
-                  className="mb-3 font-semibold sm:hidden"
-                  style={{ color: "#450920" }}
+                  className="mb-4 font-semibold text-[#450920] dark:text-white text-lg sm:hidden"
                 >
                   {category.category}
                 </h2>
@@ -199,15 +199,14 @@ export default function FAQPage() {
 
         {/* Footer Message */}
         <div className="mt-12 text-center">
-          <p className="text-gray-600">
+          <p className="text-gray-600 dark:text-gray-400">
             Hy vọng những thông tin trên đã giúp ích cho bạn.
           </p>
-          <p className="mt-2 text-gray-600">
+          <p className="mt-2 text-gray-600 dark:text-gray-400">
             Nếu bạn còn thắc mắc nào khác, hãy để lại lởi nhắn ở trang{" "}
             <Link
               href="/contact"
-              className="font-medium underline transition-colors hover:text-rose-500"
-              style={{ color: "#C1475A" }}
+              className="font-medium underline transition-all duration-300 text-pink-500 hover:text-pink-400"
             >
               Liên hệ
             </Link>

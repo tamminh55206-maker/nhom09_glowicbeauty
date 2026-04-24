@@ -54,6 +54,7 @@ function MemberCard({
           width={120}
           height={120}
           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          style={{ width: "auto", height: "auto" }}
           unoptimized
           onError={(e) => {
             const target = e.target as HTMLImageElement;
