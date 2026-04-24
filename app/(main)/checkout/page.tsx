@@ -14,22 +14,19 @@ import {
   Truck,
   Tag,
 } from "lucide-react";
-import { useCartStore } from "@/lib/store";
+import { useAuthStore, useCartStore, useOrderStore, type Order } from "@/lib/store";
 import type { AppliedDiscount } from "@/lib/types";
 import { toast } from "sonner";
 
-// Animation variants
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
 } as const;
 
-// Format price helper
 const formatPrice = (price: number) => {
-  return price.toLocaleString("vi-VN") + "đ";
+  return `${price.toLocaleString("vi-VN")}đ`;
 };
 
-// Checkout schema
 const checkoutSchema = z.object({
   hoTen: z.string().min(2, "Vui lòng nhập họ tên"),
   soDienThoai: z.string().regex(/^[0-9]{10}$/, "Số điện thoại không hợp lệ"),
@@ -42,7 +39,6 @@ const checkoutSchema = z.object({
 
 type CheckoutForm = z.infer<typeof checkoutSchema>;
 
-// Payment methods
 const paymentMethods = [
   {
     id: "momo",
@@ -71,9 +67,11 @@ export default function CheckoutPage() {
   const items = useCartStore((state) => state.items);
   const totalPrice = useCartStore((state) => state.totalPrice());
   const clearCart = useCartStore((state) => state.clearCart);
+  const currentUser = useAuthStore((state) => state.currentUser);
+  const addOrder = useOrderStore((state) => state.addOrder);
 
   const [selectedPayment, setSelectedPayment] = useState("cod");
-  const [appliedDiscount, setAppliedDiscount] = useState<AppliedDiscount | null>(null);
+  const [appliedDiscount] = useState<AppliedDiscount | null>(null);
 
   const {
     register,
@@ -86,31 +84,52 @@ export default function CheckoutPage() {
     },
   });
 
+  const shippingFee = totalPrice >= 500000 ? 0 : 30000;
   // Calculate shipping
   const shippingFee = 20000;
 
   // Calculate final total
   const finalTotal = totalPrice + shippingFee - (appliedDiscount?.amount || 0);
 
-  // Handle form submission
-  const onSubmit = async (data: CheckoutForm) => {
-    // Validate cart not empty
+  // UPDATED: Save order to persisted order history immediately after successful checkout
+  const onSubmit = async () => {
     if (items.length === 0) {
       toast.error("Giỏ hàng trống!");
       return;
     }
 
-    // Mock order success
-    toast.success("Đặt hàng thành công! 🎉");
+    if (!currentUser?.maNguoiDung) {
+      toast.error("Vui lòng đăng nhập để đặt hàng.");
+      router.push("/login");
+      return;
+    }
+
+    // ADDED: Build order object linked to current user
+    const order: Order = {
+      id: crypto.randomUUID(),
+      ownerUserId: currentUser.maNguoiDung,
+      items: items.map((item) => ({
+        product: item.product,
+        quantity: item.quantity,
+        unitPrice: item.product.price,
+      })),
+      totalPrice: finalTotal,
+      createdAt: new Date().toISOString(),
+      status: "Đang vận chuyển",
+      paymentMethod: selectedPayment,
+    };
+
+    // ADDED: Persist order history
+    addOrder(order);
+
     clearCart();
-    router.push("/");
+    toast.success("Đặt hàng thành công!");
+    router.push("/user?tab=orders");
   };
 
-  // Empty cart view
   if (items.length === 0) {
     return (
       <div className="min-h-screen bg-gray-50">
-        {/* Breadcrumb */}
         <div className="border-b bg-white">
           <div className="mx-auto max-w-7xl px-4 py-4">
             <nav className="flex items-center gap-2 text-sm">
@@ -159,7 +178,6 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Breadcrumb */}
       <div className="border-b bg-white">
         <div className="mx-auto max-w-7xl px-4 py-4">
           <nav className="flex items-center gap-2 text-sm">
@@ -186,9 +204,7 @@ export default function CheckoutPage() {
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-5">
-            {/* Left Column - Shipping Info + Order (60%) */}
             <div className="lg:col-span-3">
-              {/* Shipping Info Box */}
               <motion.div
                 initial="hidden"
                 animate="visible"
@@ -203,7 +219,6 @@ export default function CheckoutPage() {
                 </h2>
 
                 <div className="space-y-4">
-                  {/* Full Name */}
                   <div>
                     <label className="mb-1 block text-sm font-medium text-gray-700 ">
                       Họ và tên *
@@ -221,7 +236,6 @@ export default function CheckoutPage() {
                     )}
                   </div>
 
-                  {/* Phone */}
                   <div>
                     <label className="mb-1 block text-sm font-medium text-gray-700">
                       Số điện thoại *
@@ -239,7 +253,6 @@ export default function CheckoutPage() {
                     )}
                   </div>
 
-                  {/* Address Row - 3 columns */}
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                     <div>
                       <label className="mb-1 block text-sm font-medium text-gray-700">
@@ -291,7 +304,6 @@ export default function CheckoutPage() {
                     </div>
                   </div>
 
-                  {/* Detailed Address */}
                   <div>
                     <label className="mb-1 block text-sm font-medium text-gray-700">
                       Tên đường, tòa nhà, số nhà *
@@ -309,7 +321,6 @@ export default function CheckoutPage() {
                     )}
                   </div>
 
-                  {/* Remember checkbox */}
                   <div className="flex items-center gap-2">
                     <input
                       type="checkbox"
@@ -324,7 +335,6 @@ export default function CheckoutPage() {
                 </div>
               </motion.div>
 
-              {/* Order Items Box */}
               <motion.div
                 initial="hidden"
                 animate="visible"
@@ -338,7 +348,6 @@ export default function CheckoutPage() {
                   Đơn hàng 
                 </h2>
 
-                {/* Table Header */}
                 <div className="hidden grid-cols-12 gap-4 border-b pb-3 text-sm font-medium text-gray-500 md:grid">
                   <div className="col-span-5">Sản phẩm</div>
                   <div className="col-span-2 text-center">Giá</div>
@@ -346,14 +355,12 @@ export default function CheckoutPage() {
                   <div className="col-span-3 text-right">Thành tiền</div>
                 </div>
 
-                {/* Items */}
                 <div className="divide-y">
                   {items.map((item) => (
                     <div
                       key={item.product.id}
                       className="grid grid-cols-1 items-center gap-4 py-4 md:grid-cols-12"
                     >
-                      {/* Product */}
                       <div className="col-span-5 flex items-center gap-3">
                         <div className="relative h-14 w-14 flex-shrink-0 overflow-hidden rounded-lg bg-gray-100">
                           <Image
@@ -374,17 +381,14 @@ export default function CheckoutPage() {
                         </div>
                       </div>
 
-                      {/* Price */}
                       <div className="col-span-2 text-center text-sm">
                         {formatPrice(item.product.price)}
                       </div>
 
-                      {/* Quantity */}
                       <div className="col-span-2 text-center text-sm">
                         {item.quantity}
                       </div>
 
-                      {/* Subtotal */}
                       <div
                         className="col-span-3 text-right font-medium"
                         style={{ color: "#A53860" }}
@@ -397,10 +401,8 @@ export default function CheckoutPage() {
               </motion.div>
             </div>
 
-            {/* Right Column - Payment + Total (40%) */}
             <div className="lg:col-span-2">
               <div className="space-y-6">
-                {/* Payment Methods */}
                 <motion.div
                   initial="hidden"
                   animate="visible"
@@ -454,7 +456,6 @@ export default function CheckoutPage() {
                   </div>
                 </motion.div>
 
-                {/* Order Summary */}
                 <motion.div
                   initial="hidden"
                   animate="visible"
@@ -469,7 +470,6 @@ export default function CheckoutPage() {
                   </h2>
 
                   <div className="space-y-3">
-                    {/* Subtotal */}
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-gray-600">Tổng tiền hàng</span>
                       <span style={{ color: "#450920" }}>
@@ -477,7 +477,6 @@ export default function CheckoutPage() {
                       </span>
                     </div>
 
-                    {/* Shipping */}
                     <div className="flex items-center justify-between text-sm">
                       <span className="flex items-center gap-1 text-gray-600">
                         <Truck className="h-4 w-4" />
@@ -488,7 +487,6 @@ export default function CheckoutPage() {
                       </span>
                     </div>
 
-                    {/* Discount */}
                     {appliedDiscount && (
                       <div className="flex items-center justify-between text-sm">
                         <span className="flex items-center gap-1 text-gray-600">
@@ -501,7 +499,6 @@ export default function CheckoutPage() {
                       </div>
                     )}
 
-                    {/* Free shipping note */}
                     {totalPrice < 500000 && (
                       <p className="text-xs text-gray-500">
                         Mua thêm {formatPrice(500000 - totalPrice)} để được miễn
@@ -509,10 +506,8 @@ export default function CheckoutPage() {
                       </p>
                     )}
 
-                    {/* Divider */}
                     <div className="my-4 border-t"></div>
 
-                    {/* Final Total */}
                     <div className="flex items-center justify-between">
                       <span
                         className="text-lg font-bold"
@@ -537,7 +532,6 @@ export default function CheckoutPage() {
                     </Link>
                   </p>
 
-                  {/* Submit Button */}
                   <button
                     type="submit"
                     className="mt-6 w-full rounded-full py-3 font-medium text-white transition-opacity hover:opacity-90"
