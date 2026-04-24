@@ -21,6 +21,7 @@ export const products: Product[] = [
     description:
       "Hiệu ứng bóng mịn thờii thượng, bền màu suốt 16H và không lem trôi",
     stock: 120,
+    sales: 150,
     skinType: ["Tất cả loại da"],
     slug: createSlug("product-01"),
   },
