@@ -2,42 +2,83 @@
 
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import Image from "next/image";
 import {
   ShoppingCart,
   Menu,
   Search,
   Bell,
   User,
+  LogOut,
   MessageCircle,
   X,
   Moon,
   Sun,
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useSyncExternalStore } from "react";
 import { CartBadge } from "./CartBadge";
+import { useAuthStore } from "@/lib/store";
+
+const emptySubscribe = () => () => {};
+const DARK_MODE_STORAGE_KEY = "darkMode";
+const DARK_MODE_EVENT = "glowic-dark-mode-change";
+
+const subscribeToDarkMode = (callback: () => void) => {
+  if (typeof window === "undefined") {
+    return () => {};
+  }
+
+  const handleChange = (event: Event) => {
+    if (
+      event instanceof StorageEvent &&
+      event.key !== null &&
+      event.key !== DARK_MODE_STORAGE_KEY
+    ) {
+      return;
+    }
+
+    callback();
+  };
+
+  window.addEventListener("storage", handleChange);
+  window.addEventListener(DARK_MODE_EVENT, handleChange);
+
+  return () => {
+    window.removeEventListener("storage", handleChange);
+    window.removeEventListener(DARK_MODE_EVENT, handleChange);
+  };
+};
+
+const getDarkModeSnapshot = () => {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  return localStorage.getItem(DARK_MODE_STORAGE_KEY) === "true";
+};
 
 export function Header() {
   const router = useRouter();
   const pathname = usePathname();
+  const currentUser = useAuthStore((state) => state.currentUser);
+  const logout = useAuthStore((state) => state.logout);
   const [searchQuery, setSearchQuery] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+  const isClient = useSyncExternalStore(emptySubscribe, () => true, () => false);
+  const darkMode = useSyncExternalStore(
+    subscribeToDarkMode,
+    getDarkModeSnapshot,
+    () => false,
+  );
 
   useEffect(() => {
-    const saved = localStorage.getItem("darkMode");
-    const isDark = saved === "true";
-    setDarkMode(isDark);
-    if (isDark) {
-      document.documentElement.classList.add("dark");
-    }
-  }, []);
+    document.documentElement.classList.toggle("dark", darkMode);
+  }, [darkMode]);
 
   const toggleDarkMode = () => {
     const newVal = !darkMode;
-    setDarkMode(newVal);
-    localStorage.setItem("darkMode", String(newVal));
+    localStorage.setItem(DARK_MODE_STORAGE_KEY, String(newVal));
     document.documentElement.classList.toggle("dark", newVal);
+    window.dispatchEvent(new Event(DARK_MODE_EVENT));
   };
 
   const handleSearch = (e: React.FormEvent) => {
@@ -47,6 +88,14 @@ export function Header() {
       setMobileMenuOpen(false);
     }
   };
+
+  const handleLogout = () => {
+    logout();
+    setMobileMenuOpen(false);
+    router.push("/");
+  };
+
+  const isLoggedIn = isClient && Boolean(currentUser);
 
   const navLinks = [
     { href: "/", label: "Trang chủ" },
@@ -63,15 +112,13 @@ export function Header() {
         <div className="mx-auto flex h-14 md:h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* Logo – ảnh từ GitHub */}
           <Link href="/" className="flex items-center flex-shrink-0">
-            <Image
+            <img
               src="/images/logo/LOGO_white.svg"
               alt="Glowic Beauty Logo"
               width={150}
               height={50}
-              className="h-[50px] w-auto"
-              style={{ width: "auto", height: "50px" }}
+              className="block h-[50px] w-auto"
               loading="eager"
-              unoptimized
             />
           </Link>
 
@@ -125,22 +172,52 @@ export function Header() {
               )}
             </button>
 
-            <Link
-              href="/login"
-              className="flex items-center gap-1.5 text-sm text-white"
-            >
-              <User className="h-6 w-6" />
-              <span
-                className="hidden lg:inline"
-                style={{
-                  fontFamily: '"Be Vietnam Pro", sans-serif',
-                  fontSize: "18px",
-                  fontWeight: 600,
-                }}
-              >
-                Đăng nhập/ Đăng ký
-              </span>
-            </Link>
+            {isLoggedIn && currentUser ? (
+              <div className="flex items-center gap-2 text-white">
+                <Link href="/tai-khoan" className="flex items-center gap-1.5 min-w-0">
+                  <User className="h-6 w-6 shrink-0" />
+                  <div className="hidden lg:block min-w-0">
+                    <p className="text-[10px] uppercase tracking-[0.14em] text-white/70">
+                      Tài khoản
+                    </p>
+                    <p className="max-w-28 truncate text-sm font-semibold">
+                      {currentUser.tenTaiKhoan}
+                    </p>
+                  </div>
+                </Link>
+
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="hidden rounded-full border border-white/35 px-3 py-1 text-xs font-medium text-white transition hover:bg-white/10 lg:inline-flex"
+                >
+                  Đăng xuất
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 text-sm text-white">
+                <Link href="/login" className="flex items-center gap-1.5">
+                  <User className="h-6 w-6" />
+                  <span
+                    className="hidden lg:inline"
+                    style={{
+                      fontFamily: '"Be Vietnam Pro", sans-serif',
+                      fontSize: "18px",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Đăng nhập
+                  </span>
+                </Link>
+                <Link
+                  href="/register"
+                  className="hidden lg:inline text-[18px] font-semibold"
+                  style={{ fontFamily: '"Be Vietnam Pro", sans-serif' }}
+                >
+                  / Đăng ký
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -220,6 +297,39 @@ export function Header() {
               </Link>
             ))}
           </nav>
+
+          <div className="border-t border-white/20 px-4 py-3 text-white">
+            {isLoggedIn && currentUser ? (
+              <div className="flex items-center justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="text-xs text-white/70">Đang đăng nhập</p>
+                  <Link href="/tai-khoan" onClick={() => setMobileMenuOpen(false)}>
+                    <p className="truncate text-sm font-semibold">
+                      {currentUser.tenTaiKhoan}
+                    </p>
+                  </Link>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="inline-flex items-center gap-1 rounded-full border border-white/35 px-3 py-1 text-xs font-medium transition hover:bg-white/10"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Đăng xuất
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-4 text-sm font-medium">
+                <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
+                  Đăng nhập
+                </Link>
+                <Link href="/register" onClick={() => setMobileMenuOpen(false)}>
+                  Đăng ký
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </header>
