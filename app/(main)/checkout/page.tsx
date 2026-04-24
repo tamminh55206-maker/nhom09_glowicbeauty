@@ -84,8 +84,7 @@ export default function CheckoutPage() {
     },
   });
 
-  const shippingFee = totalPrice >= 500000 ? 0 : 30000;
-  // Calculate shipping
+
   const shippingFee = 20000;
 
   // Calculate final total
