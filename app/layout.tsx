@@ -37,7 +37,7 @@ export const viewport: Viewport = {
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="vi" className={`${alice.variable} ${beVietnamPro.variable} ${montserrat.variable}`} suppressHydrationWarning>
-      <body className="transition-colors duration-300">
+      <body className="transition-colors duration-300" suppressHydrationWarning>
         <Header/>
         <main>{children}</main>
         <Footer />
