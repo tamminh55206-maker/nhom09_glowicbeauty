@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
+import Image from "next/image";
 import {
   ShoppingCart,
   Menu,
@@ -23,7 +24,6 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
 
-  // Khởi tạo dark mode từ localStorage
   useEffect(() => {
     const saved = localStorage.getItem("darkMode");
     const isDark = saved === "true";
@@ -61,32 +61,19 @@ export function Header() {
       {/* ───── Top Row ───── */}
       <div className="bg-[#DA627D] dark:bg-[#7a2840]">
         <div className="mx-auto flex h-14 md:h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          {/* Logo */}
-          <Link href="/" className="flex flex-col text-white flex-shrink-0">
-            <span
-              style={{
-                fontFamily: '"Mistesy", serif',
-                fontSize: "clamp(30px, 4vw, 48px)",
-                lineHeight: "1",
-                textShadow: "0px 4px 4px rgba(69, 9, 32, 0.25)",
-              }}
-            >
-              Glowic
-            </span>
-            <span
-              className="self-end"
-              style={{
-                fontFamily: '"Alice", serif',
-                fontSize: "12px",
-                textAlign: "right",
-                textShadow: "0px 4px 4px rgba(69, 9, 32, 0.25)",
-              }}
-            >
-              beauty
-            </span>
+          {/* Logo – ảnh từ GitHub */}
+          <Link href="/" className="flex items-center flex-shrink-0">
+            <Image
+              src="/images/logo/LOGO_white.svg"
+              alt="Glowic Beauty Logo"
+              width={150}
+              height={50}
+              className="h-[50px] w-auto"
+              unoptimized
+            />
           </Link>
 
-          {/* Search Bar – ẩn trên mobile, hiện từ md trở lên */}
+          {/* Search Bar – ẩn mobile, hiện từ md */}
           <form
             onSubmit={handleSearch}
             className="hidden md:flex flex-1 justify-center px-4 lg:px-8"
@@ -108,13 +95,11 @@ export function Header() {
 
           {/* Right Icons */}
           <div className="flex items-center gap-3 md:gap-4">
-            {/* Cart */}
             <Link href="/cart" className="relative">
               <ShoppingCart className="h-6 w-6 text-white" />
               <CartBadge />
             </Link>
 
-            {/* Bell – ẩn trên mobile nhỏ */}
             <button className="relative hidden sm:block">
               <Bell className="h-6 w-6 text-white" />
               <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-rose-500 text-xs font-medium text-white">
@@ -122,12 +107,10 @@ export function Header() {
               </span>
             </button>
 
-            {/* Chat – ẩn trên mobile nhỏ */}
             <button className="hidden sm:block">
               <MessageCircle className="h-6 w-6 text-white" />
             </button>
 
-            {/* Dark mode toggle */}
             <button
               onClick={toggleDarkMode}
               className="text-white transition-transform hover:scale-110"
@@ -140,7 +123,6 @@ export function Header() {
               )}
             </button>
 
-            {/* Login – label ẩn trên tablet, chỉ hiện từ lg */}
             <Link
               href="/login"
               className="flex items-center gap-1.5 text-sm text-white"
@@ -164,7 +146,6 @@ export function Header() {
       {/* ───── Navbar Row ───── */}
       <div className="bg-[#A53860] dark:bg-[#5c1e35]">
         <div className="mx-auto flex h-[40px] max-w-7xl items-center px-4 md:px-6">
-          {/* Hamburger – click để mở/đóng mobile menu */}
           <button
             className="flex items-center text-white flex-shrink-0"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -177,7 +158,6 @@ export function Header() {
             )}
           </button>
 
-          {/* Nav links – ẩn trên mobile, hiện từ md */}
           <nav className="hidden md:flex flex-1 items-center justify-center gap-3 lg:gap-[70px]">
             {navLinks.map((link) => (
               <Link
@@ -186,7 +166,6 @@ export function Header() {
                 className="text-white transition-colors hover:text-white/80 whitespace-nowrap"
                 style={{
                   fontFamily: '"Be Vietnam Pro", sans-serif',
-                  // responsive font: nhỏ hơn trên tablet, full size trên desktop
                   fontSize: "clamp(13px, 1.4vw, 18px)",
                   fontWeight: pathname === link.href ? 700 : 400,
                   lineHeight: "23px",
@@ -199,7 +178,7 @@ export function Header() {
         </div>
       </div>
 
-      {/* ───── Mobile Search (chỉ hiện dưới md) ───── */}
+      {/* ───── Mobile Search ───── */}
       <form
         onSubmit={handleSearch}
         className="bg-white p-3 md:hidden dark:bg-gray-900"
@@ -219,7 +198,7 @@ export function Header() {
         </div>
       </form>
 
-      {/* ───── Mobile Dropdown Menu ───── */}
+      {/* ───── Mobile Dropdown ───── */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-[#A53860] dark:bg-[#5c1e35] border-t border-white/20">
           <nav className="flex flex-col px-4 py-1">
