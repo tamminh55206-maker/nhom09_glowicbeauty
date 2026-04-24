@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import {
   ShoppingCart,
@@ -392,6 +393,7 @@ const loaiDaMap: Record<string, string[]> = {
 
 // ─── Main Page ─────────────────────────────────────────────────────────────────
 export default function ProductsPage() {
+  const searchParams = useSearchParams();
   const [filters, setFilters] = useState<Filters>({
     brands: [],
     congDung: [],
@@ -404,6 +406,23 @@ export default function ProductsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const productsPerPage = 20;
+
+  // ADDED
+  useEffect(() => {
+    const brand = searchParams.get("brand");
+    const usage = searchParams.get("usage");
+    const skinType = searchParams.get("skinType");
+    const productType = searchParams.get("productType");
+
+    setFilters((prev) => ({
+      ...prev,
+      brands: brand ? [brand] : [],
+      congDung: usage ? [usage] : [],
+      loaiDa: skinType ? [skinType] : [],
+      loaiSanPham: productType ? [productType] : [],
+    }));
+    setCurrentPage(1);
+  }, [searchParams]);
 
   const toggleFilter = (
     key: "brands" | "congDung" | "loaiDa" | "loaiSanPham",

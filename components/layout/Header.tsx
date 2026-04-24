@@ -14,13 +14,21 @@ import {
   Moon,
   Sun,
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { CartBadge } from "./CartBadge";
+import { products } from "@/lib/data";
 
 type NavLink = {
   href: string;
   label: string;
   sectionId?: "flash-sale" | "featured-brands";
+};
+
+type FilterGroup = {
+  key: string;
+  label: string;
+  queryKey: "brand" | "usage" | "skinType" | "productType";
+  options: string[];
 };
 
 // ADDED
@@ -38,7 +46,11 @@ export function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const [searchQuery, setSearchQuery] = useState("");
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [filterPanelOpen, setFilterPanelOpen] = useState(false);
+  // UPDATED: Changed from expandedCategory to activeCategory for main panel selection
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  // ADDED: Ref for the filter panel to detect clicks outside
+  const panelRef = useRef<HTMLDivElement>(null);
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window === "undefined") {
       return false;
@@ -49,6 +61,42 @@ export function Header() {
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
   }, [darkMode]);
+
+  // UPDATED: Click outside detection for filter panel - also resets active category
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (panelRef.current && !panelRef.current.contains(event.target as Node)) {
+        setFilterPanelOpen(false);
+        setActiveCategory(null);
+      }
+    }
+
+    if (filterPanelOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [filterPanelOpen]);
+
+  // UPDATED: ESC key handler to close filter panel - also resets active category
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && filterPanelOpen) {
+        setFilterPanelOpen(false);
+        setActiveCategory(null);
+      }
+    };
+
+    if (filterPanelOpen) {
+      window.addEventListener("keydown", handleEsc);
+    }
+
+    return () => {
+      window.removeEventListener("keydown", handleEsc);
+    };
+  }, [filterPanelOpen]);
 
   const toggleDarkMode = () => {
     const newVal = !darkMode;
@@ -61,19 +109,18 @@ export function Header() {
     e.preventDefault();
     if (searchQuery.trim()) {
       router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-      setMobileMenuOpen(false);
+      setFilterPanelOpen(false);
     }
   };
 
-  // ADDED
+  // UPDATED
   const handleSectionNavigation = (sectionId: "flash-sale" | "featured-brands") => {
-    setMobileMenuOpen(false);
+    setFilterPanelOpen(false);
 
     if (pathname === "/") {
       const target = document.getElementById(sectionId);
       if (target) {
         window.history.replaceState(null, "", `/#${sectionId}`);
-        // UPDATED
         scrollToSectionWithOffset(sectionId);
       }
       return;
@@ -82,12 +129,56 @@ export function Header() {
     router.push(`/#${sectionId}`);
   };
 
+  // ADDED
+  const filterGroups: FilterGroup[] = useMemo(
+    () => [
+      {
+        key: "brand",
+        label: "Thương hiệu",
+        queryKey: "brand",
+        options: Array.from(new Set(products.map((product) => product.brand))).sort(),
+      },
+      {
+        key: "usage",
+        label: "Công dụng",
+        queryKey: "usage",
+        options: ["Trang điểm", "Chăm sóc da"],
+      },
+      {
+        key: "skinType",
+        label: "Loại da",
+        queryKey: "skinType",
+        options: ["Da dầu", "Da khô", "Da hỗn hợp", "Da nhạy cảm", "Da thường"],
+      },
+      {
+        key: "productType",
+        label: "Loại sản phẩm",
+        queryKey: "productType",
+        options: Array.from(new Set(products.map((product) => product.category))).sort(),
+      },
+    ],
+    [],
+  );
+
+  // ADDED: Handle main category selection (opens sub-panel)
+  const handleCategorySelect = (categoryKey: string) => {
+    setActiveCategory(categoryKey);
+  };
+
+  // UPDATED: Handle sub-option selection (redirects to products)
+  const handleFilterSelection = (
+    queryKey: FilterGroup["queryKey"],
+    value: string,
+  ) => {
+    setFilterPanelOpen(false);
+    setActiveCategory(null);
+    router.push(`/products?${queryKey}=${encodeURIComponent(value)}`);
+  };
+
   const navLinks: NavLink[] = [
     { href: "/", label: "Trang chủ" },
     { href: "/products", label: "Danh mục sản phẩm" },
-    // UPDATED
     { href: "/#flash-sale", label: "Flash Sale", sectionId: "flash-sale" },
-    // UPDATED
     {
       href: "/#featured-brands",
       label: "Thương hiệu nổi bật",
@@ -180,10 +271,10 @@ export function Header() {
         <div className="mx-auto flex h-[40px] max-w-7xl items-center px-4 md:px-6">
           <button
             className="flex flex-shrink-0 items-center text-white"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle menu"
+            onClick={() => setFilterPanelOpen((prev) => !prev)}
+            aria-label="Toggle filter panel"
           >
-            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {filterPanelOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
 
           <nav className="hidden flex-1 items-center justify-center gap-3 md:flex lg:gap-[70px]">
@@ -241,42 +332,101 @@ export function Header() {
         </div>
       </form>
 
-      {mobileMenuOpen && (
-        <div className="border-t border-white/20 bg-[#A53860] dark:bg-[#5c1e35] md:hidden">
-          <nav className="flex flex-col px-4 py-1">
-            {navLinks.map((link) =>
-              link.sectionId ? (
-                <button
-                  key={link.href}
-                  type="button"
-                  onClick={() => handleSectionNavigation(link.sectionId!)}
-                  className="border-b border-white/20 py-3 text-left text-white transition-colors last:border-0 hover:text-white/80"
-                  style={{
-                    fontFamily: '"Be Vietnam Pro", sans-serif',
-                    fontSize: "16px",
-                    fontWeight: pathname === "/" ? 700 : 400,
-                  }}
+      {filterPanelOpen && (
+        <>
+          {/* UPDATED: Overlay to close panel (simplified since click outside detection handles it) */}
+          <button
+            type="button"
+            className="fixed inset-0 z-40 bg-black/40"
+            aria-label="Close filter panel"
+            onClick={() => setFilterPanelOpen(false)}
+          />
+
+          {/* UPDATED: Connected frame layout - main panel only initially, sub panel appears on category selection */}
+          <div
+            ref={panelRef}
+            className={`fixed left-4 top-[104px] z-50 flex overflow-hidden rounded-2xl bg-white shadow-2xl dark:bg-[#24171F] md:left-6 ${
+              activeCategory ? 'w-[600px] max-w-[calc(100vw-2rem)]' : 'w-[300px] max-w-[calc(50vw-1rem)]'
+            }`}
+          >
+            {/* Main Panel (Left) - takes full width when no category selected */}
+            <div className={`border-[#EBC7D2] bg-[#FFF8FA] p-4 dark:border-[#5A3E49] dark:bg-[#2A1C23] ${
+              activeCategory ? 'w-1/2 border-r' : 'w-full'
+            }`}>
+              <div className="mb-3">
+                <p
+                  className="text-[16px] font-semibold text-[#450920] dark:text-white"
+                  style={{ fontFamily: '"Be Vietnam Pro", sans-serif' }}
                 >
-                  {link.label}
-                </button>
-              ) : (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="border-b border-white/20 py-3 text-white transition-colors last:border-0 hover:text-white/80"
-                  style={{
-                    fontFamily: '"Be Vietnam Pro", sans-serif',
-                    fontSize: "16px",
-                    fontWeight: pathname === link.href ? 700 : 400,
-                  }}
-                >
-                  {link.label}
-                </Link>
-              ),
+                  Bộ lọc sản phẩm
+                </p>
+                <p className="mt-1 text-sm text-[#7A5A67] dark:text-[#DDBBC7]">
+                  Chọn danh mục
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                {filterGroups.map((group) => {
+                  const isActive = activeCategory === group.key;
+
+                  return (
+                    <button
+                      key={group.key}
+                      type="button"
+                      onClick={() => handleCategorySelect(group.key)}
+                      className={`w-full rounded-xl px-4 py-3 text-left transition-colors ${
+                        isActive
+                          ? "bg-[#DA627D] text-white"
+                          : "bg-white text-[#450920] hover:bg-[#F8E5EA] dark:bg-[#24171F] dark:text-white dark:hover:bg-[#352028]"
+                      }`}
+                      style={{ fontFamily: '"Be Vietnam Pro", sans-serif' }}
+                    >
+                      <span className="text-[14px] font-medium">{group.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* UPDATED: Sub Panel (Right) - only appears when category is selected */}
+            {activeCategory && (
+              <div className="w-1/2 bg-white p-4 dark:bg-[#24171F]">
+                <div className="mb-3">
+                  <p
+                    className="text-[16px] font-semibold text-[#450920] dark:text-white"
+                    style={{ fontFamily: '"Be Vietnam Pro", sans-serif' }}
+                  >
+                    {filterGroups.find(g => g.key === activeCategory)?.label}
+                  </p>
+                  <p className="mt-1 text-sm text-[#7A5A67] dark:text-[#DDBBC7]">
+                    Chọn tùy chọn
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2">
+                  {filterGroups
+                    .find(g => g.key === activeCategory)
+                    ?.options.map((option) => (
+                      <button
+                        key={option}
+                        type="button"
+                        onClick={() =>
+                          handleFilterSelection(
+                            filterGroups.find(g => g.key === activeCategory)!.queryKey,
+                            option
+                          )
+                        }
+                        className="rounded-xl border border-[#DA627D] bg-[#FFF8FA] px-3 py-2 text-sm font-medium text-[#A53860] transition hover:bg-[#FFF0F3] dark:bg-[#2A1C23] dark:border-[#5A3E49] dark:text-[#F3AABD] dark:hover:bg-[#352028]"
+                        style={{ fontFamily: '"Be Vietnam Pro", sans-serif' }}
+                      >
+                        {option}
+                      </button>
+                    ))}
+                </div>
+              </div>
             )}
-          </nav>
-        </div>
+          </div>
+        </>
       )}
     </header>
   );
