@@ -174,27 +174,27 @@ const buildNotifications = (): AccountNotification[] => [
     id: "voucher-holiday",
     title: "TUNG DIỆU TỪ 1K ĐÓN MỪNG ĐẠI LỄ",
     highlights: [
-      "Săn voucher khủng đến 444K",
-      "Freeship tận nhà - Sắm sửa thả ga",
-      "Chốt đơn ngay!",
+      "🤩 Săn voucher khủng đến 444K",
+      "🌈 Freeship tận nhà - Sắm sửa thả ga",
+      "🎁 Chốt đơn ngay!",
     ],
   },
   {
     id: "flash-sale",
     title: "MUA 3 GIẢM 30% SẮP BẮT ĐẦU",
     highlights: [
-      "Cùng deal độc quyền giá từ 1.000Đ",
-      "Thêm nhiều deal chỉ từ 3.000Đ, 9.000Đ",
-      "Phí ship 0Đ - Chuẩn bị săn ngay!",
+      "🥰 Cùng deal độc quyền giá từ 1.000Đ",
+      "🎁 Thêm nhiều deal chỉ từ 3.000Đ, 9.000Đ",
+      "⚡️ Phí ship 0Đ - Chuẩn bị săn ngay!",
     ],
   },
   {
     id: "cod-info",
-    title: "XÀI NGAY KẺO LỠ MÃ FREESHIP ĐƠN 0Đ",
+    title: "🛒 XÀI NGAY KẺO LỠ MÃ FREESHIP ĐƠN 0Đ",
     highlights: [
-      "Mã sẽ hết hạn vào 30-04-2026!",
-      "Chốt đơn liền tay nhận ngay freeship!",
-      "Xài ngay kẻo lỡ!",
+      "🎁 Mã sẽ hết hạn vào 30-04-2026!",
+      "🤩 Chốt đơn liền tay nhận ngay freeship!",
+      "💥 Xài ngay kẻo lỡ!",
     ],
   },
 ];
@@ -379,7 +379,7 @@ export function AccountDashboard({
   return (
     <section className="min-h-[calc(100vh-220px)] bg-white py-4 dark:bg-[#140F13]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-[13px] text-[#2F2528] dark:text-[#EAD8DE]">
+        <div className="text-[13px] text-[#2F2528] dark:text-[#EAD8DE]" style={{ fontFamily: '"Be Vietnam Pro", sans-serif' }}>
           <div className="flex items-center gap-1.5">
             <Link href="/" className="transition-colors hover:text-[#A53860]">
               Trang chủ
@@ -402,7 +402,7 @@ export function AccountDashboard({
             <div className="flex items-center gap-4 px-3">
               <div className="h-14.5 w-14.5 rounded-full bg-[#F8D7B1]" />
               <div className="min-w-0">
-                <p className="truncate text-[16px] font-medium text-[#1F1A1C] dark:text-white">
+                <p className="truncate text-[16px] font-medium text-[#1F1A1C] dark:text-white" style={{ fontFamily: '"Be Vietnam Pro", sans-serif' }}>
                   {currentUser.tenTaiKhoan}
                 </p>
               </div>
@@ -435,7 +435,7 @@ export function AccountDashboard({
                           : "text-[#E38CA0] group-hover:text-[#F07688] dark:text-[#F0B4C3] dark:group-hover:text-[#F7B8C5]"
                       }`}
                     />
-                    <span>{tab.label}</span>
+                    <span style={{ fontFamily: '"Be Vietnam Pro", sans-serif' }}>{tab.label}</span>
                   </button>
                 );
               })}
@@ -524,6 +524,7 @@ export function AccountDashboard({
                     <h2
                       className="uppercase text-[#1D1A1B] dark:text-[#FFD6E1]"
                       style={{
+                        fontFamily: '"Be Vietnam Pro", sans-serif',
                         fontSize: "12px",
                         fontWeight: 700,
                         lineHeight: "15px",
@@ -534,6 +535,7 @@ export function AccountDashboard({
                     <div
                       className="mt-0.5 space-y-px text-[#2B2527] dark:text-[#E6D1D8]"
                       style={{
+                        fontFamily: '"Be Vietnam Pro", sans-serif',
                         fontSize: "12px",
                         fontWeight: 400,
                         lineHeight: "15px",

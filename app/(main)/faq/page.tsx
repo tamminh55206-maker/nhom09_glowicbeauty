@@ -85,24 +85,28 @@ function AccordionItem({
   itemId: string;
 }) {
   return (
-    <div className="overflow-hidden rounded-xl transition-all duration-300">
+    <div className="overflow-hidden">
       <button
         onClick={onToggle}
-        className={`flex w-full items-center justify-between p-4 text-left transition-all duration-300 ${
-          isOpen
-            ? "bg-rose-100 dark:bg-gray-700 border border-pink-400/50"
-            : "bg-rose-50 hover:bg-rose-100 dark:bg-gray-800 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700"
-        }`}
+        className="flex w-full items-center justify-between px-[10px] py-[10px] text-left transition-all duration-300"
+        style={{
+          background: 'rgba(255, 165, 171, 0.5)',
+          borderRadius: '8px',
+          height: '43px'
+        }}
       >
-        <span className="pr-4 font-medium text-[#450920] dark:text-white">
+        <span className="pr-4 text-[18px] font-normal text-black dark:text-white" style={{ fontFamily: "'Be Vietnam Pro', sans-serif" }}>
           {question}
         </span>
-        <span className="flex-shrink-0">
-          {isOpen ? (
-            <X className="h-5 w-5 text-[#A53860] dark:text-pink-400" />
-          ) : (
-            <Plus className="h-5 w-5 text-[#A53860] dark:text-pink-400" />
-          )}
+        <span className="flex-shrink-0 relative w-[15px] h-[15px]">
+          <div 
+            className="absolute top-1/2 left-0 w-full border-t-[1.5px] border-black"
+            style={{ transform: 'translateY(-50%)' }}
+          />
+          <div 
+            className={`absolute top-0 left-1/2 h-full border-l-[1.5px] border-black transition-transform duration-300 ${isOpen ? "scale-y-0" : ""}`}
+            style={{ transform: 'translateX(-50%)' }}
+          />
         </span>
       </button>
 
@@ -114,8 +118,13 @@ function AccordionItem({
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
-            <div className="bg-white dark:bg-gray-800 px-5 py-5 border-x border-b border-gray-200 dark:border-gray-700">
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{answer}</p>
+            <div className="px-2 pt-4 pb-4">
+              <p 
+                className="text-[18px] text-black dark:text-gray-300 leading-[23px] text-justify"
+                style={{ fontFamily: "'Be Vietnam Pro', sans-serif" }}
+              >
+                {answer}
+              </p>
             </div>
           </motion.div>
         )}
@@ -132,39 +141,50 @@ export default function FAQPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-white dark:bg-gray-900">
       {/* Breadcrumb */}
-      <div className="border-b bg-white dark:bg-gray-800 dark:border-gray-700">
+      <div className="bg-white dark:bg-gray-900">
         <div className="mx-auto max-w-7xl px-4 py-4">
-          <nav className="flex items-center gap-2 text-sm">
-            <Link href="/" className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+          <nav className="flex items-center text-sm text-gray-500">
+            <Link href="/" className="hover:text-[#A53860]">
               Trang chủ
             </Link>
-            <ChevronRight className="h-4 w-4 text-gray-400" />
-            <span className="text-gray-500 dark:text-gray-400">Câu hỏi thường gặp</span>
+            <span className="mx-1">&gt;</span>
+            <span>Câu hỏi thường gặp</span>
           </nav>
         </div>
       </div>
 
-      {/* Header */}
-      <div className="py-12 text-center">
+      <div 
+        className="relative h-[80px] w-full flex items-center justify-center overflow-hidden"
+        style={{
+          background: 'radial-gradient(50% 50% at 50% 50%, #FFFFFF 25.48%, rgba(255, 165, 171, 0.5) 100%)'
+        }}
+      >
         <h1
-          className="text-3xl font-bold text-[#450920] dark:text-white"
-          style={{ fontFamily: '"Black Mango", serif' }}
+          className="relative z-10 text-[32px] font-[900]"
+          style={{ 
+            fontFamily: '"Black Mango", serif',
+            background: 'linear-gradient(170.56deg, #DA627D 5.47%, #450920 256.63%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text'
+          }}
         >
           Câu hỏi thường gặp
         </h1>
       </div>
 
       {/* FAQ Content */}
-      <div className="mx-auto max-w-3xl px-4 pb-16">
+      <div className="mx-auto max-w-3xl px-4 pt-14 pb-16">
         <div className="space-y-8">
           {faqData.map((category, categoryIndex) => (
             <div key={category.category} className="flex gap-6">
               {/* Category Name */}
-              <div className="hidden w-[150px] flex-shrink-0 sm:block">
+              <div className="hidden w-[180px] flex-shrink-0 text-right sm:block pt-0">
                 <h2
-                  className="sticky top-24 font-semibold text-[#450920] dark:text-white text-lg"
+                  className="font-bold text-[#A53860] dark:text-pink-400 text-[24px] leading-[30px]"
+                  style={{ fontFamily: "'Be Vietnam Pro', sans-serif" }}
                 >
                   {category.category}
                 </h2>
@@ -198,15 +218,12 @@ export default function FAQPage() {
         </div>
 
         {/* Footer Message */}
-        <div className="mt-12 text-center">
-          <p className="text-gray-600 dark:text-gray-400">
-            Hy vọng những thông tin trên đã giúp ích cho bạn.
-          </p>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">
-            Nếu bạn còn thắc mắc nào khác, hãy để lại lởi nhắn ở trang{" "}
+        <div className="mt-16 text-center text-[16px] leading-[20px] text-[#450920] dark:text-pink-200">
+          <p className="italic font-[300]" style={{ fontFamily: "'Be Vietnam Pro', sans-serif" }}>
+            Hy vọng những thông tin trên đã giúp ích cho bạn. Nếu bạn còn thắc mắc nào khác, hãy để lại lời nhắn ở trang{" "}
             <Link
               href="/contact"
-              className="font-medium underline transition-all duration-300 text-pink-500 hover:text-pink-400"
+              className="font-[600] italic hover:underline"
             >
               Liên hệ
             </Link>
