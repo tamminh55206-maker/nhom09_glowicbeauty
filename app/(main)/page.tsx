@@ -139,6 +139,7 @@ function ProductCard({
           </div>
           <button
             onClick={handleAddToCart}
+            suppressHydrationWarning
             className="flex h-8 w-8 items-center justify-center rounded-full bg-rose-100 text-rose-600 transition-colors hover:bg-rose-500 hover:text-white"
           >
             <ShoppingCart className="h-4 w-4" />
