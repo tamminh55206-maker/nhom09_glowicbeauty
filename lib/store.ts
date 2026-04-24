@@ -3,18 +3,10 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { Product, CartItem } from "./types";
-
-const recoverMojibake = (value: string) => {
-  try {
-    return new TextDecoder("utf-8").decode(
-      Uint8Array.from(value, (char) => char.charCodeAt(0)),
-    );
-  } catch {
-    return value;
-  }
-};
-
-const normalizeOrderStatus = (value: string) => recoverMojibake(value);
+import {
+  canCancelOrder,
+  type OrderStatus,
+} from "./order-status";
 
 interface CartState {
   items: CartItem[];
@@ -228,7 +220,7 @@ export interface Order {
   items: OrderItem[];
   totalPrice: number;
   createdAt: string;
-  status: string;
+  status: OrderStatus;
   paymentMethod?: string;
 }
 
@@ -257,13 +249,14 @@ export const useOrderStore = create<OrderState>()(
           return { success: false, message: "Đơn hàng không tồn tại hoặc không hợp lệ." };
         }
 
-        if (normalizeOrderStatus(existingOrder.status) !== "Đang vận chuyển") {
+        // UPDATED
+        if (!canCancelOrder(existingOrder.status)) {
           return { success: false, message: "Đơn hàng không thể hủy." };
         }
 
         set({
           orders: get().orders.map((order) =>
-            order.id === orderId ? { ...order, status: "Đã hủy" } : order,
+            order.id === orderId ? { ...order, status: "cancelled" } : order,
           ),
         });
 
