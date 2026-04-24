@@ -11,10 +11,6 @@ import { z } from "zod";
 import {
   ChevronRight,
   ShoppingBag,
-  CreditCard,
-  Wallet,
-  Banknote,
-  Smartphone,
   Truck,
   Tag,
 } from "lucide-react";
@@ -47,26 +43,22 @@ const paymentMethods = [
   {
     id: "momo",
     name: "Thanh toán bằng MoMo",
-    icon: Smartphone,
-    color: "#D82D8B",
+    image: "/images/payment/momo.png",
   },
   {
     id: "shopeepay",
     name: "Thanh toán bằng Shopee Pay",
-    icon: Wallet,
-    color: "#EE4D2D",
+    image: "/images/payment/shopeepay.png",
   },
   {
     id: "vnpay",
     name: "Thanh toán bằng VNPay",
-    icon: CreditCard,
-    color: "#0056A7",
+    image: "/images/payment/vnpay.png",
   },
   {
     id: "cod",
     name: "Thanh toán khi nhận hàng",
-    icon: Banknote,
-    color: "#450920",
+    image: "/images/payment/cod.png",
   },
 ];
 
@@ -93,6 +85,10 @@ export default function CheckoutPage() {
   });
 
   const shippingFee = totalPrice >= 500000 ? 0 : 30000;
+  // Calculate shipping
+  const shippingFee = 20000;
+
+  // Calculate final total
   const finalTotal = totalPrice + shippingFee - (appliedDiscount?.amount || 0);
 
   // UPDATED: Save order to persisted order history immediately after successful checkout
@@ -198,9 +194,9 @@ export default function CheckoutPage() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 py-8">
+      <div className="mx-auto max-w-7xl px-4 pt-4">
         <h1
-          className="mb-8 text-2xl font-bold"
+          className="mb-8 text-2xl font-bold text-center"
           style={{ color: "#450920", fontFamily: '"Black Mango", serif' }}
         >
           Thanh toán
@@ -213,24 +209,24 @@ export default function CheckoutPage() {
                 initial="hidden"
                 animate="visible"
                 variants={fadeIn}
-                className="mb-6 rounded-2xl border bg-white p-6"
+                className="mb-6 rounded-2xl border bg-white p-6 shadow-md hover:shadow-lg transition-shadow duration-300 px-4 pt-4"
               >
                 <h2
                   className="mb-6 text-lg font-bold"
-                  style={{ color: "#450920" }}
+                  style={{ color: "#A53860", fontFamily: '"Be Vietnam Pro", sans-serif' }}
                 >
                   Thông tin giao hàng
                 </h2>
 
                 <div className="space-y-4">
                   <div>
-                    <label className="mb-1 block text-sm font-medium text-gray-700">
+                    <label className="mb-1 block text-sm font-medium text-gray-700 ">
                       Họ và tên *
                     </label>
                     <input
                       type="text"
                       {...register("hoTen")}
-                      className="w-full rounded-lg border px-4 py-2 outline-none focus:border-rose-300"
+                      className="w-full rounded-lg border px-4 py-2 outline-none focus:border-rose-300 hover: shadow-lg"
                       placeholder="Nguyễn Văn A"
                     />
                     {errors.hoTen && (
@@ -247,7 +243,7 @@ export default function CheckoutPage() {
                     <input
                       type="tel"
                       {...register("soDienThoai")}
-                      className="w-full rounded-lg border px-4 py-2 outline-none focus:border-rose-300"
+                      className="w-full rounded-lg border px-4 py-2 outline-none focus:border-rose-300 hover: shadow-lg"
                       placeholder="0123456789"
                     />
                     {errors.soDienThoai && (
@@ -265,7 +261,7 @@ export default function CheckoutPage() {
                       <input
                         type="text"
                         {...register("tinhThanhPho")}
-                        className="w-full rounded-lg border px-4 py-2 outline-none focus:border-rose-300"
+                        className="w-full rounded-lg border px-4 py-2 outline-none focus:border-rose-300 hover: shadow-lg"
                         placeholder="TP. Hồ Chí Minh"
                       />
                       {errors.tinhThanhPho && (
@@ -281,7 +277,7 @@ export default function CheckoutPage() {
                       <input
                         type="text"
                         {...register("quanHuyen")}
-                        className="w-full rounded-lg border px-4 py-2 outline-none focus:border-rose-300"
+                        className="w-full rounded-lg border px-4 py-2 outline-none focus:border-rose-300 hover: shadow-lg"
                         placeholder="Quận 1"
                       />
                       {errors.quanHuyen && (
@@ -297,7 +293,7 @@ export default function CheckoutPage() {
                       <input
                         type="text"
                         {...register("phuongXa")}
-                        className="w-full rounded-lg border px-4 py-2 outline-none focus:border-rose-300"
+                        className="w-full rounded-lg border px-4 py-2 outline-none focus:border-rose-300 hover: shadow-lg"
                         placeholder="Phường Bến Nghé"
                       />
                       {errors.phuongXa && (
@@ -315,7 +311,7 @@ export default function CheckoutPage() {
                     <input
                       type="text"
                       {...register("diaChiCuThe")}
-                      className="w-full rounded-lg border px-4 py-2 outline-none focus:border-rose-300"
+                      className="w-full rounded-lg border px-4 py-2 outline-none focus:border-rose-300 hover: shadow-lg"
                       placeholder="123 Nguyễn Huệ, Tòa nhà ABC"
                     />
                     {errors.diaChiCuThe && (
@@ -343,13 +339,13 @@ export default function CheckoutPage() {
                 initial="hidden"
                 animate="visible"
                 variants={fadeIn}
-                className="rounded-2xl border bg-white p-6"
+                className="rounded-2xl border bg-white p-6 shadow-md hover:shadow-lg transition-shadow duration-300"
               >
                 <h2
                   className="mb-6 text-lg font-bold"
-                  style={{ color: "#450920" }}
+                  style={{ color: "#A53860", fontFamily: '"Be Vietnam Pro", sans-serif' }}
                 >
-                  Đơn hàng ({items.length} sản phẩm)
+                  Đơn hàng 
                 </h2>
 
                 <div className="hidden grid-cols-12 gap-4 border-b pb-3 text-sm font-medium text-gray-500 md:grid">
@@ -411,22 +407,21 @@ export default function CheckoutPage() {
                   initial="hidden"
                   animate="visible"
                   variants={fadeIn}
-                  className="rounded-2xl border bg-white p-6"
+                  className="rounded-2xl border bg-white p-6 shadow-md hover:shadow-lg transition-shadow duration-300 px-4 pt-4"
                 >
                   <h2
-                    className="mb-4 text-lg font-bold"
-                    style={{ color: "#450920" }}
+                    className="mb-4 text-lg font-bold text-center"
+                    style={{ color: "#A53860", fontFamily: '"Be Vietnam Pro", sans-serif' }}
                   >
                     Phương thức thanh toán
                   </h2>
 
                   <div className="space-y-3">
                     {paymentMethods.map((method) => {
-                      const Icon = method.icon;
                       return (
                         <label
                           key={method.id}
-                          className={`flex cursor-pointer items-center gap-3 rounded-lg border p-4 transition-colors ${
+                          className={`flex cursor-pointer items-center gap-3 rounded-lg border p-4 transition-all duration-200 hover:shadow-md ${
                             selectedPayment === method.id
                               ? "border-2"
                               : "hover:bg-gray-50"
@@ -446,9 +441,11 @@ export default function CheckoutPage() {
                             onChange={() => setSelectedPayment(method.id)}
                             className="h-4 w-4"
                           />
-                          <Icon
-                            className="h-5 w-5"
-                            style={{ color: method.color }}
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={method.image}
+                            alt={method.name}
+                            className="h-6 w-6 object-contain"
                           />
                           <span className="flex-1 text-sm font-medium">
                             {method.name}
@@ -463,11 +460,11 @@ export default function CheckoutPage() {
                   initial="hidden"
                   animate="visible"
                   variants={fadeIn}
-                  className="rounded-2xl border bg-white p-6"
+                  className="rounded-2xl border bg-white p-6 shadow-md hover:shadow-lg transition-shadow duration-300"
                 >
                   <h2
                     className="mb-4 text-lg font-bold"
-                    style={{ color: "#450920" }}
+                    style={{ color: "#A53860", fontFamily: '"Be Vietnam Pro", sans-serif' }}
                   >
                     Tổng tiền hàng
                   </h2>
@@ -485,14 +482,8 @@ export default function CheckoutPage() {
                         <Truck className="h-4 w-4" />
                         Phí vận chuyển
                       </span>
-                      <span
-                        style={{
-                          color: shippingFee === 0 ? "green" : "#450920",
-                        }}
-                      >
-                        {shippingFee === 0
-                          ? "Miễn phí"
-                          : formatPrice(shippingFee)}
+                      <span style={{ color: "#450920" }}>
+                        {formatPrice(shippingFee)}
                       </span>
                     </div>
 
@@ -533,9 +524,9 @@ export default function CheckoutPage() {
                     </div>
                   </div>
 
-                  <p className="mt-4 text-xs text-gray-500">
-                    Nhấn &quot;Đặt hàng&quot; đồng nghĩa với việc bạn đồng ý tuân
-                    theo&nbsp;
+                  {/* Terms */}
+                  <p className="mt-4 text-xs text-gray-500 text-center">
+                    Nhấn &quot;Đặt hàng&quot; đồng nghĩa với việc bạn đồng ý tuân theo&nbsp;
                     <Link href="#" className="underline hover:text-rose-500">
                       Điều khoản Glowic
                     </Link>
