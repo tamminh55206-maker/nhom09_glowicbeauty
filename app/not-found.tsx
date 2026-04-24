@@ -5,39 +5,38 @@ import { motion } from "framer-motion";
 
 export default function NotFoundPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#f8d7da]">
-      <div className="text-center">
-        {/* 404 Number */}
+    <div className="flex min-h-[70vh] items-center justify-center bg-[#FAA5AB] py-20">
+      <div className="text-center px-4">
         <motion.h1
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="text-9xl font-bold text-[#da627d]/60"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-[120px] md:text-[180px] font-light leading-none text-[#DA627D]"
           style={{ fontFamily: '"Black Mango", serif' }}
         >
           404
         </motion.h1>
 
-        {/* Message */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
-          className="mx-auto mt-6 max-w-md px-4 text-center text-lg italic text-gray-600"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="mx-auto mt-4 md:text-[22px] italic text-[#450920] whitespace-nowrap "
+          style={{ fontFamily: "'Be Vietnam Pro', sans-serif"  }}
         >
           Ôi! Có vẻ làn da của bạn cần được chăm sóc, và trang web này cũng vậy.
         </motion.p>
 
-        {/* Back to Home Button */}
+        {/* Nút Về Trang Chủ - Bo tròn, nền màu đỏ mận đặc trưng của nhóm */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
-          className="mt-8"
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="mt-12"
         >
           <Link
             href="/"
-            className="inline-block rounded-full border-2 border-gray-800 px-8 py-3 font-semibold text-gray-800 transition-all duration-300 hover:bg-gray-800 hover:text-white"
+            className="inline-block rounded-[20px] bg-[#A53860] px-12 py-3.5 text-[15px] font-bold text-white transition-all duration-300 hover:scale-105 hover:bg-[#d41259] shadow-md"
           >
             VỀ TRANG CHỦ
           </Link>
