@@ -45,9 +45,6 @@ export default function CartPage() {
     return appliedDiscount ? Math.max(0, totalPrice - appliedDiscount.amount) : totalPrice;
   }, [totalPrice, appliedDiscount]);
 
-  // Tổng số lượng sản phẩm (để hiện tiêu đề)
-  const totalItems = items.reduce((acc, item) => acc + item.quantity, 0);
-
   // Xử lý Voucher
   const handleApplyDiscount = (code: string) => {
     const cleanCode = code.trim().toUpperCase();
@@ -71,13 +68,13 @@ export default function CartPage() {
   // View khi giỏ hàng trống
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="border-b bg-white">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+        <div className="border-b bg-white dark:bg-gray-950 dark:border-gray-800">
           <div className="mx-auto max-w-7xl px-4 py-4">
-            <nav className="flex items-center gap-2 text-sm text-gray-400">
-              <Link href="/" className="hover:text-gray-700 transition-colors">Trang chủ</Link>
-              <ChevronRight className="h-4 w-4" />
-              <span className="text-[#450920] font-medium">Giỏ hàng</span>
+            <nav className="flex items-center gap-2 text-sm text-gray-400 dark:text-gray-400">
+              <Link href="/" className="hover:text-gray-700 dark:hover:text-gray-200 transition-colors">Trang chủ</Link>
+              <ChevronRight className="h-4 w-4 text-gray-400 dark:text-gray-400" />
+              <span className="text-[#450920] font-medium dark:text-gray-100">Giỏ hàng</span>
             </nav>
           </div>
         </div>
@@ -86,16 +83,16 @@ export default function CartPage() {
           initial="hidden" animate="visible" variants={fadeIn}
           className="mx-auto flex max-w-7xl flex-col items-center justify-center px-4 py-24"
         >
-          <div className="flex h-24 w-24 items-center justify-center rounded-full bg-rose-50 text-[#DA627D]">
+          <div className="flex h-24 w-24 items-center justify-center rounded-full bg-rose-50/80 dark:bg-rose-900/40 text-[#DA627D]">
             <ShoppingCart className="h-12 w-12" />
           </div>
-          <h2 className="mt-8 text-3xl font-black text-[#450920]" style={{ fontFamily: '"Black Mango", serif' }}>
+          <h2 className="mt-8 text-3xl font-black text-[#450920] dark:text-white" style={{ fontFamily: '"Black Mango", serif' }}>
             Giỏ hàng trống
           </h2>
-          <p className="mt-3 text-gray-500 text-center max-w-md">
+          <p className="mt-3 text-gray-500 dark:text-gray-300 text-center max-w-md">
             Có vẻ như bạn chưa chọn được sản phẩm ưng ý. <br/> Hãy quay lại cửa hàng để khám phá nhé!
           </p>
-          <Link href="/products" className="mt-8 rounded-2xl bg-[#C1475A] px-10 py-4 font-bold text-white shadow-lg shadow-rose-100 hover:bg-[#A53860] transition-all">
+          <Link href="/products" className="mt-8 rounded-2xl bg-[#C1475A] px-10 py-4 font-bold text-white shadow-lg shadow-rose-100 hover:bg-[#A53860] dark:shadow-none transition-all">
             TIẾP TỤC MUA SẮM
           </Link>
         </motion.div>
@@ -104,14 +101,14 @@ export default function CartPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 pb-20">
       {/* Breadcrumb */}
-      <div className="border-b bg-white">
+      <div className="border-b bg-white dark:bg-gray-950 dark:border-gray-800">
         <div className="mx-auto max-w-7xl px-4 py-4">
-          <nav className="flex items-center gap-2 text-sm text-gray-400">
-            <Link href="/" className="hover:text-gray-700 transition-colors">Trang chủ</Link>
-            <ChevronRight className="h-4 w-4" />
-            <span className="text-[#450920] font-medium">Giỏ hàng</span>
+          <nav className="flex items-center gap-2 text-sm text-gray-400 dark:text-gray-400">
+            <Link href="/" className="hover:text-gray-700 dark:hover:text-gray-200 transition-colors">Trang chủ</Link>
+            <ChevronRight className="h-4 w-4 text-gray-400 dark:text-gray-400" />
+            <span className="text-[#450920] font-medium dark:text-gray-100">Giỏ hàng</span>
           </nav>
         </div>
       </div>
@@ -123,7 +120,7 @@ export default function CartPage() {
   className="w-full text-center mb-4"
 >
   <span
-    className="inline-block font-bold text-[24px] leading-[36px] text-[#450920]"
+    className="inline-block font-bold text-[24px] leading-[36px] text-[#450920] dark:text-[#da627d]"
     style={{ 
       fontFamily: '"Black Mango", serif',
       width: '215px', 

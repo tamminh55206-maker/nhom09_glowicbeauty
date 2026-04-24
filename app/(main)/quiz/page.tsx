@@ -569,12 +569,12 @@ export default function QuizPage() {
                       onClick={() => handleSelect(option.key)}
                       className={`flex-1 min-w-0 rounded-xl border-2 p-4 text-center text-sm transition-all duration-300 ${
                         selectedOption === option.key
-                          ? "border-pink-400 bg-pink-500/20 font-semibold text-white"
+                          ? "border-pink-400 bg-[#FFA5AB]/20 font-semibold text-white"
                           : "border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 hover:border-pink-400 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300"
                       }`}
                     >
                       <span
-                        className="mr-1 font-bold text-[#C1475A] dark:text-pink-400"
+                        className="mr-1 font-bold text-[#C1475A] dark:text-[#DA627D]"
                       >
                         {option.key}.
                       </span>
@@ -588,7 +588,7 @@ export default function QuizPage() {
                   <button
                     onClick={handleNext}
                     disabled={!selectedOption}
-                    className="inline-flex items-center gap-2 rounded-full px-8 py-3 font-medium text-white bg-pink-500 hover:bg-pink-600 transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-pink-500"
+                    className="inline-flex items-center gap-2 rounded-full px-8 py-3 font-medium text-white bg-[#FFA5AB] hover:bg-[#DA627D] transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-[#FFA5AB]"
                   >
                     {currentQuestion === allQuestions.length - 1
                       ? "Xem kết quả"
@@ -609,7 +609,7 @@ export default function QuizPage() {
               {/* Skin Type Result */}
               <div className="rounded-2xl bg-white dark:bg-gray-800 p-6 shadow-lg md:p-8 border border-gray-200 dark:border-gray-700">
                 <div
-                  className="mb-4 inline-block rounded-full px-4 py-1 text-sm font-medium text-white bg-pink-500"
+                  className="mb-4 inline-block rounded-full px-4 py-1 text-sm font-medium text-white bg-[#FFA5AB]"
                 >
                   Loại da của bạn
                 </div>
@@ -629,7 +629,7 @@ export default function QuizPage() {
                     className="mb-4 font-semibold text-[#450920] dark:text-white"
                   >
                     <Sparkles
-                      className="mr-2 inline-block h-4 w-4 text-pink-500 dark:text-pink-400"
+                      className="mr-2 inline-block h-4 w-4 text-[#FFA5AB] dark:text-[#DA627D]"
                     />
                     Gợi ý Skincare
                   </h3>
@@ -646,7 +646,7 @@ export default function QuizPage() {
                     className="mb-4 font-semibold text-[#450920] dark:text-white"
                   >
                     <Sparkles
-                      className="mr-2 inline-block h-4 w-4 text-pink-500 dark:text-pink-400"
+                      className="mr-2 inline-block h-4 w-4 text-[#FFA5AB] dark:text-[#DA627D]"
                     />
                     Gợi ý Makeup
                   </h3>
@@ -661,7 +661,7 @@ export default function QuizPage() {
               {/* Personal Color Result */}
               <div className="rounded-2xl bg-white dark:bg-gray-800 p-6 shadow-lg md:p-8 border border-gray-200 dark:border-gray-700">
                 <div
-                  className="mb-4 inline-block rounded-full px-4 py-1 text-sm font-medium text-white bg-pink-500"
+                  className="mb-4 inline-block rounded-full px-4 py-1 text-sm font-medium text-white bg-[#FFA5AB]"
                 >
                   Personal Color
                 </div>
@@ -685,14 +685,14 @@ export default function QuizPage() {
               <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
                 <button
                   onClick={handleRestart}
-                  className="inline-flex items-center justify-center gap-2 rounded-full border-2 px-8 py-3 font-medium transition-all duration-300 border-pink-500 text-pink-500 hover:bg-pink-500 hover:text-white dark:border-pink-400 dark:text-pink-400 dark:hover:bg-pink-500 dark:hover:text-white"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border-2 px-8 py-3 font-medium transition-colors duration-300 border-[#A53860] bg-[#A53860] text-white hover:bg-[#DA627D]"
                 >
                   <RotateCcw className="h-4 w-4" />
                   Làm quiz lại
                 </button>
                 <Link
                   href="/products"
-                  className="inline-flex items-center justify-center gap-2 rounded-full px-8 py-3 font-medium text-white bg-pink-500 hover:bg-pink-600 transition-all duration-300"
+                  className="inline-flex items-center justify-center gap-2 rounded-full px-8 py-3 font-medium text-white bg-[#A53860] hover:bg-[#DA627D] transition-colors duration-300"
                 >
                   Xem tất cả sản phẩm
                   <ArrowRight className="h-4 w-4" />

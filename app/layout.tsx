@@ -36,9 +36,16 @@ export const viewport: Viewport = {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="vi" className={`${alice.variable} ${beVietnamPro.variable} ${montserrat.variable}`} suppressHydrationWarning>
+    <html
+      lang="vi"
+      className={`${alice.variable} ${beVietnamPro.variable} ${montserrat.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        <meta charSet="UTF-8" />
+      </head>
       <body className="transition-colors duration-300" suppressHydrationWarning>
-        <Header/>
+        <Header />
         <main>{children}</main>
         <Footer />
         <Toaster position="top-right" richColors closeButton />

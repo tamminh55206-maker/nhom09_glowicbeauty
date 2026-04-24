@@ -3,6 +3,10 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { Product, CartItem } from "./types";
+import {
+  canCancelOrder,
+  type OrderStatus,
+} from "./order-status";
 
 interface CartState {
   items: CartItem[];
@@ -79,7 +83,6 @@ export const useCartStore = create<CartState>()(
   ),
 );
 
-// Quiz Store
 interface QuizState {
   quizAnswers: string[];
   quizCompleted: boolean;
@@ -107,5 +110,159 @@ export const useQuizStore = create<QuizState>()(
         }),
     }),
     { name: "glowic-quiz" },
+  ),
+);
+
+export interface AuthUser {
+  maNguoiDung?: string;
+  tenTaiKhoan: string;
+  soDienThoai: string;
+  email: string;
+  ngaySinh: string;
+  gioiTinh: string;
+  matKhau?: string;
+}
+
+export interface AuthState {
+  currentUser: AuthUser | null;
+  users: AuthUser[];
+  registerUser: (user: AuthUser) => { success: boolean; message: string };
+  loginUser: (soDienThoai: string, matKhau: string) => { success: boolean; message: string };
+  updateCurrentUser: (user: AuthUser) => { success: boolean; message: string };
+  logout: () => void;
+  checkUserExists: (soDienThoai: string, email: string) => boolean;
+}
+
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set, get) => ({
+      currentUser: null,
+      users: [],
+
+      registerUser: (user: AuthUser) => {
+        const existingUser = get().users.find(
+          (u) => u.soDienThoai === user.soDienThoai || u.email === user.email,
+        );
+
+        if (existingUser) {
+          return {
+            success: false,
+            message:
+              existingUser.soDienThoai === user.soDienThoai
+                ? "Số điện thoại này đã được đăng ký."
+                : "Email này đã được đăng ký.",
+          };
+        }
+
+        const newUser = {
+          ...user,
+          maNguoiDung: `user_${Date.now()}`,
+        };
+
+        set((state) => ({
+          users: [...state.users, newUser],
+        }));
+
+        return { success: true, message: "Đăng ký thành công!" };
+      },
+
+      loginUser: (soDienThoai: string, matKhau: string) => {
+        const user = get().users.find((u) => u.soDienThoai === soDienThoai);
+
+        if (!user) {
+          return {
+            success: false,
+            message: "Tài khoản không tồn tại. Vui lòng đăng ký trước.",
+          };
+        }
+
+        if (user.matKhau !== matKhau) {
+          return {
+            success: false,
+            message: "Mật khẩu không chính xác.",
+          };
+        }
+
+        const userWithoutPassword = { ...user };
+        delete userWithoutPassword.matKhau;
+        set({ currentUser: userWithoutPassword });
+
+        return { success: true, message: "Đăng nhập thành công!" };
+      },
+
+      updateCurrentUser: (user: AuthUser) => {
+        set((state) => ({
+          currentUser: user,
+          users: state.users.map((u) => (u.maNguoiDung === user.maNguoiDung ? user : u)),
+        }));
+        return { success: true, message: "Cập nhật thông tin thành công." };
+      },
+
+      logout: () => set({ currentUser: null }),
+
+      checkUserExists: (soDienThoai: string, email: string) => {
+        return get().users.some((u) => u.soDienThoai === soDienThoai || u.email === email);
+      },
+    }),
+    { name: "glowic-auth" },
+  ),
+);
+
+export interface OrderItem {
+  product: Product;
+  quantity: number;
+  unitPrice: number;
+}
+
+export interface Order {
+  id: string;
+  ownerUserId: string;
+  items: OrderItem[];
+  totalPrice: number;
+  createdAt: string;
+  status: OrderStatus;
+  paymentMethod?: string;
+}
+
+interface OrderState {
+  orders: Order[];
+  addOrder: (order: Order) => void;
+  setOrders: (orders: Order[]) => void;
+  cancelOrder: (orderId: string, ownerUserId: string) => { success: boolean; message: string };
+}
+
+export const useOrderStore = create<OrderState>()(
+  persist(
+    (set, get) => ({
+      orders: [],
+      addOrder: (order) =>
+        set((state) => ({
+          orders: [order, ...state.orders],
+        })),
+      setOrders: (orders) => set({ orders }),
+      cancelOrder: (orderId, ownerUserId) => {
+        const existingOrder = get().orders.find(
+          (order) => order.id === orderId && order.ownerUserId === ownerUserId,
+        );
+
+        if (!existingOrder) {
+          return { success: false, message: "Đơn hàng không tồn tại hoặc không hợp lệ." };
+        }
+
+        // UPDATED
+        if (!canCancelOrder(existingOrder.status)) {
+          return { success: false, message: "Đơn hàng không thể hủy." };
+        }
+
+        set({
+          orders: get().orders.map((order) =>
+            order.id === orderId ? { ...order, status: "cancelled" } : order,
+          ),
+        });
+
+        return { success: true, message: "Hủy đơn hàng thành công." };
+      },
+    }),
+    { name: "glowic-orders" },
   ),
 );
