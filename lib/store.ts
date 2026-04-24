@@ -2,7 +2,45 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Product, CartItem } from "./types";
+import { buildRegisteredAccount, defaultUserAccounts } from "./account-data";
+import type {
+  CartItem,
+  Product,
+  UserAccount,
+  UserOrderItem,
+  UserRegistrationInput,
+} from "./types";
+
+function createPlacedAtLabel() {
+  const now = new Date();
+  const day = `${now.getDate()}`.padStart(2, "0");
+  const month = `${now.getMonth() + 1}`.padStart(2, "0");
+  const year = now.getFullYear();
+  const hours = `${now.getHours()}`.padStart(2, "0");
+  const minutes = `${now.getMinutes()}`.padStart(2, "0");
+
+  return `${day}/${month}/${year} ${hours}:${minutes}`;
+}
+
+function createOrderId() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = `${now.getMonth() + 1}`.padStart(2, "0");
+  const day = `${now.getDate()}`.padStart(2, "0");
+  const uniqueSuffix = `${Date.now()}`.slice(-4);
+
+  return `GH${year}${month}${day}${uniqueSuffix}`;
+}
+
+function mapCartItemsToOrderItems(items: CartItem[]): UserOrderItem[] {
+  return items.map((item) => ({
+    id: item.product.id,
+    name: item.product.name,
+    image: item.product.images[0],
+    price: item.product.price,
+    quantity: item.quantity,
+  }));
+}
 
 interface CartState {
   items: CartItem[];
@@ -107,5 +145,227 @@ export const useQuizStore = create<QuizState>()(
         }),
     }),
     { name: "glowic-quiz" },
+  ),
+);
+
+interface AuthState {
+  accounts: UserAccount[];
+  currentUserId: string | null;
+  hasHydrated: boolean;
+  setHasHydrated: (hasHydrated: boolean) => void;
+  login: (phone: string, password: string) => {
+    success: boolean;
+    error?: string;
+  };
+  registerAccount: (
+    input: UserRegistrationInput,
+  ) => { success: boolean; error?: string };
+  updateProfile: (
+    updates: Pick<
+      UserAccount,
+      "name" | "phone" | "email" | "birthDate" | "shippingAddress"
+    >,
+  ) => void;
+  placeOrder: (input: {
+    items: CartItem[];
+    paymentMethod: string;
+    shippingAddress: string;
+    total: number;
+  }) => { success: boolean; error?: string };
+  cancelOrder: (orderId: string) => { success: boolean; error?: string };
+  logout: () => void;
+}
+
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      accounts: defaultUserAccounts,
+      currentUserId: null,
+      hasHydrated: false,
+      setHasHydrated: (hasHydrated) => {
+        set({ hasHydrated });
+      },
+
+      login: (phone, password) => {
+        let result: { success: boolean; error?: string } = {
+          success: false,
+          error: "Số điện thoại hoặc mật khẩu chưa đúng.",
+        };
+
+        set((state) => {
+          const account = state.accounts.find(
+            (item) => item.phone === phone && item.password === password,
+          );
+
+          if (!account) {
+            return state;
+          }
+
+          result = { success: true };
+
+          return {
+            currentUserId: account.id,
+          };
+        });
+
+        return result;
+      },
+
+      registerAccount: (input) => {
+        let result: { success: boolean; error?: string } = { success: true };
+
+        set((state) => {
+          const duplicatedPhone = state.accounts.some(
+            (account) => account.phone === input.phone,
+          );
+          const duplicatedEmail = state.accounts.some(
+            (account) =>
+              account.email.toLowerCase() === input.email.toLowerCase(),
+          );
+
+          if (duplicatedPhone) {
+            result = {
+              success: false,
+              error: "Số điện thoại này đã được đăng ký.",
+            };
+            return state;
+          }
+
+          if (duplicatedEmail) {
+            result = {
+              success: false,
+              error: "E-mail này đã được sử dụng.",
+            };
+            return state;
+          }
+
+          const nextAccount = buildRegisteredAccount(input);
+
+          return {
+            accounts: [...state.accounts, nextAccount],
+          };
+        });
+
+        return result;
+      },
+
+      updateProfile: (updates) => {
+        set((state) => ({
+          accounts: state.accounts.map((account) =>
+            account.id === state.currentUserId
+              ? { ...account, ...updates }
+              : account,
+          ),
+        }));
+      },
+
+      placeOrder: ({ items, paymentMethod, shippingAddress, total }) => {
+        let result: { success: boolean; error?: string } = {
+          success: false,
+          error: "Vui lòng đăng nhập để lưu đơn hàng.",
+        };
+
+        if (items.length === 0) {
+          return {
+            success: false,
+            error: "Giỏ hàng trống.",
+          };
+        }
+
+        set((state) => {
+          if (!state.currentUserId) {
+            return state;
+          }
+
+          const nextOrder = {
+            id: createOrderId(),
+            placedAt: createPlacedAtLabel(),
+            status: "pending" as const,
+            paymentMethod,
+            shippingAddress,
+            total,
+            items: mapCartItemsToOrderItems(items),
+          };
+
+          result = { success: true };
+
+          return {
+            accounts: state.accounts.map((account) =>
+              account.id === state.currentUserId
+                ? {
+                    ...account,
+                    orders: [nextOrder, ...account.orders],
+                  }
+                : account,
+            ),
+          };
+        });
+
+        return result;
+      },
+
+      cancelOrder: (orderId) => {
+        let result: { success: boolean; error?: string } = {
+          success: false,
+          error: "Không thể huỷ đơn hàng này.",
+        };
+
+        set((state) => ({
+          accounts: state.accounts.map((account) => {
+            if (account.id !== state.currentUserId) {
+              return account;
+            }
+
+            return {
+              ...account,
+              orders: account.orders.map((order) => {
+                if (order.id !== orderId) {
+                  return order;
+                }
+
+                if (
+                  order.status === "delivered" ||
+                  order.status === "cancelled"
+                ) {
+                  return order;
+                }
+
+                result = { success: true };
+
+                return {
+                  ...order,
+                  status: "cancelled",
+                };
+              }),
+            };
+          }),
+        }));
+
+        return result;
+      },
+
+      logout: () => {
+        set({ currentUserId: null });
+      },
+    }),
+    {
+      name: "glowic-auth",
+      version: 2,
+      partialize: (state) => ({
+        accounts: state.accounts,
+        currentUserId: state.currentUserId,
+      }),
+      migrate: (persistedState) => {
+        const state = persistedState as Partial<AuthState> | undefined;
+
+        return {
+          accounts: state?.accounts ?? defaultUserAccounts,
+          currentUserId: null,
+        };
+      },
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
+    },
   ),
 );

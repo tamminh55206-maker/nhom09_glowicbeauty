@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
+import { useAuthStore } from "@/lib/store";
 
 const loginSchema = z.object({
   soDienThoai: z.string().regex(/^[0-9]{10}$/, "Số điện thoại không hợp lệ"),
@@ -17,6 +18,7 @@ type LoginForm = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const router = useRouter();
+  const login = useAuthStore((state) => state.login);
   const inputClassName =
     "flex flex-row justify-center items-center h-[36.47px] w-[280.6px] rounded-[5.95443px] border-[0.37px] border-[#A53860] bg-white px-[7.44px] text-base text-[#DA627D] outline-none transition placeholder:font-['Be_Vietnam_Pro'] placeholder:text-[#DA627D] focus:border-[#B13D67] focus:ring-2 focus:ring-[#B13D67]/10 dark:bg-[#1F151B] dark:text-[#F7E8EC] dark:placeholder:text-[#CFAABB]";
 
@@ -31,7 +33,14 @@ export default function LoginPage() {
     },
   });
 
-  const onSubmit = () => {
+  const onSubmit = (data: LoginForm) => {
+    const result = login(data.soDienThoai, data.matKhau);
+
+    if (!result.success) {
+      toast.error(result.error);
+      return;
+    }
+
     toast.success("Đăng nhập thành công!");
     router.push("/");
   };

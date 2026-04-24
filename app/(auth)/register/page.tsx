@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
+import { useAuthStore } from "@/lib/store";
 
 const registerSchema = z
   .object({
@@ -55,6 +56,7 @@ const fieldLabelClassName =
 
 export default function RegisterPage() {
   const router = useRouter();
+  const registerAccount = useAuthStore((state) => state.registerAccount);
 
   const {
     register,
@@ -67,8 +69,21 @@ export default function RegisterPage() {
     },
   });
 
-  const onSubmit = () => {
-    toast.success("Đăng ký thành công! Chào mừng bạn đến với Glowic.");
+  const onSubmit = (data: RegisterForm) => {
+    const result = registerAccount({
+      name: data.tenTaiKhoan,
+      phone: data.soDienThoai,
+      email: data.email,
+      password: data.matKhau,
+      birthDate: data.ngaySinh,
+    });
+
+    if (!result.success) {
+      toast.error(result.error);
+      return;
+    }
+
+    toast.success("Đăng ký thành công! Vui lòng đăng nhập để tiếp tục.");
     router.push("/login");
   };
 

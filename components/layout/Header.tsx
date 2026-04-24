@@ -4,6 +4,7 @@ import { Moon, Sun } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useAuthStore } from "@/lib/store";
 
 /* ============================================
    Sub-components
@@ -190,6 +191,14 @@ export function Header() {
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileQuery, setMobileQuery] = useState("");
+  const currentUser = useAuthStore((state) =>
+    state.accounts.find((account) => account.id === state.currentUserId) ?? null,
+  );
+  const accountLink = currentUser ? "/users" : "/login";
+  const notificationsLink = currentUser ? "/users/notifications" : "/login";
+  const hasNotifications = Boolean(currentUser?.notifications.length);
+  const accountLabel = currentUser ? currentUser.name : "Đăng nhập/ Đăng ký";
+  const accountInitial = currentUser?.name.trim().charAt(0).toUpperCase() ?? "G";
 
   const navLinks = [
     { href: "/", label: "Trang chủ" },
@@ -259,13 +268,16 @@ export function Header() {
             </Link>
 
             {/* Bell */}
-            <button
+            <Link
+              href={notificationsLink}
               className="relative text-white transition-all duration-200 hover:scale-110 hover:text-[#FFD8A8]"
               aria-label="Thông báo"
             >
               <BellIcon />
-              <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-[#F9DBBD]" />
-            </button>
+              {hasNotifications ? (
+                <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-[#F9DBBD]" />
+              ) : null}
+            </Link>
 
             {/* Chat */}
             <button
@@ -288,12 +300,18 @@ export function Header() {
 
             {/* User / Login */}
             <Link
-              href="/login"
+              href={accountLink}
               className="hidden items-center gap-[11px] text-white transition-colors duration-200 hover:text-[#FFD8A8] sm:flex"
             >
-              <UserIcon />
+              {currentUser ? (
+                <span className="flex h-8 w-8 items-center justify-center rounded-full border border-white/55 bg-white/15 text-sm font-semibold text-white">
+                  {accountInitial}
+                </span>
+              ) : (
+                <UserIcon />
+              )}
               <span className="whitespace-nowrap text-lg font-semibold leading-[23px]">
-                Đăng nhập/ Đăng ký
+                {accountLabel}
               </span>
             </Link>
 
@@ -398,10 +416,10 @@ export function Header() {
               </Link>
             ))}
             <Link
-              href="/login"
+              href={accountLink}
               className="py-2 text-base font-semibold text-white transition-opacity hover:opacity-80"
             >
-              Đăng nhập / Đăng ký
+              {accountLabel}
             </Link>
           </div>
         </div>

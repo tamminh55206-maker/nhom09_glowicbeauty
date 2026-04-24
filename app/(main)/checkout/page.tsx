@@ -18,7 +18,7 @@ import {
   Truck,
   Tag,
 } from "lucide-react";
-import { useCartStore } from "@/lib/store";
+import { useAuthStore, useCartStore } from "@/lib/store";
 import { toast } from "sonner";
 
 // Animation variants
@@ -30,6 +30,15 @@ const fadeIn = {
 // Format price helper
 const formatPrice = (price: number) => {
   return price.toLocaleString("vi-VN") + "đ";
+};
+
+const buildShippingAddress = (data: CheckoutForm) => {
+  return [
+    data.diaChiCuThe,
+    data.phuongXa,
+    data.quanHuyen,
+    data.tinhThanhPho,
+  ].join(", ");
 };
 
 // Checkout schema
@@ -78,6 +87,7 @@ export default function CheckoutPage() {
   const items = useCartStore((state) => state.items);
   const totalPrice = useCartStore((state) => state.totalPrice());
   const clearCart = useCartStore((state) => state.clearCart);
+  const placeOrder = useAuthStore((state) => state.placeOrder);
 
   const [selectedPayment, setSelectedPayment] = useState("cod");
   const [appliedDiscount, setAppliedDiscount] = useState<{
@@ -110,10 +120,25 @@ export default function CheckoutPage() {
       return;
     }
 
-    // Mock order success
+    const selectedPaymentMethod =
+      paymentMethods.find((method) => method.id === selectedPayment)?.name ??
+      "Thanh toán khi nhận hàng";
+    const result = placeOrder({
+      items,
+      paymentMethod: selectedPaymentMethod,
+      shippingAddress: buildShippingAddress(data),
+      total: finalTotal,
+    });
+
+    if (!result.success) {
+      toast.error(result.error);
+      router.push("/login");
+      return;
+    }
+
     toast.success("Đặt hàng thành công! 🎉");
     clearCart();
-    router.push("/");
+    router.push("/users/orders");
   };
 
   // Empty cart view
@@ -365,7 +390,7 @@ export default function CheckoutPage() {
                     >
                       {/* Product */}
                       <div className="col-span-5 flex items-center gap-3">
-                        <div className="relative h-14 w-14 flex-shrink-0 overflow-hidden rounded-lg bg-gray-100">
+                        <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-gray-100">
                           <Image
                             src={item.product.images[0]}
                             alt={item.product.name}
@@ -546,7 +571,7 @@ export default function CheckoutPage() {
 
                   {/* Terms */}
                   <p className="mt-4 text-xs text-gray-500">
-                    Nhấn "Đặt hàng" đồng nghĩa với việc bạn đồng ý tuân theo{" "}
+                    Nhấn &quot;Đặt hàng&quot; đồng nghĩa với việc bạn đồng ý tuân theo{" "}
                     <Link href="#" className="underline hover:text-rose-500">
                       Điều khoản Glowic
                     </Link>
