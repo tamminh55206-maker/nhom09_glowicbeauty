@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Tag, X } from "lucide-react";
+import { X } from "lucide-react";
 
 import type { AppliedDiscount } from "@/lib/types";
 

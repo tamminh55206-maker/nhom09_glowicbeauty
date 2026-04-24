@@ -20,28 +20,19 @@ import type { Product } from "@/lib/types";
 import { useCartStore } from "@/lib/store";
 import { toast } from "sonner";
 
-// Animation variants
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5 },
-  },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 } as const;
 
 const staggerContainer = {
   hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.05 },
-  },
+  visible: { opacity: 1, transition: { staggerChildren: 0.05 } },
 } as const;
 
-// Product Card Component
+// ─── Product Card ──────────────────────────────────────────────────────────────
 function ProductCard({ product }: { product: Product }) {
   const addToCart = useCartStore((state) => state.addToCart);
-
   const handleAddToCart = () => {
     addToCart(product);
     toast.success(`Đã thêm ${product.name} vào giỏ hàng!`);
@@ -50,10 +41,11 @@ function ProductCard({ product }: { product: Product }) {
   return (
     <motion.div
       variants={fadeInUp}
-      className="group relative rounded-2xl bg-white p-3 shadow-sm transition-shadow hover:shadow-lg"
+      className="group relative bg-white dark:bg-gray-800 p-3 transition-shadow hover:shadow-lg"
+      style={{ border: "0.5px solid #450920", borderRadius: "12px" }}
     >
       <Link href={`/products/${product.slug}`}>
-        <div className="relative aspect-square overflow-hidden rounded-xl bg-gray-100">
+        <div className="relative aspect-square overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-700">
           <Image
             src={product.images[0]}
             alt={product.name}
@@ -78,18 +70,24 @@ function ProductCard({ product }: { product: Product }) {
         </p>
         <Link href={`/products/${product.slug}`}>
           <h3
-            className="line-clamp-2 text-sm font-medium transition-colors hover:text-rose-500"
-            style={{ color: "#450920" }}
+            className="line-clamp-2 transition-colors hover:text-rose-500 dark:!text-white"
+            style={{
+              fontFamily: '"Be Vietnam Pro", sans-serif',
+              fontSize: "14px",
+              fontWeight: 400,
+              color: "#450920",
+              lineHeight: "18px",
+            }}
           >
             {product.name}
           </h3>
         </Link>
-
         <div className="flex items-center gap-1">
           <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-          <span className="text-xs text-gray-600">{product.rating}</span>
+          <span className="text-xs text-gray-600 dark:text-gray-400">
+            {product.rating}
+          </span>
         </div>
-
         <div className="flex items-center justify-between">
           <span className="text-base font-bold" style={{ color: "#A53860" }}>
             {product.price.toLocaleString("vi-VN")}đ
@@ -107,7 +105,7 @@ function ProductCard({ product }: { product: Product }) {
   );
 }
 
-// Filter type definition
+// ─── Filter Types ──────────────────────────────────────────────────────────────
 type Filters = {
   brands: string[];
   congDung: string[];
@@ -118,7 +116,7 @@ type Filters = {
   sort: string;
 };
 
-// Filter Sidebar Component
+// ─── Filter Sidebar ────────────────────────────────────────────────────────────
 function FilterSidebar({
   filters,
   toggleFilter,
@@ -149,7 +147,6 @@ function FilterSidebar({
     "Cerave",
     "3CE",
   ];
-
   const skinTypes = [
     "Da dầu",
     "Da khô",
@@ -158,16 +155,23 @@ function FilterSidebar({
     "Da thường",
   ];
   const benefits = ["Trang điểm", "Chăm sóc da"];
-
-  // Get unique categories from products
   const categories = useMemo(() => {
     const uniqueCategories = new Set(products.map((p) => p.category));
     return Array.from(uniqueCategories).sort();
   }, []);
 
+  const labelClass = "text-sm text-gray-700 dark:text-gray-300";
+  const titleClass = "mb-3 dark:!text-white";
+  const titleStyle = {
+    fontFamily: '"Be Vietnam Pro", sans-serif',
+    fontSize: "14px",
+    fontWeight: 600,
+    lineHeight: "100%",
+    color: "#000000",
+  };
+
   return (
     <>
-      {/* Mobile Overlay */}
       {isOpen && (
         <div
           className="fixed inset-0 z-40 bg-black/50 lg:hidden"
@@ -175,25 +179,28 @@ function FilterSidebar({
         />
       )}
 
-      {/* Sidebar */}
       <aside
-        className={`fixed left-0 top-0 z-50 h-full w-[280px] flex-shrink-0 overflow-y-auto bg-white p-6 shadow-lg transition-transform lg:static lg:z-auto lg:w-[280px] lg:translate-x-0 lg:bg-transparent lg:p-0 lg:shadow-none ${
-          isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
-        }`}
+        className={`fixed left-0 top-0 z-50 h-full w-[280px] flex-shrink-0 overflow-y-auto
+        bg-white dark:bg-gray-900 p-6 shadow-lg transition-transform
+        lg:static lg:z-auto lg:w-[280px] lg:translate-x-0 lg:bg-transparent lg:dark:bg-transparent lg:p-0 lg:shadow-none
+        ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
       >
         {/* Mobile Header */}
         <div className="mb-6 flex items-center justify-between lg:hidden">
-          <h2 className="text-lg font-bold" style={{ color: "#450920" }}>
+          <h2
+            className="text-lg font-bold dark:text-white"
+            style={{ color: "#450920" }}
+          >
             Bộ lọc
           </h2>
-          <button onClick={onClose} className="p-2">
+          <button onClick={onClose} className="p-2 dark:text-white">
             <X className="h-5 w-5" />
           </button>
         </div>
 
-        {/* Price Range - FIRST */}
+        {/* Price */}
         <div className="mb-6">
-          <h3 className="mb-3 text-sm font-bold" style={{ color: "#450920" }}>
+          <h3 className={titleClass} style={titleStyle}>
             Khoảng giá
           </h3>
           <div className="flex items-center gap-2">
@@ -202,12 +209,9 @@ function FilterSidebar({
               placeholder="Từ"
               value={filters.giaTu}
               onChange={(e) =>
-                setFilters((prev: typeof filters) => ({
-                  ...prev,
-                  giaTu: e.target.value,
-                }))
+                setFilters((prev) => ({ ...prev, giaTu: e.target.value }))
               }
-              className="w-full rounded-lg border px-3 py-2 text-sm"
+              className="w-full rounded-lg border px-3 py-2 text-sm dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder:text-gray-500"
             />
             <span className="text-gray-400">-</span>
             <input
@@ -215,12 +219,9 @@ function FilterSidebar({
               placeholder="Đến"
               value={filters.giaDen}
               onChange={(e) =>
-                setFilters((prev: typeof filters) => ({
-                  ...prev,
-                  giaDen: e.target.value,
-                }))
+                setFilters((prev) => ({ ...prev, giaDen: e.target.value }))
               }
-              className="w-full rounded-lg border px-3 py-2 text-sm"
+              className="w-full rounded-lg border px-3 py-2 text-sm dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder:text-gray-500"
             />
           </div>
           <button
@@ -232,14 +233,17 @@ function FilterSidebar({
           </button>
         </div>
 
-        {/* Brand Filter */}
+        {/* Brand */}
         <div className="mb-6">
-          <h3 className="mb-3 text-sm font-bold" style={{ color: "#450920" }}>
+          <h3 className={titleClass} style={titleStyle}>
             Thương hiệu
           </h3>
           <div className="space-y-2">
             {brands.map((brand) => (
-              <label key={brand} className="flex items-center gap-2">
+              <label
+                key={brand}
+                className="flex items-center gap-2 cursor-pointer"
+              >
                 <input
                   type="checkbox"
                   checked={filters.brands.includes(brand)}
@@ -247,20 +251,23 @@ function FilterSidebar({
                   className="h-4 w-4 rounded border-gray-300"
                   style={{ accentColor: "#A53860" }}
                 />
-                <span className="text-sm text-gray-700">{brand}</span>
+                <span className={labelClass}>{brand}</span>
               </label>
             ))}
           </div>
         </div>
 
-        {/* Benefits Filter */}
+        {/* Công dụng */}
         <div className="mb-6">
-          <h3 className="mb-3 text-sm font-bold" style={{ color: "#450920" }}>
+          <h3 className={titleClass} style={titleStyle}>
             Công dụng
           </h3>
           <div className="space-y-2">
             {benefits.map((benefit) => (
-              <label key={benefit} className="flex items-center gap-2">
+              <label
+                key={benefit}
+                className="flex items-center gap-2 cursor-pointer"
+              >
                 <input
                   type="checkbox"
                   checked={filters.congDung.includes(benefit)}
@@ -268,20 +275,23 @@ function FilterSidebar({
                   className="h-4 w-4 rounded border-gray-300"
                   style={{ accentColor: "#A53860" }}
                 />
-                <span className="text-sm text-gray-700">{benefit}</span>
+                <span className={labelClass}>{benefit}</span>
               </label>
             ))}
           </div>
         </div>
 
-        {/* Skin Type Filter */}
+        {/* Loại da */}
         <div className="mb-6">
-          <h3 className="mb-3 text-sm font-bold" style={{ color: "#450920" }}>
+          <h3 className={titleClass} style={titleStyle}>
             Loại da
           </h3>
           <div className="space-y-2">
             {skinTypes.map((type) => (
-              <label key={type} className="flex items-center gap-2">
+              <label
+                key={type}
+                className="flex items-center gap-2 cursor-pointer"
+              >
                 <input
                   type="checkbox"
                   checked={filters.loaiDa.includes(type)}
@@ -289,20 +299,23 @@ function FilterSidebar({
                   className="h-4 w-4 rounded border-gray-300"
                   style={{ accentColor: "#A53860" }}
                 />
-                <span className="text-sm text-gray-700">{type}</span>
+                <span className={labelClass}>{type}</span>
               </label>
             ))}
           </div>
         </div>
 
-        {/* Product Category Filter */}
+        {/* Loại sản phẩm */}
         <div className="mb-6">
-          <h3 className="mb-3 text-sm font-bold" style={{ color: "#450920" }}>
+          <h3 className={titleClass} style={titleStyle}>
             Loại sản phẩm
           </h3>
           <div className="space-y-2">
             {categories.map((category) => (
-              <label key={category} className="flex items-center gap-2">
+              <label
+                key={category}
+                className="flex items-center gap-2 cursor-pointer"
+              >
                 <input
                   type="checkbox"
                   checked={filters.loaiSanPham.includes(category)}
@@ -310,16 +323,15 @@ function FilterSidebar({
                   className="h-4 w-4 rounded border-gray-300"
                   style={{ accentColor: "#A53860" }}
                 />
-                <span className="text-sm text-gray-700">{category}</span>
+                <span className={labelClass}>{category}</span>
               </label>
             ))}
           </div>
         </div>
 
-        {/* Clear Filters */}
         <button
           onClick={onClearFilters}
-          className="w-full rounded-lg border px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-50"
+          className="w-full rounded-lg border px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-50 dark:hover:bg-gray-800"
           style={{ borderColor: "#DA627D", color: "#A53860" }}
         >
           Xóa bộ lọc
@@ -329,7 +341,7 @@ function FilterSidebar({
   );
 }
 
-// Category mappings for "Công dụng" filter
+// ─── Mappings ─────────────────────────────────────────────────────────────────
 const trangDiemCategories = [
   "Son kem",
   "Son bóng",
@@ -347,7 +359,6 @@ const trangDiemCategories = [
   "Xịt khóa",
   "Tạo khối",
 ];
-
 const chamSocDaCategories = [
   "Serum",
   "Kem dưỡng",
@@ -358,8 +369,6 @@ const chamSocDaCategories = [
   "Gel giảm mụn",
   "Dưỡng ẩm",
 ];
-
-// Skin type mapping for filter normalization
 const loaiDaMap: Record<string, string[]> = {
   "Da dầu": ["Dầu", "Da dầu"],
   "Da khô": ["Khô", "Da khô"],
@@ -368,7 +377,7 @@ const loaiDaMap: Record<string, string[]> = {
   "Da thường": ["Thường", "Da thường"],
 };
 
-// Empty Search Results Component
+// ─── Empty Results ─────────────────────────────────────────────────────────────
 function EmptySearchResults({ keyword }: { keyword: string }) {
   return (
     <motion.div
@@ -376,39 +385,40 @@ function EmptySearchResults({ keyword }: { keyword: string }) {
       animate={{ opacity: 1, y: 0 }}
       className="flex flex-col items-center justify-center py-16"
     >
-      <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gray-100">
+      <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800">
         <Search className="h-12 w-12 text-gray-400" />
       </div>
       <h2
-        className="mt-6 text-xl font-bold"
+        className="mt-6 text-xl font-bold dark:!text-rose-300"
         style={{ color: "#450920", fontFamily: '"Black Mango", serif' }}
       >
         Không tìm thấy sản phẩm nào
       </h2>
-      <p className="mt-2 text-gray-500">
+      <p className="mt-2 text-gray-500 dark:text-gray-400">
         Không có kết quả cho &quot;{keyword}&quot;
       </p>
-      <p className="mt-1 text-sm text-gray-400">Thử tìm với từ khóa khác</p>
+      <p className="mt-1 text-sm text-gray-400 dark:text-gray-500">
+        Thử tìm với từ khóa khác
+      </p>
       <Link
         href="/products"
         className="mt-6 flex items-center gap-2 rounded-full px-8 py-3 font-medium text-white transition-opacity hover:opacity-90"
         style={{ backgroundColor: "#C1475A" }}
       >
-        Xem tất cả sản phẩm
-        <ArrowRight className="h-4 w-4" />
+        Xem tất cả sản phẩm <ArrowRight className="h-4 w-4" />
       </Link>
     </motion.div>
   );
 }
 
-// Loading fallback
+// ─── Loading ───────────────────────────────────────────────────────────────────
 function SearchLoading() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="mx-auto max-w-7xl px-4 py-8">
         <div className="mb-8">
-          <div className="h-8 w-64 animate-pulse rounded bg-gray-200"></div>
-          <div className="mt-2 h-4 w-32 animate-pulse rounded bg-gray-200"></div>
+          <div className="h-8 w-64 animate-pulse rounded bg-gray-200 dark:bg-gray-700"></div>
+          <div className="mt-2 h-4 w-32 animate-pulse rounded bg-gray-200 dark:bg-gray-700"></div>
         </div>
         <div className="flex gap-8">
           <div className="hidden w-[280px] lg:block">
@@ -416,17 +426,17 @@ function SearchLoading() {
               {[1, 2, 3, 4].map((i) => (
                 <div
                   key={i}
-                  className="h-32 animate-pulse rounded bg-gray-200"
+                  className="h-32 animate-pulse rounded bg-gray-200 dark:bg-gray-700"
                 ></div>
               ))}
             </div>
           </div>
           <div className="flex-1">
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
                 <div
                   key={i}
-                  className="aspect-square animate-pulse rounded bg-gray-200"
+                  className="aspect-square animate-pulse rounded bg-gray-200 dark:bg-gray-700"
                 ></div>
               ))}
             </div>
@@ -437,7 +447,7 @@ function SearchLoading() {
   );
 }
 
-// Main Search Page with Suspense
+// ─── Main Export ───────────────────────────────────────────────────────────────
 export default function SearchPage() {
   return (
     <Suspense fallback={<SearchLoading />}>
@@ -445,26 +455,25 @@ export default function SearchPage() {
     </Suspense>
   );
 }
-// Main Search Content
+
+// ─── Search Content ────────────────────────────────────────────────────────────
 function SearchContent() {
   const searchParams = useSearchParams();
   const keyword = searchParams.get("q") || "";
 
-  const [filters, setFilters] = useState({
-    brands: [] as string[],
-    congDung: [] as string[],
-    loaiDa: [] as string[],
-    loaiSanPham: [] as string[],
+  const [filters, setFilters] = useState<Filters>({
+    brands: [],
+    congDung: [],
+    loaiDa: [],
+    loaiSanPham: [],
     giaTu: "",
     giaDen: "",
     sort: "ban-chay",
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-
   const productsPerPage = 10;
 
-  // Search results
   const searchResults = useMemo(() => {
     if (!keyword.trim()) return [];
     return products.filter(
@@ -476,7 +485,6 @@ function SearchContent() {
     );
   }, [keyword]);
 
-  // Unified checkbox handler
   const toggleFilter = (
     key: "brands" | "congDung" | "loaiDa" | "loaiSanPham",
     value: string,
@@ -490,12 +498,8 @@ function SearchContent() {
     setCurrentPage(1);
   };
 
-  // Apply price filter
-  const applyGia = () => {
-    setCurrentPage(1);
-  };
+  const applyGia = () => setCurrentPage(1);
 
-  // Clear all filters
   const clearFilters = () => {
     setFilters({
       brands: [],
@@ -509,79 +513,54 @@ function SearchContent() {
     setCurrentPage(1);
   };
 
-  // Filter and sort products
   const filteredProducts = useMemo(() => {
     let result = [...searchResults];
-
-    // Brand filter
-    if (filters.brands.length > 0) {
+    if (filters.brands.length > 0)
       result = result.filter((p) => filters.brands.includes(p.brand));
-    }
-
-    // "Công dụng" filter
     if (filters.congDung.length > 0) {
       result = result.filter((p) => {
-        if (filters.congDung.includes("Trang điểm")) {
-          if (trangDiemCategories.includes(p.category)) return true;
-        }
-        if (filters.congDung.includes("Chăm sóc da")) {
-          if (chamSocDaCategories.includes(p.category)) return true;
-        }
+        if (
+          filters.congDung.includes("Trang điểm") &&
+          trangDiemCategories.includes(p.category)
+        )
+          return true;
+        if (
+          filters.congDung.includes("Chăm sóc da") &&
+          chamSocDaCategories.includes(p.category)
+        )
+          return true;
         return false;
       });
     }
-
-    // Skin type filter
     if (filters.loaiDa.length > 0) {
       result = result.filter((p) => {
         if (p.skinType.includes("Tất cả loại da")) return true;
-        return filters.loaiDa.some((da) => {
-          const variants = loaiDaMap[da] || [da];
-          return variants.some((v) => p.skinType.includes(v));
-        });
+        return filters.loaiDa.some((da) =>
+          (loaiDaMap[da] || [da]).some((v) => p.skinType.includes(v)),
+        );
       });
     }
-
-    // Category filter
-    if (filters.loaiSanPham.length > 0) {
+    if (filters.loaiSanPham.length > 0)
       result = result.filter((p) => filters.loaiSanPham.includes(p.category));
-    }
-
-    // Price filter
     const minPrice = filters.giaTu ? parseInt(filters.giaTu) : 0;
     const maxPrice = filters.giaDen ? parseInt(filters.giaDen) : Infinity;
     result = result.filter((p) => p.price >= minPrice && p.price <= maxPrice);
-
-    // Sort
-    switch (filters.sort) {
-      case "gia-tang":
-        result.sort((a, b) => a.price - b.price);
-        break;
-      case "gia-giam":
-        result.sort((a, b) => b.price - a.price);
-        break;
-      case "ban-chay":
-      default:
-        result.sort((a, b) => b.rating - a.rating);
-        break;
-    }
-
+    if (filters.sort === "gia-tang") result.sort((a, b) => a.price - b.price);
+    else if (filters.sort === "gia-giam")
+      result.sort((a, b) => b.price - a.price);
+    else result.sort((a, b) => b.rating - a.rating);
     return result;
   }, [searchResults, filters]);
 
-  // Pagination
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
   const currentProducts = filteredProducts.slice(
     (currentPage - 1) * productsPerPage,
     currentPage * productsPerPage,
   );
 
-  // Generate page numbers
   const getPageNumbers = () => {
     const pages: (number | string)[] = [];
-    const maxVisible = 5;
-
-    if (totalPages <= maxVisible) {
+    if (totalPages <= 5) {
       for (let i = 1; i <= totalPages; i++) pages.push(i);
     } else {
       if (currentPage <= 3) {
@@ -603,85 +582,99 @@ function SearchContent() {
     return pages;
   };
 
+  const sortTabs = [
+    { id: "ban-chay", label: "Bán chạy" },
+    { id: "gia-tang", label: "Giá tăng dần" },
+    { id: "gia-giam", label: "Giá giảm dần" },
+  ];
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Breadcrumb */}
-      <div className="border-b bg-white">
+      <div className="border-b bg-white dark:bg-gray-800 dark:border-gray-700">
         <div className="mx-auto max-w-7xl px-4 py-4">
           <nav className="flex items-center gap-2 text-sm">
-            <Link href="/" className="text-gray-500 hover:text-gray-700">
+            <Link
+              href="/"
+              className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+            >
               Trang chủ
             </Link>
             <ChevronRight className="h-4 w-4 text-gray-400" />
-            <span style={{ color: "#450920" }}>Tìm kiếm</span>
+            <span className="text-gray-500 dark:text-gray-400">Tìm kiếm</span>
           </nav>
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 py-8">
-        {/* Search Header */}
-        <div className="mb-8">
-          <h1
-            className="text-2xl font-bold"
-            style={{ color: "#450920", fontFamily: '"Black Mango", serif' }}
-          >
-            Kết quả tìm kiếm cho &quot;{keyword}&quot;
-          </h1>
-          <p className="mt-2 text-gray-600">
-            {filteredProducts.length} sản phẩm
-          </p>
-        </div>
-
+      <div className="mx-auto max-w-7xl px-4 py-6 md:py-8">
         {filteredProducts.length === 0 ? (
           <EmptySearchResults keyword={keyword} />
         ) : (
-          <div className="flex gap-8">
-            {/* Filter Sidebar */}
-            <FilterSidebar
-              filters={filters}
-              toggleFilter={toggleFilter}
-              setFilters={setFilters}
-              applyGia={applyGia}
-              onClearFilters={clearFilters}
-              isOpen={isFilterOpen}
-              onClose={() => setIsFilterOpen(false)}
-            />
+          <div className="flex gap-4 md:gap-8">
+            {/* Sidebar – desktop only */}
+            <div className="hidden w-[280px] flex-shrink-0 lg:block">
+              <FilterSidebar
+                filters={filters}
+                toggleFilter={toggleFilter}
+                setFilters={setFilters}
+                applyGia={applyGia}
+                onClearFilters={clearFilters}
+                isOpen={isFilterOpen}
+                onClose={() => setIsFilterOpen(false)}
+              />
+            </div>
 
-            {/* Product Grid */}
-            <div className="flex-1">
-              {/* Sort Buttons */}
-              <div className="mb-6 flex items-center justify-between">
-                <button
-                  onClick={() => setIsFilterOpen(true)}
-                  className="flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium lg:hidden"
-                  style={{ borderColor: "#DA627D", color: "#A53860" }}
-                >
-                  <Filter className="h-4 w-4" />
-                  Bộ lọc
-                </button>
-
-                <div className="flex gap-2">
-                  {[
-                    { id: "ban-chay", label: "Bán chạy" },
-                    { id: "gia-tang", label: "Giá tăng dần" },
-                    { id: "gia-giam", label: "Giá giảm dần" },
-                  ].map((sort) => (
+            {/* Main */}
+            {/* Main */}
+            <div className="flex-1 min-w-0">
+              {/* Header + Sort */}
+              <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <h1
+                    className="dark:!text-rose-300"
+                    style={{
+                      fontFamily: '"Be Vietnam Pro", sans-serif',
+                      fontSize: "28px",
+                      fontWeight: 700,
+                      color: "#450920",
+                      lineHeight: "35px",
+                    }}
+                  >
+                    Kết quả tìm kiếm cho &quot;{keyword}&quot;
+                  </h1>
+                  <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                    {filteredProducts.length} kết quả
+                  </p>
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    onClick={() => setIsFilterOpen(true)}
+                    className="flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-medium lg:hidden dark:border-rose-400 dark:text-rose-300"
+                    style={{ borderColor: "#DA627D", color: "#A53860" }}
+                  >
+                    <Filter className="h-4 w-4" /> Bộ lọc
+                  </button>
+                  {sortTabs.map((sort) => (
                     <button
                       key={sort.id}
                       onClick={() => {
                         setFilters((prev) => ({ ...prev, sort: sort.id }));
                         setCurrentPage(1);
                       }}
-                      className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                        filters.sort === sort.id
-                          ? "text-white"
-                          : "border bg-white hover:bg-gray-50"
-                      }`}
-                      style={
-                        filters.sort === sort.id
-                          ? { backgroundColor: "#C1475A" }
-                          : { borderColor: "#DA627D", color: "#A53860" }
-                      }
+                      className="text-xs sm:text-sm transition-colors dark:!text-white"
+                      style={{
+                        padding: "6px 10px",
+                        borderRadius: "8px",
+                        fontFamily: '"Be Vietnam Pro", sans-serif',
+                        fontWeight: filters.sort === sort.id ? 700 : 400,
+                        color: filters.sort === sort.id ? "#FFFFFF" : "#000000",
+                        backgroundColor:
+                          filters.sort === sort.id ? "#A53860" : "transparent",
+                        border:
+                          filters.sort === sort.id
+                            ? "0.5px solid #FFFFFF"
+                            : "0.5px solid #000000",
+                      }}
                     >
                       {sort.label}
                     </button>
@@ -689,12 +682,12 @@ function SearchContent() {
                 </div>
               </div>
 
-              {/* Products Grid */}
+              {/* Grid – 2 cột mobile, 3 tablet, 5 desktop */}
               <motion.div
                 variants={staggerContainer}
                 initial="hidden"
                 animate="visible"
-                className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
+                className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5"
               >
                 {currentProducts.map((product) => (
                   <ProductCard key={product.id} product={product} />
@@ -703,11 +696,11 @@ function SearchContent() {
 
               {/* Pagination */}
               {totalPages > 1 && (
-                <div className="mt-8 flex items-center justify-center gap-2">
+                <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
                   <button
                     onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                     disabled={currentPage === 1}
-                    className="flex h-10 w-10 items-center justify-center rounded-lg border disabled:opacity-50"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg border disabled:opacity-50 dark:border-gray-600"
                     style={{ borderColor: "#DA627D" }}
                   >
                     <ChevronLeft
@@ -718,18 +711,18 @@ function SearchContent() {
 
                   {getPageNumbers().map((page, index) =>
                     page === "..." ? (
-                      <span key={index} className="px-2 text-gray-400">
+                      <span
+                        key={index}
+                        className="px-2 text-gray-400 dark:text-gray-500"
+                      >
                         ...
                       </span>
                     ) : (
                       <button
                         key={index}
                         onClick={() => setCurrentPage(page as number)}
-                        className={`flex h-10 w-10 items-center justify-center rounded-lg text-sm font-medium ${
-                          currentPage === page
-                            ? "text-white"
-                            : "border hover:bg-gray-50"
-                        }`}
+                        className={`flex h-9 w-9 items-center justify-center rounded-lg text-sm font-medium
+                          ${currentPage === page ? "text-white" : "border hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"}`}
                         style={
                           currentPage === page
                             ? { backgroundColor: "#C1475A" }
@@ -746,7 +739,7 @@ function SearchContent() {
                       setCurrentPage((p) => Math.min(totalPages, p + 1))
                     }
                     disabled={currentPage === totalPages}
-                    className="flex h-10 w-10 items-center justify-center rounded-lg border disabled:opacity-50"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg border disabled:opacity-50 dark:border-gray-600"
                     style={{ borderColor: "#DA627D" }}
                   >
                     <ChevronRight
@@ -759,6 +752,19 @@ function SearchContent() {
             </div>
           </div>
         )}
+      </div>
+
+      {/* Mobile Filter Sidebar */}
+      <div className="lg:hidden">
+        <FilterSidebar
+          filters={filters}
+          toggleFilter={toggleFilter}
+          setFilters={setFilters}
+          applyGia={applyGia}
+          onClearFilters={clearFilters}
+          isOpen={isFilterOpen}
+          onClose={() => setIsFilterOpen(false)}
+        />
       </div>
     </div>
   );

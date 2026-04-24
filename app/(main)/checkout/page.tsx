@@ -14,6 +14,7 @@ import {
   Banknote,
 } from "lucide-react";
 import { useCartStore } from "@/lib/store";
+import type { AppliedDiscount } from "@/lib/types";
 import { toast } from "sonner";
 
 import OrderItems from "@/components/checkout/OrderItems";
@@ -42,7 +43,10 @@ export default function CheckoutPage() {
   const [selectedPayment, setSelectedPayment] = useState("momo");
   const items = useCartStore((state) => state.items);
   const totalPrice = useCartStore((state) => state.totalPrice());
-  const router = useRouter();
+  const clearCart = useCartStore((state) => state.clearCart);
+
+  const [selectedPayment, setSelectedPayment] = useState("cod");
+  const [appliedDiscount, setAppliedDiscount] = useState<AppliedDiscount | null>(null);
 
   const { register, handleSubmit, formState: { errors } } = useForm<CheckoutForm>({
     resolver: zodResolver(checkoutSchema),
@@ -158,8 +162,25 @@ export default function CheckoutPage() {
                       <m.icon className="h-5 w-5" style={{ color: m.color }} />
                       <span className="text-[14px] font-medium text-gray-800">{m.name}</span>
                     </div>
-                  );
-                })}
+                  </div>
+
+                  {/* Terms */}
+                  <p className="mt-4 text-xs text-gray-500">
+                    Nhấn &quot;Đặt hàng&quot; đồng nghĩa với việc bạn đồng ý tuân theo&nbsp;
+                    <Link href="#" className="underline hover:text-rose-500">
+                      Điều khoản Glowic
+                    </Link>
+                  </p>
+
+                  {/* Submit Button */}
+                  <button
+                    type="submit"
+                    className="mt-6 w-full rounded-full py-3 font-medium text-white transition-opacity hover:opacity-90"
+                    style={{ backgroundColor: "#C1475A" }}
+                  >
+                    Đặt hàng
+                  </button>
+                </motion.div>
               </div>
             </div>
 

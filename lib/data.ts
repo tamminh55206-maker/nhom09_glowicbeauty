@@ -1206,23 +1206,6 @@ export const products: Product[] = [
     skinType: ["Khô", "Nhạy cảm"],
     slug: createSlug("product-70"),
   },
-  {
-    id: "product-71",
-    name: "Kem Nền Carslan Lasting Foundation 30g",
-    brand: "Cerave",
-    category: "Kem nền",
-    price: 329000,
-    rating: 4.9,
-    images: [
-      "https://product.hstatic.net/1000006063/product/h8_66733a7ebe924ce394e8b6ce31209222_1024x1024.jpg",
-      "https://product.hstatic.net/1000006063/product/carslan_60885bf4bd854a5abe1bd7e7e6f750e5_1024x1024.jpg",
-      "https://product.hstatic.net/1000006063/product/a1_44a3dfc307aa4e7aad397ed61fd2b24a_1024x1024.jpeg",
-    ],
-    description: "Siêu mịn, không mốc nền, căng bóng, vòi bơm tiện lợi",
-    stock: 77,
-    skinType: ["Tất cả loại da"],
-    slug: createSlug("product-71"),
-  },
 ];
 
 // Helper functions
