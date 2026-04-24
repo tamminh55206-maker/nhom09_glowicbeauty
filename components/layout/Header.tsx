@@ -92,9 +92,9 @@ export function Header() {
                 3
               </span>
             </button>
-            <button>
+            <Link href="/faq">
               <MessageCircle className="h-6 w-6 text-white" />
-            </button>
+            </Link>
             <Link
               href="/login"
               className="flex items-center gap-1.5 text-sm text-white"
@@ -127,6 +127,7 @@ export function Header() {
           <nav
             className="flex flex-1 items-center justify-center"
             style={{ gap: "70px" }}
+            suppressHydrationWarning
           >
             {navLinks.map((link) => (
               <Link
