@@ -34,9 +34,8 @@ export default function CheckoutSummary({ totalPrice }: CheckoutSummaryProps) {
           </span>
         </div>
          <p className="mt-4 text-center text-[12px] leading-relaxed text-gray-500">
-            {`Nhấn "Đặt hàng" đồng nghĩa với việc bạn đồng ý tuân theo`}
-            <br/>
-            Điều khoản Glowic
+            {`Nhấn "Đặt hàng" đồng nghĩa với việc bạn đồng ý tuân theo Điều khoản Glowic`}
+
           </p>
         <div className="pt-4">
           <button className="w-full rounded-xl bg-[#A53860] py-3.5 font-bold text-white hover:bg-[#DA627D] transition-all">
