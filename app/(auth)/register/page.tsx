@@ -65,31 +65,31 @@ export default function RegisterPage() {
   };
 
   return (
-    <section className="w-full bg-white">
+    <section className="w-full bg-white transition-colors duration-300 dark:bg-[#140F13]">
       <div className="mx-auto max-w-[1280px] px-4 pt-5 md:px-6">
-        <nav className="border-b border-[#E8E0E3] pb-3 text-sm text-[#564C4F]">
-          <Link href="/" className="transition-colors hover:text-[#B13D67]">
+        <nav className="border-b border-[#E8E0E3] pb-3 text-sm text-[#564C4F] transition-colors duration-300 dark:border-[#594A52] dark:text-[#F3E1E7]">
+          <Link href="/" className="transition-colors hover:text-[#B13D67] dark:hover:text-[#F3AABD]">
             Trang chủ
           </Link>
-          <span className="px-1.5 text-[#9D8E93]">&gt;</span>
-          <span className="text-[#2F2528]">Đăng ký</span>
+          <span className="px-1.5 text-[#9D8E93] dark:text-[#CDB7BF]">&gt;</span>
+          <span className="text-[#2F2528] dark:text-[#F3E1E7]">Đăng ký</span>
         </nav>
       </div>
 
-      <div className="relative overflow-hidden bg-[linear-gradient(180deg,#FFFFFF_0%,#FFFFFF_28%,#FFF2F5_100%)]">
-        <div
-          className="absolute -bottom-28 right-[-12%] h-[420px] w-[68%] rounded-full blur-[10px]"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(218,98,125,0.28) 0%, rgba(248,206,216,0.58) 42%, rgba(255,255,255,0) 72%)",
-          }}
-        />
+      <div className="relative w-full overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,#FFFFFF_36.96%,#EAA29F_78.8%,#DA627D_97.39%)] transition-colors duration-300 dark:bg-[linear-gradient(180deg,#171017_0%,#21131C_35%,#462435_78%,#24131D_100%)]" />
 
         <div className="relative mx-auto flex min-h-[690px] max-w-[1280px] items-center justify-center px-4 py-16 md:px-6">
-          <div className="w-full max-w-[480px] rounded-[12px] border border-[#F1D8DF] bg-white p-8 shadow-[0_12px_28px_rgba(69,9,32,0.12)] sm:p-10">
+          <div className="w-full max-w-[480px] rounded-[12px] border border-[#F1D8DF] bg-white p-8 shadow-[0_12px_28px_rgba(69,9,32,0.12)] sm:p-10 transition-colors duration-300 dark:border-[#5A444F] dark:bg-[#24171F]">
             <h1
-              className="mb-8 text-center text-2xl font-bold"
-              style={{ color: "#450920", fontFamily: '"Black Mango", serif' }}
+              className="mb-8 text-center text-2xl font-bold transition-colors duration-300"
+              style={{
+                fontFamily: '"Black Mango", serif',
+                background: 'linear-gradient(170.56deg, #DA627D 5.47%, #450920 256.63%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
             >
               Đăng ký tài khoản
             </h1>
@@ -100,7 +100,7 @@ export default function RegisterPage() {
                   type="text"
                   {...register("tenTaiKhoan")}
                   placeholder="Tên tài khoản"
-                  className="w-full border-b border-gray-300 bg-transparent px-0 py-3 text-sm outline-none transition-colors placeholder:text-gray-400 focus:border-[#C1475A]"
+                  className="w-full border-b border-gray-300 bg-transparent px-0 py-3 text-sm outline-none transition-colors placeholder:text-gray-400 focus:border-[#C1475A] dark:border-[#594A52] dark:text-[#F7E8EC] dark:placeholder:text-[#CFAABB]"
                 />
                 {errors.tenTaiKhoan && (
                   <p className="mt-1 text-xs text-red-500">
@@ -114,7 +114,7 @@ export default function RegisterPage() {
                   type="tel"
                   {...register("soDienThoai")}
                   placeholder="Số điện thoại"
-                  className="w-full border-b border-gray-300 bg-transparent px-0 py-3 text-sm outline-none transition-colors placeholder:text-gray-400 focus:border-[#C1475A]"
+                  className="w-full border-b border-gray-300 bg-transparent px-0 py-3 text-sm outline-none transition-colors placeholder:text-gray-400 focus:border-[#C1475A] dark:border-[#594A52] dark:text-[#F7E8EC] dark:placeholder:text-[#CFAABB]"
                 />
                 {errors.soDienThoai && (
                   <p className="mt-1 text-xs text-red-500">
@@ -128,7 +128,7 @@ export default function RegisterPage() {
                   type="email"
                   {...register("email")}
                   placeholder="E-mail"
-                  className="w-full border-b border-gray-300 bg-transparent px-0 py-3 text-sm outline-none transition-colors placeholder:text-gray-400 focus:border-[#C1475A]"
+                  className="w-full border-b border-gray-300 bg-transparent px-0 py-3 text-sm outline-none transition-colors placeholder:text-gray-400 focus:border-[#C1475A] dark:border-[#594A52] dark:text-[#F7E8EC] dark:placeholder:text-[#CFAABB]"
                 />
                 {errors.email && (
                   <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>
@@ -140,12 +140,12 @@ export default function RegisterPage() {
                   type={showPassword ? "text" : "password"}
                   {...register("matKhau")}
                   placeholder="Mật khẩu"
-                  className="w-full border-b border-gray-300 bg-transparent px-0 py-3 text-sm outline-none transition-colors placeholder:text-gray-400 focus:border-[#C1475A]"
+                  className="w-full border-b border-gray-300 bg-transparent px-0 py-3 text-sm outline-none transition-colors placeholder:text-gray-400 focus:border-[#C1475A] dark:border-[#594A52] dark:text-[#F7E8EC] dark:placeholder:text-[#CFAABB]"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-400 transition-colors hover:text-gray-600 dark:text-[#8E8186] dark:hover:text-[#F3E1E7]"
                   aria-label={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
                 >
                   {showPassword ? (
@@ -166,12 +166,12 @@ export default function RegisterPage() {
                   type={showConfirmPassword ? "text" : "password"}
                   {...register("nhapLaiMatKhau")}
                   placeholder="Nhập lại mật khẩu"
-                  className="w-full border-b border-gray-300 bg-transparent px-0 py-3 text-sm outline-none transition-colors placeholder:text-gray-400 focus:border-[#C1475A]"
+                  className="w-full border-b border-gray-300 bg-transparent px-0 py-3 text-sm outline-none transition-colors placeholder:text-gray-400 focus:border-[#C1475A] dark:border-[#594A52] dark:text-[#F7E8EC] dark:placeholder:text-[#CFAABB]"
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-400 transition-colors hover:text-gray-600 dark:text-[#8E8186] dark:hover:text-[#F3E1E7]"
                   aria-label={
                     showConfirmPassword ? "Ẩn nhập lại mật khẩu" : "Hiện nhập lại mật khẩu"
                   }
@@ -190,11 +190,11 @@ export default function RegisterPage() {
               </div>
 
               <div>
-                <label className="mb-1 block text-xs text-gray-500">Ngày sinh</label>
+                <label className="mb-1 block text-xs text-gray-500 transition-colors dark:text-[#B89FA8]">Ngày sinh</label>
                 <input
                   type="date"
                   {...register("ngaySinh")}
-                  className="w-full border-b border-gray-300 bg-transparent px-0 py-2 text-sm outline-none transition-colors focus:border-[#C1475A]"
+                  className="w-full border-b border-gray-300 bg-transparent px-0 py-2 text-sm outline-none transition-colors focus:border-[#C1475A] dark:border-[#594A52] dark:text-[#F7E8EC]"
                 />
                 {errors.ngaySinh && (
                   <p className="mt-1 text-xs text-red-500">
@@ -210,9 +210,12 @@ export default function RegisterPage() {
                     {...register("dongY")}
                     className="mt-1 h-4 w-4 rounded border-gray-300"
                   />
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-gray-600 transition-colors dark:text-[#E5D5DB]">
                     Tôi đồng ý với tất cả các{" "}
-                    <Link href="/faq" className="underline hover:text-rose-500">
+                    <Link
+                      href="/faq"
+                      className="underline transition-colors hover:text-rose-500 dark:text-white dark:hover:text-[#F19AB0]"
+                    >
                       điều khoản sử dụng
                     </Link>
                   </span>
@@ -231,11 +234,11 @@ export default function RegisterPage() {
               </button>
             </form>
 
-            <p className="mt-6 text-center text-sm text-gray-600">
+            <p className="mt-6 text-center text-sm text-gray-600 transition-colors dark:text-[#EEE2E6]">
               Bạn có tài khoản rồi?{" "}
               <Link
                 href="/login"
-                className="font-medium hover:underline"
+                className="font-medium transition-colors hover:underline dark:text-[#F3AABD] dark:hover:text-[#FFD6E1]"
                 style={{ color: "#C1475A" }}
               >
                 Đăng nhập
