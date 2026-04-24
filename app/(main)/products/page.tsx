@@ -17,25 +17,17 @@ import type { Product } from "@/lib/types";
 import { useCartStore } from "@/lib/store";
 import { toast } from "sonner";
 
-// Animation variants
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5 },
-  },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 } as const;
 
 const staggerContainer = {
   hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.05 },
-  },
+  visible: { opacity: 1, transition: { staggerChildren: 0.05 } },
 } as const;
 
-// Product Card Component
+// ─── Product Card ──────────────────────────────────────────────────────────────
 function ProductCard({ product }: { product: Product }) {
   const addToCart = useCartStore((state) => state.addToCart);
 
@@ -47,10 +39,11 @@ function ProductCard({ product }: { product: Product }) {
   return (
     <motion.div
       variants={fadeInUp}
-      className="group relative rounded-2xl bg-white p-3 shadow-sm transition-shadow hover:shadow-lg"
+      className="group relative bg-white dark:bg-gray-800 p-3 transition-shadow hover:shadow-lg"
+      style={{ border: "0.5px solid #450920", borderRadius: "12px" }}
     >
       <Link href={`/products/${product.slug}`}>
-        <div className="relative aspect-square overflow-hidden rounded-xl bg-gray-100">
+        <div className="relative aspect-square overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-700">
           <Image
             src={product.images[0]}
             alt={product.name}
@@ -70,18 +63,24 @@ function ProductCard({ product }: { product: Product }) {
       </Link>
 
       <div className="mt-3 space-y-2">
-        <p className="text-xs font-medium" style={{ color: "#A53860" }}>
+        <p
+          style={{
+            fontFamily: '"Be Vietnam Pro", sans-serif',
+            fontSize: "14px",
+            fontWeight: 500,
+            color: "#DA627D",
+          }}
+        >
           {product.brand}
         </p>
         <Link href={`/products/${product.slug}`}>
           <h3
-            className="line-clamp-2 transition-colors hover:text-rose-500"
+            className="line-clamp-2 transition-colors hover:text-rose-500 dark:text-white"
             style={{
               fontFamily: '"Be Vietnam Pro", sans-serif',
-              fontSize: "12px",
+              fontSize: "14px",
               fontWeight: 400,
-              color: "#000000",
-              lineHeight: "100%",
+              lineHeight: "18px",
             }}
           >
             {product.name}
@@ -90,11 +89,20 @@ function ProductCard({ product }: { product: Product }) {
 
         <div className="flex items-center gap-1">
           <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-          <span className="text-xs text-gray-600">{product.rating}</span>
+          <span className="text-xs text-gray-600 dark:text-gray-400">
+            {product.rating}
+          </span>
         </div>
 
         <div className="flex items-center justify-between">
-          <span className="text-base font-bold" style={{ color: "#A53860" }}>
+          <span
+            style={{
+              fontFamily: '"Be Vietnam Pro", sans-serif',
+              fontSize: "14px",
+              fontWeight: 600,
+              color: "#A53860",
+            }}
+          >
             {product.price.toLocaleString("vi-VN")}đ
           </span>
           <button
@@ -110,7 +118,7 @@ function ProductCard({ product }: { product: Product }) {
   );
 }
 
-// Filter type definition
+// ─── Filter Types ──────────────────────────────────────────────────────────────
 type Filters = {
   brands: string[];
   congDung: string[];
@@ -121,7 +129,7 @@ type Filters = {
   sort: string;
 };
 
-// Filter Sidebar Component
+// ─── Filter Sidebar ────────────────────────────────────────────────────────────
 function FilterSidebar({
   filters,
   toggleFilter,
@@ -152,7 +160,6 @@ function FilterSidebar({
     "Cerave",
     "3CE",
   ];
-
   const skinTypes = [
     "Da dầu",
     "Da khô",
@@ -160,18 +167,23 @@ function FilterSidebar({
     "Da nhạy cảm",
     "Da thường",
   ];
-
   const benefits = ["Trang điểm", "Chăm sóc da"];
-
-  // Get unique categories from products
   const categories = useMemo(() => {
     const uniqueCategories = new Set(products.map((p) => p.category));
     return Array.from(uniqueCategories).sort();
   }, []);
 
+  const labelClass = "text-sm text-gray-700 dark:text-gray-300";
+  const sectionTitleStyle = {
+    fontFamily: '"Be Vietnam Pro", sans-serif',
+    fontSize: "14px",
+    fontWeight: 600,
+    lineHeight: "100%",
+  };
+
   return (
     <>
-      {/* Mobile Overlay */}
+      {/* Overlay mobile */}
       {isOpen && (
         <div
           className="fixed inset-0 z-40 bg-black/50 lg:hidden"
@@ -179,34 +191,28 @@ function FilterSidebar({
         />
       )}
 
-      {/* Sidebar */}
       <aside
-        className={`fixed left-0 top-0 z-50 h-full w-[280px] flex-shrink-0 overflow-y-auto bg-white p-6 shadow-lg transition-transform lg:static lg:z-auto lg:w-[280px] lg:translate-x-0 lg:bg-transparent lg:p-0 lg:shadow-none ${
-          isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
-        }`}
+        className={`fixed left-0 top-0 z-50 h-full w-[280px] flex-shrink-0 overflow-y-auto
+          bg-white dark:bg-gray-900 p-6 shadow-lg transition-transform
+          lg:static lg:z-auto lg:w-[280px] lg:translate-x-0 lg:bg-transparent lg:dark:bg-transparent lg:p-0 lg:shadow-none
+          ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
       >
-        {/* Mobile Header */}
+        {/* Mobile header */}
         <div className="mb-6 flex items-center justify-between lg:hidden">
-          <h2 className="text-lg font-bold" style={{ color: "#450920" }}>
+          <h2
+            className="text-lg font-bold dark:text-white"
+            style={{ color: "#450920" }}
+          >
             Bộ lọc
           </h2>
-          <button onClick={onClose} className="p-2">
+          <button onClick={onClose} className="p-2 dark:text-white">
             <X className="h-5 w-5" />
           </button>
         </div>
 
-        {/* Price Range - FIRST */}
+        {/* Price Range */}
         <div className="mb-6">
-          <h3
-            className="mb-3"
-            style={{
-              fontFamily: '"Be Vietnam Pro", sans-serif',
-              fontSize: "14px",
-              fontWeight: 600,
-              lineHeight: "100%",
-              color: "#000000",
-            }}
-          >
+          <h3 className="mb-3 dark:text-white" style={sectionTitleStyle}>
             Khoảng giá
           </h3>
           <div className="flex items-center gap-2">
@@ -215,12 +221,9 @@ function FilterSidebar({
               placeholder="Từ"
               value={filters.giaTu}
               onChange={(e) =>
-                setFilters((prev: typeof filters) => ({
-                  ...prev,
-                  giaTu: e.target.value,
-                }))
+                setFilters((prev) => ({ ...prev, giaTu: e.target.value }))
               }
-              className="w-full rounded-lg border px-3 py-2 text-sm"
+              className="w-full rounded-lg border px-3 py-2 text-sm dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder:text-gray-500"
             />
             <span className="text-gray-400">-</span>
             <input
@@ -228,12 +231,9 @@ function FilterSidebar({
               placeholder="Đến"
               value={filters.giaDen}
               onChange={(e) =>
-                setFilters((prev: typeof filters) => ({
-                  ...prev,
-                  giaDen: e.target.value,
-                }))
+                setFilters((prev) => ({ ...prev, giaDen: e.target.value }))
               }
-              className="w-full rounded-lg border px-3 py-2 text-sm"
+              className="w-full rounded-lg border px-3 py-2 text-sm dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder:text-gray-500"
             />
           </div>
           <button
@@ -245,23 +245,17 @@ function FilterSidebar({
           </button>
         </div>
 
-        {/* Brand Filter */}
+        {/* Brand */}
         <div className="mb-6">
-          <h3
-            className="mb-3"
-            style={{
-              fontFamily: '"Be Vietnam Pro", sans-serif',
-              fontSize: "14px",
-              fontWeight: 600,
-              lineHeight: "100%",
-              color: "#000000",
-            }}
-          >
+          <h3 className="mb-3 dark:text-white" style={sectionTitleStyle}>
             Thương hiệu
           </h3>
           <div className="space-y-2">
             {brands.map((brand) => (
-              <label key={brand} className="flex items-center gap-2">
+              <label
+                key={brand}
+                className="flex items-center gap-2 cursor-pointer"
+              >
                 <input
                   type="checkbox"
                   checked={filters.brands.includes(brand)}
@@ -269,29 +263,23 @@ function FilterSidebar({
                   className="h-4 w-4 rounded border-gray-300"
                   style={{ accentColor: "#A53860" }}
                 />
-                <span className="text-sm text-gray-700">{brand}</span>
+                <span className={labelClass}>{brand}</span>
               </label>
             ))}
           </div>
         </div>
 
-        {/* Benefits Filter */}
+        {/* Công dụng */}
         <div className="mb-6">
-          <h3
-            className="mb-3"
-            style={{
-              fontFamily: '"Be Vietnam Pro", sans-serif',
-              fontSize: "14px",
-              fontWeight: 600,
-              lineHeight: "100%",
-              color: "#000000",
-            }}
-          >
+          <h3 className="mb-3 dark:text-white" style={sectionTitleStyle}>
             Công dụng
           </h3>
           <div className="space-y-2">
             {benefits.map((benefit) => (
-              <label key={benefit} className="flex items-center gap-2">
+              <label
+                key={benefit}
+                className="flex items-center gap-2 cursor-pointer"
+              >
                 <input
                   type="checkbox"
                   checked={filters.congDung.includes(benefit)}
@@ -299,29 +287,23 @@ function FilterSidebar({
                   className="h-4 w-4 rounded border-gray-300"
                   style={{ accentColor: "#A53860" }}
                 />
-                <span className="text-sm text-gray-700">{benefit}</span>
+                <span className={labelClass}>{benefit}</span>
               </label>
             ))}
           </div>
         </div>
 
-        {/* Skin Type Filter */}
+        {/* Loại da */}
         <div className="mb-6">
-          <h3
-            className="mb-3"
-            style={{
-              fontFamily: '"Be Vietnam Pro", sans-serif',
-              fontSize: "14px",
-              fontWeight: 600,
-              lineHeight: "100%",
-              color: "#000000",
-            }}
-          >
+          <h3 className="mb-3 dark:text-white" style={sectionTitleStyle}>
             Loại da
           </h3>
           <div className="space-y-2">
             {skinTypes.map((type) => (
-              <label key={type} className="flex items-center gap-2">
+              <label
+                key={type}
+                className="flex items-center gap-2 cursor-pointer"
+              >
                 <input
                   type="checkbox"
                   checked={filters.loaiDa.includes(type)}
@@ -329,29 +311,23 @@ function FilterSidebar({
                   className="h-4 w-4 rounded border-gray-300"
                   style={{ accentColor: "#A53860" }}
                 />
-                <span className="text-sm text-gray-700">{type}</span>
+                <span className={labelClass}>{type}</span>
               </label>
             ))}
           </div>
         </div>
 
-        {/* Product Category Filter */}
+        {/* Loại sản phẩm */}
         <div className="mb-6">
-          <h3
-            className="mb-3"
-            style={{
-              fontFamily: '"Be Vietnam Pro", sans-serif',
-              fontSize: "14px",
-              fontWeight: 600,
-              lineHeight: "100%",
-              color: "#000000",
-            }}
-          >
+          <h3 className="mb-3 dark:text-white" style={sectionTitleStyle}>
             Loại sản phẩm
           </h3>
           <div className="space-y-2">
             {categories.map((category) => (
-              <label key={category} className="flex items-center gap-2">
+              <label
+                key={category}
+                className="flex items-center gap-2 cursor-pointer"
+              >
                 <input
                   type="checkbox"
                   checked={filters.loaiSanPham.includes(category)}
@@ -359,16 +335,16 @@ function FilterSidebar({
                   className="h-4 w-4 rounded border-gray-300"
                   style={{ accentColor: "#A53860" }}
                 />
-                <span className="text-sm text-gray-700">{category}</span>
+                <span className={labelClass}>{category}</span>
               </label>
             ))}
           </div>
         </div>
 
-        {/* Clear Filters */}
+        {/* Clear */}
         <button
           onClick={onClearFilters}
-          className="w-full rounded-lg border px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-50"
+          className="w-full rounded-lg border px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-50 dark:hover:bg-gray-800"
           style={{ borderColor: "#DA627D", color: "#A53860" }}
         >
           Xóa bộ lọc
@@ -378,7 +354,7 @@ function FilterSidebar({
   );
 }
 
-// Category mappings for "Công dụng" filter
+// ─── Category & skin mappings ─────────────────────────────────────────────────
 const trangDiemCategories = [
   "Son kem",
   "Son bóng",
@@ -396,7 +372,6 @@ const trangDiemCategories = [
   "Xịt khóa",
   "Tạo khối",
 ];
-
 const chamSocDaCategories = [
   "Serum",
   "Kem dưỡng",
@@ -407,8 +382,6 @@ const chamSocDaCategories = [
   "Gel giảm mụn",
   "Dưỡng ẩm",
 ];
-
-// Skin type mapping for filter normalization
 const loaiDaMap: Record<string, string[]> = {
   "Da dầu": ["Dầu", "Da dầu"],
   "Da khô": ["Khô", "Da khô"],
@@ -417,23 +390,21 @@ const loaiDaMap: Record<string, string[]> = {
   "Da thường": ["Thường", "Da thường"],
 };
 
-// Main Products Page
+// ─── Main Page ─────────────────────────────────────────────────────────────────
 export default function ProductsPage() {
-  const [filters, setFilters] = useState({
-    brands: [] as string[],
-    congDung: [] as string[],
-    loaiDa: [] as string[],
-    loaiSanPham: [] as string[],
+  const [filters, setFilters] = useState<Filters>({
+    brands: [],
+    congDung: [],
+    loaiDa: [],
+    loaiSanPham: [],
     giaTu: "",
     giaDen: "",
     sort: "ban-chay",
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-
   const productsPerPage = 20;
 
-  // Unified checkbox handler
   const toggleFilter = (
     key: "brands" | "congDung" | "loaiDa" | "loaiSanPham",
     value: string,
@@ -447,12 +418,8 @@ export default function ProductsPage() {
     setCurrentPage(1);
   };
 
-  // Apply price filter
-  const applyGia = () => {
-    setCurrentPage(1);
-  };
+  const applyGia = () => setCurrentPage(1);
 
-  // Clear all filters
   const clearFilters = () => {
     setFilters({
       brands: [],
@@ -466,87 +433,70 @@ export default function ProductsPage() {
     setCurrentPage(1);
   };
 
-  // Filter and sort products
   const filteredProducts = useMemo(() => {
     let result = [...products];
-
-    // 1. Filter by brand
-    if (filters.brands.length > 0) {
+    if (filters.brands.length > 0)
       result = result.filter((p) => filters.brands.includes(p.brand));
-    }
-
-    // 2. Filter by skin type with normalization
     if (filters.loaiDa.length > 0) {
       result = result.filter((p) => {
-        // If product is for all skin types, always show
         if (p.skinType.includes("Tất cả loại da")) return true;
-        // Check each selected skin type
-        return filters.loaiDa.some((da) => {
-          const variants = loaiDaMap[da] || [da];
-          return variants.some((v) => p.skinType.includes(v));
-        });
+        return filters.loaiDa.some((da) =>
+          (loaiDaMap[da] || [da]).some((v) => p.skinType.includes(v)),
+        );
       });
     }
-
-    // 3. Filter by product category
-    if (filters.loaiSanPham.length > 0) {
+    if (filters.loaiSanPham.length > 0)
       result = result.filter((p) => filters.loaiSanPham.includes(p.category));
-    }
-
-    // 4. Filter by "Công dụng"
-    if (filters.congDung.includes("Trang điểm")) {
+    if (filters.congDung.includes("Trang điểm"))
       result = result.filter((p) => trangDiemCategories.includes(p.category));
-    }
-    if (filters.congDung.includes("Chăm sóc da")) {
+    if (filters.congDung.includes("Chăm sóc da"))
       result = result.filter((p) => chamSocDaCategories.includes(p.category));
-    }
-
-    // 5. Filter by price range
-    if (filters.giaTu !== "") {
+    if (filters.giaTu !== "")
       result = result.filter((p) => p.price >= Number(filters.giaTu));
-    }
-    if (filters.giaDen !== "") {
+    if (filters.giaDen !== "")
       result = result.filter((p) => p.price <= Number(filters.giaDen));
-    }
-
-    // 6. Sort
-    if (filters.sort === "gia-tang") {
-      result.sort((a, b) => a.price - b.price);
-    } else if (filters.sort === "gia-giam") {
+    if (filters.sort === "gia-tang") result.sort((a, b) => a.price - b.price);
+    else if (filters.sort === "gia-giam")
       result.sort((a, b) => b.price - a.price);
-    } else {
-      // ban-chay: sort by rating descending
-      result.sort((a, b) => b.rating - a.rating);
-    }
-
+    else result.sort((a, b) => b.rating - a.rating);
     return result;
   }, [filters]);
 
-  // Pagination
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
   const paginatedProducts = filteredProducts.slice(
     (currentPage - 1) * productsPerPage,
     currentPage * productsPerPage,
   );
 
+  const sortTabs = [
+    { key: "ban-chay", label: "Bán chạy" },
+    { key: "gia-tang", label: "Giá tăng" }, // rút gọn trên mobile
+    { key: "gia-giam", label: "Giá giảm" },
+  ];
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Breadcrumb */}
-      <div className="border-b bg-white">
+      <div className="border-b bg-white dark:bg-gray-800 dark:border-gray-700">
         <div className="mx-auto max-w-7xl px-4 py-4">
           <nav className="flex items-center gap-2 text-sm">
-            <Link href="/" className="text-gray-500 hover:text-gray-700">
+            <Link
+              href="/"
+              className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+            >
               Trang chủ
             </Link>
             <ChevronRight className="h-4 w-4 text-gray-400" />
-            <span style={{ color: "#450920" }}>Tất cả sản phẩm</span>
+            <span className="text-gray-500 dark:text-gray-400">
+              Tất cả sản phẩm
+            </span>
           </nav>
         </div>
       </div>
 
       <div className="mx-auto max-w-7xl px-4 py-6">
         <div className="flex gap-4">
-          {/* Sidebar */}
+          {/* Sidebar – desktop only */}
           <div className="hidden w-[280px] flex-shrink-0 lg:block">
             <FilterSidebar
               filters={filters}
@@ -561,58 +511,58 @@ export default function ProductsPage() {
 
           {/* Main Content */}
           <div className="flex-1 min-w-0">
-            {/* Header */}
-            <div className="mb-6">
+            {/* Header – 2 hàng trên mobile, 1 hàng từ sm */}
+            <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h1
                   style={{
-                    fontFamily: '"Black Mango", serif',
+                    fontFamily: '"Be Vietnam Pro", sans-serif',
                     fontSize: "28px",
                     fontWeight: 700,
-                    lineHeight: "100%",
                     color: "#450920",
+                    lineHeight: "35px",
                   }}
+                  className="dark:!text-rose-300"
                 >
                   Tất cả sản phẩm
                 </h1>
-                <p className="mt-1 text-sm text-gray-500">
+                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                   {filteredProducts.length} sản phẩm
                 </p>
               </div>
 
-              <div className="mt-4 flex items-center gap-3">
-                {/* Mobile Filter Button */}
+              <div className="flex flex-wrap items-center gap-2">
+                {/* Mobile filter button */}
                 <button
                   onClick={() => setIsFilterOpen(true)}
-                  className="flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium lg:hidden"
+                  className="flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-medium lg:hidden dark:border-rose-400 dark:text-rose-300"
                   style={{ borderColor: "#DA627D", color: "#A53860" }}
                 >
                   <Filter className="h-4 w-4" />
                   Lọc
                 </button>
 
-                {/* Sort Buttons */}
-                {[
-                  { key: "ban-chay", label: "Bán chạy" },
-                  { key: "gia-tang", label: "Giá tăng dần" },
-                  { key: "gia-giam", label: "Giá giảm dần" },
-                ].map((tab) => (
+                {/* Sort buttons */}
+                {sortTabs.map((tab) => (
                   <button
                     key={tab.key}
                     onClick={() => {
                       setFilters((prev) => ({ ...prev, sort: tab.key }));
                       setCurrentPage(1);
                     }}
-                    className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                      filters.sort === tab.key
-                        ? "text-white"
-                        : "border text-gray-600 hover:text-gray-900"
-                    }`}
+                    className="text-xs sm:text-sm transition-colors dark:!text-white"
                     style={{
+                      padding: "6px 10px",
+                      borderRadius: "8px",
+                      fontFamily: '"Be Vietnam Pro", sans-serif',
+                      fontWeight: filters.sort === tab.key ? 700 : 400,
+                      color: filters.sort === tab.key ? "#FFFFFF" : "#000000",
                       backgroundColor:
-                        filters.sort === tab.key ? "#C1475A" : "transparent",
-                      borderColor:
-                        filters.sort === tab.key ? "#C1475A" : "#e5e7eb",
+                        filters.sort === tab.key ? "#A53860" : "transparent",
+                      border:
+                        filters.sort === tab.key
+                          ? "0.5px solid #FFFFFF"
+                          : "0.5px solid #000000",
                     }}
                   >
                     {tab.label}
@@ -621,14 +571,13 @@ export default function ProductsPage() {
               </div>
             </div>
 
-            {/* Product Grid */}
+            {/* Product Grid – 2 cột mobile, 3 tablet, 5 desktop */}
             {paginatedProducts.length > 0 ? (
               <motion.div
                 initial="hidden"
                 animate="visible"
                 variants={staggerContainer}
-                className="grid grid-cols-2 gap-4 lg:grid-cols-5"
-                style={{ gap: "16px" }}
+                className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5"
               >
                 {paginatedProducts.map((product) => (
                   <ProductCard key={product.id} product={product} />
@@ -636,7 +585,9 @@ export default function ProductsPage() {
               </motion.div>
             ) : (
               <div className="flex flex-col items-center justify-center py-16">
-                <p className="text-gray-500">Không tìm thấy sản phẩm nào</p>
+                <p className="text-gray-500 dark:text-gray-400">
+                  Không tìm thấy sản phẩm nào
+                </p>
                 <button
                   onClick={clearFilters}
                   className="mt-4 rounded-lg px-4 py-2 text-sm font-medium text-white"
@@ -649,11 +600,11 @@ export default function ProductsPage() {
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="mt-8 flex items-center justify-center gap-2">
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
                 <button
                   onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                   disabled={currentPage === 1}
-                  className="flex h-10 w-10 items-center justify-center rounded-lg border disabled:opacity-50"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg border disabled:opacity-50 dark:border-gray-600 dark:text-white"
                 >
                   <ChevronLeft className="h-5 w-5" />
                 </button>
@@ -663,10 +614,11 @@ export default function ProductsPage() {
                     <button
                       key={page}
                       onClick={() => setCurrentPage(page)}
-                      className={`flex h-10 w-10 items-center justify-center rounded-lg text-sm font-medium ${
+                      className={`flex h-9 w-9 items-center justify-center rounded-lg text-sm font-medium transition-colors
+                      ${
                         currentPage === page
                           ? "text-white"
-                          : "border hover:bg-gray-50"
+                          : "border hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
                       }`}
                       style={{
                         backgroundColor:
@@ -683,7 +635,7 @@ export default function ProductsPage() {
                     setCurrentPage((p) => Math.min(totalPages, p + 1))
                   }
                   disabled={currentPage === totalPages}
-                  className="flex h-10 w-10 items-center justify-center rounded-lg border disabled:opacity-50"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg border disabled:opacity-50 dark:border-gray-600 dark:text-white"
                 >
                   <ChevronRight className="h-5 w-5" />
                 </button>
