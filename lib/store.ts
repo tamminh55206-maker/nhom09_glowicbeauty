@@ -4,6 +4,18 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { Product, CartItem } from "./types";
 
+const recoverMojibake = (value: string) => {
+  try {
+    return new TextDecoder("utf-8").decode(
+      Uint8Array.from(value, (char) => char.charCodeAt(0)),
+    );
+  } catch {
+    return value;
+  }
+};
+
+const normalizeOrderStatus = (value: string) => recoverMojibake(value);
+
 interface CartState {
   items: CartItem[];
   addToCart: (product: Product) => void;
@@ -79,7 +91,6 @@ export const useCartStore = create<CartState>()(
   ),
 );
 
-// Quiz Store
 interface QuizState {
   quizAnswers: string[];
   quizCompleted: boolean;
@@ -135,7 +146,7 @@ export const useAuthStore = create<AuthState>()(
     (set, get) => ({
       currentUser: null,
       users: [],
-      
+
       registerUser: (user: AuthUser) => {
         const existingUser = get().users.find(
           (u) => u.soDienThoai === user.soDienThoai || u.email === user.email,
@@ -180,7 +191,8 @@ export const useAuthStore = create<AuthState>()(
           };
         }
 
-        const { matKhau: _, ...userWithoutPassword } = user;
+        const userWithoutPassword = { ...user };
+        delete userWithoutPassword.matKhau;
         set({ currentUser: userWithoutPassword });
 
         return { success: true, message: "Đăng nhập thành công!" };
@@ -235,7 +247,7 @@ export const useOrderStore = create<OrderState>()(
           return { success: false, message: "Đơn hàng không tồn tại hoặc không hợp lệ." };
         }
 
-        if (existingOrder.status !== "Đang vận chuyển") {
+        if (normalizeOrderStatus(existingOrder.status) !== "Đang vận chuyển") {
           return { success: false, message: "Đơn hàng không thể hủy." };
         }
 
