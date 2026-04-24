@@ -43,6 +43,7 @@ export default function CheckoutPage() {
   const items = useCartStore((state) => state.items);
   const totalPrice = useCartStore((state) => state.totalPrice());
   const router = useRouter();
+  
 
   const { register, handleSubmit, formState: { errors } } = useForm<CheckoutForm>({
     resolver: zodResolver(checkoutSchema),
@@ -66,7 +67,11 @@ export default function CheckoutPage() {
           <span className="font-bold text-[#450920]">
              Thanh toán 
           </span>
-  <h1 style={{
+        </div>
+      </div>
+
+      <main className="mx-auto max-w-7xl px-4 pt-6">
+        <h1 style={{
     position: 'absolute',
     width: '200px',
     height: '36px',
@@ -80,11 +85,6 @@ export default function CheckoutPage() {
 }}>
     Thanh toán
 </h1>
-        </div>
-      </div>
-
-      <main className="mx-auto max-w-7xl px-4 pt-6">
-      
         <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
           
           {/* CỘT TRÁI (8/12) */}
