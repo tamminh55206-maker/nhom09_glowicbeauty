@@ -2,12 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { ShoppingCart, Star, ChevronRight, Clock } from "lucide-react";
 import { useState, useEffect } from "react";
 import { getFeaturedProducts, products } from "@/lib/data";
 import { useCartStore } from "@/lib/store";
-import { assetPath } from "@/lib/utils";
 import { toast } from "sonner";
 
 // Animation variants
@@ -86,7 +85,7 @@ function ProductCard({ product }: { product: (typeof products)[0] }) {
   return (
     <motion.div
       variants={fadeInUp}
-      className="group relative rounded-xl bg-white p-3 shadow-sm transition-shadow hover:shadow-lg"
+      className="group relative rounded-2xl bg-white p-3 shadow-sm transition-shadow hover:shadow-lg"
     >
       <Link href={`/products/${product.slug}`}>
         <div className="relative aspect-square overflow-hidden rounded-xl bg-gray-100">
@@ -108,16 +107,7 @@ function ProductCard({ product }: { product: (typeof products)[0] }) {
       <div className="mt-3 space-y-2">
         <p className="text-xs font-medium text-rose-500">{product.brand}</p>
         <Link href={`/products/${product.slug}`}>
-          <h3
-            className="line-clamp-2 transition-colors hover:text-rose-500"
-            style={{
-              fontFamily: '"Be Vietnam Pro", sans-serif',
-              fontSize: "12px",
-              fontWeight: 400,
-              color: "#000000",
-              lineHeight: "100%",
-            }}
-          >
+          <h3 className="line-clamp-2 text-sm font-medium text-gray-900 transition-colors hover:text-rose-500">
             {product.name}
           </h3>
         </Link>
@@ -145,112 +135,70 @@ function ProductCard({ product }: { product: (typeof products)[0] }) {
 
 // Banner Section
 function BannerSection() {
-  const [current, setCurrent] = useState(0);
-
-  const images = [
-    "/images/banner/banner-main.jpg",
-    "/images/banner/banner-sub-1.jpg",
-    "/images/banner/banner-sub-2.jpg",
-  ];
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % images.length);
-    }, 3000);
-    return () => clearInterval(timer);
-  }, [images.length]);
-
   return (
-    <section className="w-full">
-      <div className="flex h-[500px] w-full gap-2">
-        {/* Left Column - 60% Slideshow */}
-        <div className="relative w-[60%] overflow-hidden rounded-lg">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={current}
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -50 }}
-              transition={{ duration: 0.5 }}
-              className="absolute inset-0"
+    <motion.section
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={fadeInUp}
+      className="relative w-full overflow-hidden bg-gradient-to-r from-cyan-100 via-pink-50 to-amber-50"
+    >
+      <div className="mx-auto w-full max-w-[1280px] px-6 py-12 md:px-12 md:py-16 lg:py-20">
+        <div className="grid items-center gap-8 lg:grid-cols-2">
+          <div className="space-y-6">
+            <motion.span
+              variants={fadeInUp}
+              className="inline-block rounded-full bg-rose-500 px-4 py-1.5 text-sm font-medium text-white"
             >
-              <Image
-                src={images[current]}
-                alt={`Banner ${current + 1}`}
-                fill
-                className="object-cover"
-                priority={current === 0}
-                sizes="60vw"
-              />
+              Khuyến mãi mùa hè
+            </motion.span>
+            <motion.h1
+              variants={fadeInUp}
+              className="text-3xl font-bold leading-tight text-gray-900 sm:text-4xl lg:text-5xl"
+            >
+              Giảm đến <span className="text-rose-500">15% OFF</span>
+              <br />
+              cho đơn hàng đầu tiên
+            </motion.h1>
+            <motion.p variants={fadeInUp} className="max-w-lg text-gray-600">
+              Khám phá bộ sưu tập mỹ phẩm cao cấp từ các thương hiệu hàng đầu.
+              Ưu đãi có hạn, đặt hàng ngay hôm nay!
+            </motion.p>
+            <motion.div variants={fadeInUp}>
+              <Link
+                href="/products"
+                className="inline-flex items-center gap-2 rounded-full bg-rose-500 px-6 py-3 font-medium text-white transition-colors hover:bg-rose-600"
+              >
+                Mua ngay
+                <ChevronRight className="h-4 w-4" />
+              </Link>
             </motion.div>
-          </AnimatePresence>
+          </div>
 
-          {/* Dot Indicators */}
-          <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2">
-            {images.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrent(index)}
-                className={`h-2.5 w-2.5 rounded-full transition-colors ${
-                  index === current ? "bg-white" : "bg-white/50"
-                }`}
-                aria-label={`Go to slide ${index + 1}`}
+          <motion.div variants={fadeInUp} className="relative hidden lg:block">
+            <div className="relative aspect-[4/3] w-full">
+              <Image
+                src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=80"
+                alt="Beauty products"
+                fill
+                className="rounded-2xl object-cover"
+                priority
               />
-            ))}
-          </div>
-        </div>
-
-        {/* Right Column - 40% */}
-        <div className="flex w-[40%] flex-col gap-2">
-          <div className="relative flex-1 overflow-hidden rounded-lg">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={(current + 1) % images.length}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
-                className="absolute inset-0"
-              >
-                <Image
-                  src={images[(current + 1) % images.length]}
-                  alt="Banner right top"
-                  fill
-                  className="object-cover"
-                  sizes="40vw"
-                />
-              </motion.div>
-            </AnimatePresence>
-          </div>
-          <div className="relative flex-1 overflow-hidden rounded-lg">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={(current + 2) % images.length}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
-                className="absolute inset-0"
-              >
-                <Image
-                  src={images[(current + 2) % images.length]}
-                  alt="Banner right bottom"
-                  fill
-                  className="object-cover"
-                  sizes="40vw"
-                />
-              </motion.div>
-            </AnimatePresence>
-          </div>
+            </div>
+          </motion.div>
         </div>
       </div>
-    </section>
+
+      {/* Decorative elements */}
+      <div className="absolute -left-20 -top-20 h-64 w-64 rounded-full bg-rose-200/30 blur-3xl" />
+      <div className="absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-cyan-200/30 blur-3xl" />
+    </motion.section>
   );
 }
 
 // Flash Sale Section
 function FlashSaleSection() {
-  const flashSaleProducts = getFeaturedProducts(6);
+  const flashSaleProducts = getFeaturedProducts(4);
 
   return (
     <motion.section
@@ -258,9 +206,9 @@ function FlashSaleSection() {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={staggerContainer}
-      className="w-full bg-[#FFA5AB] py-8"
+      className="w-full bg-rose-50 py-12"
     >
-      <div className="mx-auto w-full max-w-[1280px] px-6">
+      <div className="mx-auto w-full max-w-[1280px] px-6 md:px-12">
         <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <h2 className="text-2xl font-bold text-gray-900">Flash Sale</h2>
@@ -280,7 +228,7 @@ function FlashSaleSection() {
 
         <motion.div
           variants={staggerContainer}
-          className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6"
+          className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:gap-6"
         >
           {flashSaleProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
@@ -307,16 +255,8 @@ function ProductsSection() {
         {/* Pill Title */}
         <motion.div variants={fadeInUp} className="mb-8 flex justify-center">
           <h2
-            style={{
-              fontFamily: '"Black Mango", serif',
-              fontSize: "24px",
-              fontWeight: 900,
-              color: "#FFFFFF",
-              backgroundColor: "#A53860",
-              borderRadius: "24px",
-              padding: "8px 32px",
-              display: "inline-block",
-            }}
+            className="inline-block rounded-full px-8 py-3 text-xl font-bold text-white sm:text-2xl"
+            style={{ backgroundColor: "#450920" }}
           >
             Sản phẩm đề xuất
           </h2>
@@ -393,26 +333,15 @@ function CategoriesSection() {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={staggerContainer}
-      className="w-full bg-gradient-to-b from-[#F9DBBD] to-[#DA627D] py-12"
+      className="w-full bg-gray-50 py-12"
     >
       <div className="mx-auto w-full max-w-[1280px] px-6 md:px-12">
-        <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-          <motion.h2
-            variants={fadeInUp}
-            className="text-left text-2xl font-bold text-gray-900"
-          >
-            Danh mục quan tâm
-          </motion.h2>
-          <motion.div variants={fadeInUp}>
-            <Link
-              href="/products"
-              className="inline-block rounded-full px-6 py-2 text-sm font-medium text-white"
-              style={{ backgroundColor: "#450920" }}
-            >
-              Xem tất cả →
-            </Link>
-          </motion.div>
-        </div>
+        <motion.h2
+          variants={fadeInUp}
+          className="mb-8 text-center text-2xl font-bold text-gray-900"
+        >
+          Danh mục quan tâm
+        </motion.h2>
 
         <motion.div
           variants={staggerContainer}
@@ -424,7 +353,7 @@ function CategoriesSection() {
                 href={`/products?category=${encodeURIComponent(category.name)}`}
                 className="group block"
               >
-                <div className="relative aspect-square overflow-hidden rounded-xl bg-white">
+                <div className="relative aspect-square overflow-hidden rounded-2xl">
                   <Image
                     src={category.image}
                     alt={category.name}
@@ -469,7 +398,7 @@ function BrandsSection() {
       viewport={{ once: true, margin: "-100px" }}
       variants={staggerContainer}
       className="w-full py-12"
-      style={{ backgroundColor: "#DA627D" }}
+      style={{ backgroundColor: "#7D3554" }}
     >
       <div className="mx-auto w-full max-w-[1280px] px-6 md:px-12">
         {/* Header with title left and button right */}
@@ -477,26 +406,10 @@ function BrandsSection() {
           variants={fadeInUp}
           className="mb-8 flex items-center justify-between"
         >
-          <h2
-            style={{
-              fontFamily: '"Black Mango", serif',
-              fontSize: "28px",
-              fontWeight: 900,
-              color: "#F9DBBD",
-            }}
-          >
-            Thương hiệu nổi bật
-          </h2>
+          <h2 className="text-2xl font-bold text-white">Thương hiệu nổi bật</h2>
           <Link
             href="/products"
-            style={{
-              backgroundColor: "#450920",
-              color: "#FFFFFF",
-              borderRadius: "20px",
-              padding: "6px 12px",
-              fontSize: "14px",
-              fontFamily: '"Be Vietnam Pro", sans-serif',
-            }}
+            className="text-sm font-medium text-white hover:text-white/80"
           >
             Xem tất cả →
           </Link>
@@ -517,12 +430,11 @@ function BrandsSection() {
                 {brand.image ? (
                   <div className="relative h-8 w-full">
                     <Image
-                      src={assetPath(brand.image)}
+                      src={brand.image}
                       alt={brand.name}
                       fill
                       className="object-contain"
                       sizes="(max-width: 768px) 50vw, 25vw"
-                      unoptimized
                     />
                   </div>
                 ) : (
@@ -575,124 +487,79 @@ function GlowicFeaturesSection() {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={staggerContainer}
-      className="w-full overflow-visible relative"
-      style={{ backgroundColor: "#F9DBBD" }}
+      className="w-full py-16"
+      style={{ backgroundColor: "#F5E6D3" }}
     >
-      <div className="mx-auto flex min-h-[450px] w-full max-w-[1280px] items-center gap-4 px-6 py-10">
-        {/* LEFT — ảnh model trái + chữ phải */}
-        <div className="flex w-[60%] flex-row items-center gap-3">
-          {/* Ảnh model */}
-          <div className="relative flex-shrink-0" style={{ height: "420px" }}>
-            <Image
-              src="/images/model-skincare.png"
-              alt="Model skincare"
-              width={160}
-              height={340}
-              loading="eager"
-              className="h-full w-auto object-contain rounded-t-2xl"
-            />
-          </div>
-
-          {/* Chữ bên phải ảnh */}
+      <div className="mx-auto w-full max-w-[1280px] px-6 md:px-12">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-5">
+          {/* Left Column - 40% */}
           <motion.div
             variants={fadeInUp}
-            className="flex flex-col justify-center"
+            className="lg:col-span-2 flex flex-col justify-center"
           >
             <h2
-              style={{
-                fontFamily: '"Black Mango", serif',
-                fontSize: "32px",
-                fontWeight: 900,
-                lineHeight: "110%",
-                color: "#450920",
-              }}
+              className="text-4xl font-bold sm:text-5xl"
+              style={{ fontFamily: '"Black Mango", serif', color: "#450920" }}
             >
               Bạn cần gì đó?
             </h2>
             <h3
-              style={{
-                fontFamily: '"Black Mango", serif',
-                fontSize: "28px",
-                fontWeight: 900,
-                fontStyle: "italic",
-                lineHeight: "110%",
-                color: "#A53860",
-              }}
+              className="mt-2 text-3xl sm:text-4xl"
+              style={{ fontFamily: '"Mistesy", cursive', color: "#C4526E" }}
             >
-              Có Glowic lo
+              Có Glowic đây
             </h3>
-            <p
-              style={{
-                fontFamily: '"Be Vietnam Pro", sans-serif',
-                fontSize: "14px",
-                fontWeight: 400,
-                color: "#000000",
-                marginTop: "16px",
-                lineHeight: "150%",
-              }}
-            >
+            <p className="mt-4 text-lg text-gray-800">
               Lựa chọn sản phẩm phù hợp với từng loại da
             </p>
             <p
-              style={{
-                fontFamily: '"Be Vietnam Pro", sans-serif',
-                fontSize: "18px",
-                fontWeight: 600,
-                fontStyle: "italic",
-                color: "#A53860",
-                marginTop: "8px",
-              }}
+              className="mt-2 text-xl font-bold"
+              style={{ fontFamily: '"Black Mango", serif', color: "#C4526E" }}
             >
               Thật dễ dàng!
             </p>
           </motion.div>
-        </div>
 
-        {/* RIGHT — Grid 2x3 */}
-        <motion.div
-          variants={staggerContainer}
-          className="flex w-[40%] items-center"
-        >
-          <div className="grid w-full grid-cols-3 gap-3">
-            {categories.map((category) => (
-              <motion.div key={category.name} variants={fadeInUp}>
+          {/* Right Column - 60% - Grid 3x2 */}
+          <motion.div variants={staggerContainer} className="lg:col-span-3">
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+              {categories.map((category) => (
+                <motion.div key={category.name} variants={fadeInUp}>
+                  <Link
+                    href={`/products?category=${encodeURIComponent(category.name)}`}
+                    className="group block overflow-hidden rounded-2xl bg-white shadow-sm transition-shadow hover:shadow-md"
+                  >
+                    <div className="relative aspect-[4/3] overflow-hidden">
+                      <Image
+                        src={category.image}
+                        alt={category.name}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        sizes="(max-width: 768px) 50vw, 20vw"
+                      />
+                    </div>
+                    <div className="p-3 text-center">
+                      <span className="text-sm font-medium text-gray-900">
+                        {category.name}
+                      </span>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+              {/* View More Card */}
+              <motion.div variants={fadeInUp}>
                 <Link
-                  href={`/products?category=${encodeURIComponent(category.name)}`}
-                  className="group block overflow-hidden rounded-xl bg-white shadow-sm transition-shadow hover:shadow-md"
+                  href="/products"
+                  className="flex h-full min-h-[120px] items-center justify-center rounded-2xl bg-white shadow-sm transition-shadow hover:shadow-md"
                 >
-                  <div className="relative aspect-square overflow-hidden">
-                    <Image
-                      src={category.image}
-                      alt={category.name}
-                      fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
-                      sizes="13vw"
-                    />
-                  </div>
-                  <div className="p-2 text-center">
-                    <span className="text-xs font-medium text-gray-900">
-                      {category.name}
-                    </span>
-                  </div>
+                  <span className="text-sm font-medium text-gray-900">
+                    Xem thêm →
+                  </span>
                 </Link>
               </motion.div>
-            ))}
-            {/* Xem thêm */}
-            <motion.div variants={fadeInUp}>
-              <Link
-                href="/products"
-                className="flex h-full min-h-[120px] items-center justify-center rounded-xl bg-white shadow-sm hover:shadow-md"
-              >
-                <span
-                  className="text-center text-sm font-bold"
-                  style={{ color: "#450920" }}
-                >
-                  Xem thêm →
-                </span>
-              </Link>
-            </motion.div>
-          </div>
-        </motion.div>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </motion.section>
   );

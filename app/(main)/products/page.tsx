@@ -75,14 +75,8 @@ function ProductCard({ product }: { product: Product }) {
         </p>
         <Link href={`/products/${product.slug}`}>
           <h3
-            className="line-clamp-2 transition-colors hover:text-rose-500"
-            style={{
-              fontFamily: '"Be Vietnam Pro", sans-serif',
-              fontSize: "12px",
-              fontWeight: 400,
-              color: "#000000",
-              lineHeight: "100%",
-            }}
+            className="line-clamp-2 text-sm font-medium transition-colors hover:text-rose-500"
+            style={{ color: "#450920" }}
           >
             {product.name}
           </h3>
@@ -197,16 +191,7 @@ function FilterSidebar({
 
         {/* Price Range - FIRST */}
         <div className="mb-6">
-          <h3
-            className="mb-3"
-            style={{
-              fontFamily: '"Be Vietnam Pro", sans-serif',
-              fontSize: "14px",
-              fontWeight: 600,
-              lineHeight: "100%",
-              color: "#000000",
-            }}
-          >
+          <h3 className="mb-3 text-sm font-bold" style={{ color: "#450920" }}>
             Khoảng giá
           </h3>
           <div className="flex items-center gap-2">
@@ -247,16 +232,7 @@ function FilterSidebar({
 
         {/* Brand Filter */}
         <div className="mb-6">
-          <h3
-            className="mb-3"
-            style={{
-              fontFamily: '"Be Vietnam Pro", sans-serif',
-              fontSize: "14px",
-              fontWeight: 600,
-              lineHeight: "100%",
-              color: "#000000",
-            }}
-          >
+          <h3 className="mb-3 text-sm font-bold" style={{ color: "#450920" }}>
             Thương hiệu
           </h3>
           <div className="space-y-2">
@@ -277,16 +253,7 @@ function FilterSidebar({
 
         {/* Benefits Filter */}
         <div className="mb-6">
-          <h3
-            className="mb-3"
-            style={{
-              fontFamily: '"Be Vietnam Pro", sans-serif',
-              fontSize: "14px",
-              fontWeight: 600,
-              lineHeight: "100%",
-              color: "#000000",
-            }}
-          >
+          <h3 className="mb-3 text-sm font-bold" style={{ color: "#450920" }}>
             Công dụng
           </h3>
           <div className="space-y-2">
@@ -307,16 +274,7 @@ function FilterSidebar({
 
         {/* Skin Type Filter */}
         <div className="mb-6">
-          <h3
-            className="mb-3"
-            style={{
-              fontFamily: '"Be Vietnam Pro", sans-serif',
-              fontSize: "14px",
-              fontWeight: 600,
-              lineHeight: "100%",
-              color: "#000000",
-            }}
-          >
+          <h3 className="mb-3 text-sm font-bold" style={{ color: "#450920" }}>
             Loại da
           </h3>
           <div className="space-y-2">
@@ -337,16 +295,7 @@ function FilterSidebar({
 
         {/* Product Category Filter */}
         <div className="mb-6">
-          <h3
-            className="mb-3"
-            style={{
-              fontFamily: '"Be Vietnam Pro", sans-serif',
-              fontSize: "14px",
-              fontWeight: 600,
-              lineHeight: "100%",
-              color: "#000000",
-            }}
-          >
+          <h3 className="mb-3 text-sm font-bold" style={{ color: "#450920" }}>
             Loại sản phẩm
           </h3>
           <div className="space-y-2">
@@ -562,15 +511,13 @@ export default function ProductsPage() {
           {/* Main Content */}
           <div className="flex-1 min-w-0">
             {/* Header */}
-            <div className="mb-6">
+            <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
               <div>
                 <h1
+                  className="text-3xl font-bold"
                   style={{
-                    fontFamily: '"Black Mango", serif',
-                    fontSize: "28px",
-                    fontWeight: 700,
-                    lineHeight: "100%",
                     color: "#450920",
+                    fontFamily: '"Black Mango", serif',
                   }}
                 >
                   Tất cả sản phẩm
@@ -580,7 +527,7 @@ export default function ProductsPage() {
                 </p>
               </div>
 
-              <div className="mt-4 flex items-center gap-3">
+              <div className="flex items-center gap-3">
                 {/* Mobile Filter Button */}
                 <button
                   onClick={() => setIsFilterOpen(true)}

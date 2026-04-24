@@ -229,7 +229,7 @@ const skinTypeResults: Record<
   },
   normal: {
     title: "Da Thường (Normal Skin)",
-    desc: "Da bạn cân bằng tốt, dễ chăm sóc. Hãy duy trì routine hiện tại nhé.",
+    desc: "Da bạn cân bằng tốt, dễ chăm sóc. Hãy duy trì và thêm sáng da dần.",
     skincare: [
       {
         name: "Cocoon Winter Melon Gel Cream 30ml",

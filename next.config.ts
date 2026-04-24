@@ -1,14 +1,10 @@
 import type { NextConfig } from "next";
 
-const isProd = process.env.NODE_ENV === "production";
-
 const nextConfig: NextConfig = {
-  output: "export",
   images: {
-    unoptimized: true,
+    unoptimized: true, // ← fix hết tất cả lỗi domain 1 lần
   },
-  basePath: isProd ? "/nhom09_glowicbeauty" : "",
-  assetPrefix: isProd ? "/nhom09_glowicbeauty" : "",
+  basePath: '/nhom09_glowicbeauty',
 };
 
 export default nextConfig;
