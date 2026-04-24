@@ -7,6 +7,10 @@ import { useRouter } from "next/navigation";
 import { Bell, ChevronRight, FileText, IdCard, type LucideIcon } from "lucide-react";
 import { toast } from "sonner";
 import { type AuthUser, type Order, useAuthStore, useOrderStore } from "@/lib/store";
+import {
+  canCancelOrder,
+  getOrderStatusLabel,
+} from "@/lib/order-status";
 
 export type AccountTab = "notifications" | "profile" | "orders";
 
@@ -50,18 +54,6 @@ const normalizeVietnamese = (value: string) =>
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[đĐ]/g, (char) => (char === "đ" ? "d" : "D"));
-
-const recoverMojibake = (value: string) => {
-  try {
-    return new TextDecoder("utf-8").decode(
-      Uint8Array.from(value, (char) => char.charCodeAt(0)),
-    );
-  } catch {
-    return value;
-  }
-};
-
-const normalizeOrderStatus = (value: string) => recoverMojibake(value);
 
 const formatOrderDateTime = (value: string) => {
   const parsedDate = new Date(value);
@@ -210,9 +202,10 @@ const buildOrders = (orders: Order[], ownerUserId?: string): AccountOrder[] => {
       id: order.id,
       orderId: order.id,
       createdAt: order.createdAt,
-      status: normalizeOrderStatus(order.status).toLocaleUpperCase("vi-VN"),
+      status: getOrderStatusLabel(order.status),
       total: order.totalPrice,
-      canCancel: normalizeOrderStatus(order.status) === "Đang vận chuyển",
+      // UPDATED
+      canCancel: canCancelOrder(order.status),
       items: order.items.map((item) => ({
         id: `${order.id}-${item.product.id}`,
         brand: item.product.brand,
