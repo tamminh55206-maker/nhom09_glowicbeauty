@@ -2,17 +2,15 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, Plus, X } from "lucide-react";
+import { ChevronRight, Plus } from "lucide-react";
 
-// FAQ Data
-const faqData = [
+const faqSections = [
   {
     category: "Tài khoản",
     questions: [
       {
         q: "Đăng ký thành viên Glowic như thế nào?",
-        a: 'Quý khách vui lòng nhấn vào nút "Đăng nhập/Đăng ký" (Đối với Desktop) trên góc phải màn hình, chọn biểu tượng Menu rồi chọn "Đăng nhập/Đăng ký" (Đối với Mobile). Vui lòng điền đầy đủ các thông tin được yêu cầu và nhấn nút "Đăng ký".',
+        a: 'Quý khách vui lòng nhấn vào nút "Đăng nhập/Đăng ký" ở góc phải màn hình, điền đầy đủ thông tin được yêu cầu và chọn "Đăng ký" để hoàn tất.',
       },
       {
         q: "Tại sao tôi không thể đăng nhập vào tài khoản của tôi?",
@@ -60,7 +58,7 @@ const faqData = [
     questions: [
       {
         q: "Đối với mua tại cửa hàng",
-        a: "Quý khách yêu cầu xuất hóa đơn VAT ngay tại thờI điểm mua hàng. Vui lòng cung cấp thông tin công ty đầy đủ cho nhân viên thu ngân.",
+        a: "Quý khách yêu cầu xuất hóa đơn VAT ngay tại thời điểm mua hàng. Vui lòng cung cấp đầy đủ thông tin công ty cho nhân viên thu ngân.",
       },
       {
         q: "Đối với mua online",
@@ -70,54 +68,47 @@ const faqData = [
   },
 ];
 
-// Accordion Item Component
 function AccordionItem({
   question,
   answer,
   isOpen,
   onToggle,
-  itemId,
 }: {
   question: string;
   answer: string;
   isOpen: boolean;
   onToggle: () => void;
-  itemId: string;
 }) {
   return (
-    <div className="overflow-hidden rounded-lg">
+    <div className="overflow-hidden rounded-[4px]">
       <button
+        type="button"
         onClick={onToggle}
-        className={`flex w-full items-center justify-between p-4 text-left transition-colors ${
-          isOpen ? "bg-rose-200" : "bg-rose-100 hover:bg-rose-200/50"
-        }`}
+        aria-expanded={isOpen}
+        className="flex min-h-[30px] w-full items-center justify-between gap-4 px-3 py-[7px] text-left transition-colors duration-200"
+        style={{ backgroundColor: "#f8c8d2" }}
       >
-        <span className="pr-4 font-medium" style={{ color: "#450920" }}>
+        <span
+          className="pr-4 text-[13px] leading-[1.25] font-medium"
+          style={{ color: "#5e2431" }}
+        >
           {question}
         </span>
-        <span className="flex-shrink-0">
-          {isOpen ? (
-            <X className="h-5 w-5" style={{ color: "#A53860" }} />
-          ) : (
-            <Plus className="h-5 w-5" style={{ color: "#A53860" }} />
-          )}
+        <span
+          className={`flex h-4 w-4 flex-shrink-0 items-center justify-center transition-transform duration-200 ${
+            isOpen ? "rotate-45" : "rotate-0"
+          }`}
+          style={{ color: "#b45267" }}
+        >
+          <Plus className="h-[14px] w-[14px]" strokeWidth={2.2} />
         </span>
       </button>
 
-      <AnimatePresence initial={false}>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-          >
-            <div className="bg-rose-50 px-4 py-4">
-              <p className="text-gray-700 leading-relaxed">{answer}</p>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {isOpen ? (
+        <div className="border-t border-white/60 px-3 py-3" style={{ backgroundColor: "#fde9ee" }}>
+          <p className="text-[13px] leading-6 text-[#6c5260]">{answer}</p>
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -130,55 +121,55 @@ export default function FAQPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-rose-50 to-white">
-      {/* Breadcrumb */}
-      <div className="border-b bg-white/80 backdrop-blur-sm">
-        <div className="mx-auto max-w-7xl px-4 py-4">
-          <nav className="flex items-center gap-2 text-sm">
-            <Link href="/" className="text-gray-500 hover:text-gray-700">
+    <div className="min-h-screen bg-white">
+      <div className="border-b border-[#ebe0e3] bg-white">
+        <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
+          <nav className="flex items-center gap-2 text-[12px] text-[#7d6a72]">
+            <Link href="/" className="transition-colors hover:text-[#a53860]">
               Trang chủ
             </Link>
-            <ChevronRight className="h-4 w-4 text-gray-400" />
-            <span style={{ color: "#450920" }}>Câu hỏi thường gặp</span>
+            <ChevronRight className="h-3.5 w-3.5 text-[#c6b1b6]" />
+            <span className="text-[#725862]">Câu hỏi thường gặp</span>
           </nav>
         </div>
       </div>
 
-      {/* Header */}
-      <div className="py-12 text-center">
+      <div
+        className="flex min-h-[37px] items-center justify-center px-4 text-center"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(251, 221, 226, 0.92) 0%, rgba(248, 203, 212, 0.96) 55%, rgba(250, 220, 225, 0.92) 100%)",
+        }}
+      >
         <h1
-          className="text-3xl font-bold"
-          style={{ color: "#450920", fontFamily: '"Black Mango", serif' }}
+          className="pt-[1px] text-[26px] leading-none font-bold sm:text-[30px]"
+          style={{
+            color: "#cf6c82",
+            fontFamily: '"Black Mango", serif',
+            textShadow: "0 1px 0 rgba(255,255,255,0.7)",
+          }}
         >
           Câu hỏi thường gặp
         </h1>
       </div>
 
-      {/* FAQ Content */}
-      <div className="mx-auto max-w-3xl px-4 pb-16">
-        <div className="space-y-8">
-          {faqData.map((category, categoryIndex) => (
-            <div key={category.category} className="flex gap-6">
-              {/* Category Name */}
-              <div className="hidden w-[150px] flex-shrink-0 sm:block">
+      <div className="mx-auto max-w-[860px] px-4 pb-14 pt-6 sm:px-6 sm:pt-7">
+        <div className="space-y-6">
+          {faqSections.map((category, categoryIndex) => (
+            <section
+              key={category.category}
+              className="grid gap-2 sm:grid-cols-[148px_minmax(0,1fr)] sm:gap-3"
+            >
+              <div className="pt-[2px] sm:text-right">
                 <h2
-                  className="sticky top-24 font-semibold"
-                  style={{ color: "#450920" }}
+                  className="text-[15px] leading-6 font-semibold whitespace-nowrap"
+                  style={{ color: "#bf5369" }}
                 >
                   {category.category}
                 </h2>
               </div>
 
-              {/* Questions */}
-              <div className="flex-1 space-y-3">
-                {/* Mobile Category Name */}
-                <h2
-                  className="mb-3 font-semibold sm:hidden"
-                  style={{ color: "#450920" }}
-                >
-                  {category.category}
-                </h2>
-
+              <div className="space-y-[7px]">
                 {category.questions.map((q, qIndex) => {
                   const itemId = `${categoryIndex}-${qIndex}`;
                   return (
@@ -188,30 +179,28 @@ export default function FAQPage() {
                       answer={q.a}
                       isOpen={openItem === itemId}
                       onToggle={() => handleToggle(itemId)}
-                      itemId={itemId}
                     />
                   );
                 })}
               </div>
-            </div>
+            </section>
           ))}
         </div>
 
-        {/* Footer Message */}
-        <div className="mt-12 text-center">
-          <p className="text-gray-600">
+        <div className="mx-auto mt-10 max-w-[520px] text-center text-[11px] leading-5 text-[#8e7d83] italic">
+          <p>
             Hy vọng những thông tin trên đã giúp ích cho bạn.
           </p>
-          <p className="mt-2 text-gray-600">
-            Nếu bạn còn thắc mắc nào khác, hãy để lại lởi nhắn ở trang{" "}
+          <p>
+            Nếu bạn còn thắc mắc nào khác, hãy để lại lời nhắn ở trang{" "}
             <Link
               href="/contact"
-              className="font-medium underline transition-colors hover:text-rose-500"
-              style={{ color: "#C1475A" }}
+              className="font-medium underline transition-colors hover:text-[#a53860]"
+              style={{ color: "#c1475a" }}
             >
               Liên hệ
             </Link>
-            , mình sẽ phản hồi thật sớm.
+            {" "}mình sẽ phản hồi thật sớm.
           </p>
         </div>
       </div>

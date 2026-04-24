@@ -1,9 +1,15 @@
 interface CheckoutSummaryProps {
   totalPrice: number;
+  disabled?: boolean;
+  isSubmitting?: boolean;
 }
 
-export default function CheckoutSummary({ totalPrice }: CheckoutSummaryProps) {
-  const shippingFee = 20000; 
+export default function CheckoutSummary({
+  totalPrice,
+  disabled = false,
+  isSubmitting = false,
+}: CheckoutSummaryProps) {
+  const shippingFee = 20000;
   const finalTotal = totalPrice + shippingFee;
 
   return (
@@ -38,8 +44,16 @@ export default function CheckoutSummary({ totalPrice }: CheckoutSummaryProps) {
 
           </p>
         <div className="pt-4">
-          <button className="w-full rounded-xl bg-[#A53860] py-3.5 font-bold text-white hover:bg-[#DA627D] transition-all">
-            Đặt hàng
+            <button
+              type="submit"
+              disabled={disabled}
+              className={`w-full rounded-xl py-3.5 font-bold text-white transition-all ${
+                disabled
+                  ? "cursor-not-allowed bg-[#D8A4B0]"
+                  : "bg-[#A53860] hover:bg-[#DA627D]"
+              }`}
+            >
+              {isSubmitting ? "Đang đặt hàng..." : "Đặt hàng"}
           </button>
         </div>
       </div>

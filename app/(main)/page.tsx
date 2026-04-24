@@ -187,6 +187,7 @@ function BannerSection() {
               alt={`Banner ${current + 1}`}
               fill
               className="object-contain"
+              loading="eager"
               priority={current === 0}
               sizes="100vw"
             />

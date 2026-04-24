@@ -40,14 +40,12 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         {/* Logo */}
         <div className="mb-10" style={{ display: "inline-block" }}>
-          <Image
+          <img
             src="/images/logo/LOGO_white.svg"
             alt="Glowic Beauty Logo"
             width={300}
             height={108}
-            className="h-[108px] w-auto"
-            style={{ width: "auto", height: "108px" }}
-            unoptimized
+            className="block h-[108px] w-auto"
           />
         </div>
 
