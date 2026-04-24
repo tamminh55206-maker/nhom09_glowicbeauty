@@ -407,8 +407,8 @@ function ProductCard({
   const { slug, image, name } = getProductInfo(product);
   return (
     <Link href={slug} className="group block">
-      <div className="overflow-hidden rounded-xl bg-white shadow-sm transition-shadow hover:shadow-md">
-        <div className="relative aspect-square overflow-hidden bg-gray-100">
+      <div className="overflow-hidden rounded-xl bg-white dark:bg-gray-800 shadow-sm transition-all duration-300 hover:shadow-lg border border-gray-200 dark:border-gray-700">
+        <div className="relative aspect-square overflow-hidden bg-gray-100 dark:bg-gray-700">
           <img
             src={image}
             alt={name}
@@ -421,15 +421,13 @@ function ProductCard({
         </div>
         <div className="p-3">
           <h4
-            className="line-clamp-2 text-sm font-medium"
-            style={{ color: "#450920" }}
+            className="line-clamp-2 text-sm font-medium text-[#450920] dark:text-white"
           >
             {name}
           </h4>
-          <p className="mt-1 text-xs text-gray-500">{product.benefit}</p>
+          <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">{product.benefit}</p>
           <span
-            className="mt-2 inline-block text-xs font-medium"
-            style={{ color: "#C1475A" }}
+            className="mt-2 inline-block text-xs font-medium text-[#C1475A] dark:text-pink-400"
           >
             Xem sản phẩm →
           </span>
@@ -485,16 +483,16 @@ export default function QuizPage() {
   const colorResult = personalColorResults[personalColor];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-rose-50 to-white">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Breadcrumb */}
-      <div className="border-b bg-white/80 backdrop-blur-sm">
+      <div className="border-b bg-white dark:bg-gray-800 dark:border-gray-700">
         <div className="mx-auto max-w-7xl px-4 py-4">
           <nav className="flex items-center gap-2 text-sm">
-            <Link href="/" className="text-gray-500 hover:text-gray-700">
+            <Link href="/" className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
               Trang chủ
             </Link>
             <ChevronRight className="h-4 w-4 text-gray-400" />
-            <span style={{ color: "#450920" }}>Bài test cá nhân</span>
+            <span className="text-gray-500 dark:text-gray-400">Bài test cá nhân</span>
           </nav>
         </div>
       </div>
@@ -502,12 +500,12 @@ export default function QuizPage() {
       {/* Header */}
       <div className="py-8 text-center">
         <h1
-          className="text-2xl font-bold md:text-3xl"
-          style={{ color: "#450920", fontFamily: '"Black Mango", serif' }}
+          className="text-2xl font-bold md:text-3xl text-[#450920] dark:text-white"
+          style={{ fontFamily: '"Black Mango", serif' }}
         >
           Khám phá vẻ đẹp cá nhân của bạn
         </h1>
-        <p className="mx-auto mt-3 max-w-md text-sm italic text-gray-600">
+        <p className="mx-auto mt-3 max-w-md text-sm italic text-gray-600 dark:text-gray-400">
           Thấu hiểu làn da, định hình phong cách.
         </p>
       </div>
@@ -523,12 +521,11 @@ export default function QuizPage() {
               transition={{ duration: 0.3 }}
             >
               {/* Question Card */}
-              <div className="rounded-2xl bg-white p-6 shadow-lg md:p-8 mx-auto" style={{ fontFamily: '"Be Vietnam Pro", sans-serif', maxWidth: '1070px', minHeight: '340px' }}>
+              <div className="rounded-2xl bg-white dark:bg-gray-800 p-6 shadow-lg md:p-8 mx-auto border border-gray-200 dark:border-gray-700" style={{ fontFamily: '"Be Vietnam Pro", sans-serif', maxWidth: '1070px', minHeight: '340px' }}>
                 {/* Progress Header */}
                 <div className="mb-4 relative flex items-center">
                   <span
-                    className="absolute left-0 text-base font-semibold whitespace-nowrap"
-                    style={{ color: "#450920" }}
+                    className="absolute left-0 text-base font-semibold whitespace-nowrap text-[#450920] dark:text-white"
                   >
                     Câu {currentQuestion + 1}/10
                   </span>
@@ -541,7 +538,7 @@ export default function QuizPage() {
                         } ${i === 9 ? "rounded-r-lg" : ""}`}
                         style={{
                           backgroundColor:
-                            i <= currentQuestion ? "#FFA5AB" : "#D9D9D9",
+                            i <= currentQuestion ? "#f472b6" : "#374151",
                         }}
                       />
                     ))}
@@ -550,16 +547,16 @@ export default function QuizPage() {
 
                 {/* Section Label */}
                 <p
-                  className="mb-4 text-center text-base font-semibold"
-                  style={{ color: "#450920", fontFamily: '"Be Vietnam Pro", sans-serif' }}
+                  className="mb-4 text-center text-base font-semibold text-[#450920] dark:text-white"
+                  style={{ fontFamily: '"Be Vietnam Pro", sans-serif' }}
                 >
                   {question.section}
                 </p>
 
                 {/* Question */}
                 <h2
-                  className="mb-8 text-center text-base font-medium"
-                  style={{ color: "#450920", fontFamily: '"Be Vietnam Pro", sans-serif' }}
+                  className="mb-8 text-center text-base font-medium text-[#450920] dark:text-white"
+                  style={{ fontFamily: '"Be Vietnam Pro", sans-serif' }}
                 >
                   Câu {currentQuestion + 1}: {question.question}
                 </h2>
@@ -570,16 +567,14 @@ export default function QuizPage() {
                     <button
                       key={option.key}
                       onClick={() => handleSelect(option.key)}
-                      className={`flex-1 min-w-0 rounded-xl border-2 p-4 text-center text-sm transition-all ${
+                      className={`flex-1 min-w-0 rounded-xl border-2 p-4 text-center text-sm transition-all duration-300 ${
                         selectedOption === option.key
-                          ? "border-[#C1475A] bg-rose-200 font-semibold"
-                          : "border-rose-100 bg-rose-50 hover:border-rose-300 hover:bg-rose-100"
+                          ? "border-pink-400 bg-[#FFA5AB]/20 font-semibold text-white"
+                          : "border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 hover:border-pink-400 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300"
                       }`}
-                      style={{ color: "#450920" }}
                     >
                       <span
-                        className="mr-1 font-bold"
-                        style={{ color: "#C1475A" }}
+                        className="mr-1 font-bold text-[#C1475A] dark:text-[#DA627D]"
                       >
                         {option.key}.
                       </span>
@@ -593,8 +588,7 @@ export default function QuizPage() {
                   <button
                     onClick={handleNext}
                     disabled={!selectedOption}
-                    className="inline-flex items-center gap-2 rounded-full px-8 py-3 font-medium text-white transition-all disabled:cursor-not-allowed disabled:opacity-50"
-                    style={{ backgroundColor: "#C1475A" }}
+                    className="inline-flex items-center gap-2 rounded-full px-8 py-3 font-medium text-white bg-[#FFA5AB] hover:bg-[#DA627D] transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-[#FFA5AB]"
                   >
                     {currentQuestion === allQuestions.length - 1
                       ? "Xem kết quả"
@@ -613,33 +607,29 @@ export default function QuizPage() {
               className="space-y-8"
             >
               {/* Skin Type Result */}
-              <div className="rounded-2xl bg-white p-6 shadow-lg md:p-8">
+              <div className="rounded-2xl bg-white dark:bg-gray-800 p-6 shadow-lg md:p-8 border border-gray-200 dark:border-gray-700">
                 <div
-                  className="mb-4 inline-block rounded-full px-4 py-1 text-sm font-medium text-white"
-                  style={{ backgroundColor: "#C1475A" }}
+                  className="mb-4 inline-block rounded-full px-4 py-1 text-sm font-medium text-white bg-[#FFA5AB]"
                 >
                   Loại da của bạn
                 </div>
                 <h2
-                  className="text-2xl font-bold"
+                  className="text-2xl font-bold text-[#450920] dark:text-white"
                   style={{
-                    color: "#450920",
                     fontFamily: '"Black Mango", serif',
                   }}
                 >
                   {skinResult.title}
                 </h2>
-                <p className="mt-3 text-gray-600">{skinResult.desc}</p>
+                <p className="mt-3 text-gray-600 dark:text-gray-400">{skinResult.desc}</p>
 
                 {/* Skincare Recommendations */}
                 <div className="mt-6">
                   <h3
-                    className="mb-4 font-semibold"
-                    style={{ color: "#450920" }}
+                    className="mb-4 font-semibold text-[#450920] dark:text-white"
                   >
                     <Sparkles
-                      className="mr-2 inline-block h-4 w-4"
-                      style={{ color: "#C1475A" }}
+                      className="mr-2 inline-block h-4 w-4 text-[#FFA5AB] dark:text-[#DA627D]"
                     />
                     Gợi ý Skincare
                   </h3>
@@ -653,12 +643,10 @@ export default function QuizPage() {
                 {/* Makeup Recommendations */}
                 <div className="mt-6">
                   <h3
-                    className="mb-4 font-semibold"
-                    style={{ color: "#450920" }}
+                    className="mb-4 font-semibold text-[#450920] dark:text-white"
                   >
                     <Sparkles
-                      className="mr-2 inline-block h-4 w-4"
-                      style={{ color: "#C1475A" }}
+                      className="mr-2 inline-block h-4 w-4 text-[#FFA5AB] dark:text-[#DA627D]"
                     />
                     Gợi ý Makeup
                   </h3>
@@ -671,25 +659,23 @@ export default function QuizPage() {
               </div>
 
               {/* Personal Color Result */}
-              <div className="rounded-2xl bg-white p-6 shadow-lg md:p-8">
+              <div className="rounded-2xl bg-white dark:bg-gray-800 p-6 shadow-lg md:p-8 border border-gray-200 dark:border-gray-700">
                 <div
-                  className="mb-4 inline-block rounded-full px-4 py-1 text-sm font-medium text-white"
-                  style={{ backgroundColor: "#DA627D" }}
+                  className="mb-4 inline-block rounded-full px-4 py-1 text-sm font-medium text-white bg-[#FFA5AB]"
                 >
                   Personal Color
                 </div>
                 <h2
-                  className="text-2xl font-bold"
+                  className="text-2xl font-bold text-[#450920] dark:text-white"
                   style={{
-                    color: "#450920",
                     fontFamily: '"Black Mango", serif',
                   }}
                 >
                   {colorResult.title}
                 </h2>
-                <p className="mt-3 text-gray-600">{colorResult.desc}</p>
-                <div className="mt-4 rounded-xl bg-rose-50 p-4">
-                  <p className="text-sm" style={{ color: "#A53860" }}>
+                <p className="mt-3 text-gray-600 dark:text-gray-400">{colorResult.desc}</p>
+                <div className="mt-4 rounded-xl bg-rose-50 dark:bg-gray-900 p-4 border border-gray-200 dark:border-gray-700">
+                  <p className="text-sm text-[#A53860] dark:text-pink-400">
                     <strong>Gợi ý:</strong> {colorResult.tips}
                   </p>
                 </div>
@@ -699,16 +685,14 @@ export default function QuizPage() {
               <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
                 <button
                   onClick={handleRestart}
-                  className="inline-flex items-center justify-center gap-2 rounded-full border-2 px-8 py-3 font-medium transition-all hover:bg-gray-100"
-                  style={{ borderColor: "#C1475A", color: "#C1475A" }}
+                  className="inline-flex items-center justify-center gap-2 rounded-full border-2 px-8 py-3 font-medium transition-colors duration-300 border-[#A53860] bg-[#A53860] text-white hover:bg-[#DA627D]"
                 >
                   <RotateCcw className="h-4 w-4" />
                   Làm quiz lại
                 </button>
                 <Link
                   href="/products"
-                  className="inline-flex items-center justify-center gap-2 rounded-full px-8 py-3 font-medium text-white transition-all hover:opacity-90"
-                  style={{ backgroundColor: "#C1475A" }}
+                  className="inline-flex items-center justify-center gap-2 rounded-full px-8 py-3 font-medium text-white bg-[#A53860] hover:bg-[#DA627D] transition-colors duration-300"
                 >
                   Xem tất cả sản phẩm
                   <ArrowRight className="h-4 w-4" />

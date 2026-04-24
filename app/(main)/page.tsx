@@ -527,6 +527,7 @@ function GlowicFeaturesSection() {
           width={130}
           height={130}
           className="object-contain group-hover:scale-105 transition-transform duration-300 w-3/4 h-3/4"
+          style={{ width: "auto", height: "auto" }}
         />
       </div>
       <span
@@ -665,6 +666,7 @@ function GlowicFeaturesSection() {
                     width={130}
                     height={131}
                     className="object-contain group-hover:scale-105 transition-transform duration-300"
+                    style={{ width: "auto", height: "auto" }}
                   />
                 </div>
                 <span
@@ -708,6 +710,7 @@ function GlowicFeaturesSection() {
                     width={130}
                     height={131}
                     className="object-contain group-hover:scale-105 transition-transform duration-300"
+                    style={{ width: "auto", height: "auto" }}
                   />
                 </div>
                 <span
