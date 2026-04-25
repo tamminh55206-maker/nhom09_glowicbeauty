@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { CartBadge } from "./CartBadge";
+import { useAuthStore } from "@/lib/store";
 
 type NavLink = {
   href: string;
@@ -39,6 +40,8 @@ export function Header() {
   const pathname = usePathname();
   const [searchQuery, setSearchQuery] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  const { currentUser } = useAuthStore();
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window === "undefined") {
       return false;
@@ -47,6 +50,7 @@ export function Header() {
   });
 
   useEffect(() => {
+    setIsMounted(true);
     document.documentElement.classList.toggle("dark", darkMode);
   }, [darkMode]);
 
@@ -157,7 +161,7 @@ export function Header() {
             </button>
 
             <Link
-              href="/login"
+              href={isMounted && currentUser ? "/user" : "/login"}
               className="flex items-center gap-1.5 text-sm text-white"
             >
               <User className="h-6 w-6" />
@@ -169,7 +173,9 @@ export function Header() {
                   fontWeight: 600,
                 }}
               >
-                Đăng nhập/ Đăng ký
+                {isMounted && currentUser
+                  ? currentUser.tenTaiKhoan
+                  : "Đăng nhập/ Đăng ký"}
               </span>
             </Link>
           </div>
