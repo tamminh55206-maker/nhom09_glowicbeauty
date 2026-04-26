@@ -510,7 +510,7 @@ function BrandsSection() {
                   </div>
                 ) : (
                   <span className="text-base md:text-lg font-bold text-gray-800">
-                    {brand.displayName}
+                    {brand.name}
                   </span>
                 )}
               </Link>
