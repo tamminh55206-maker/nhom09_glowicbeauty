@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { MapPin, Phone, Mail } from "lucide-react";
 import Image from "next/image";
+import { assetPath } from "@/lib/utils";
 // Social Icons
 function FacebookIcon() {
   return (
@@ -41,7 +42,7 @@ export function Footer() {
         {/* Logo */}
         <div className="mb-10" style={{ display: "inline-block" }}>
           <Image
-            src="/images/logo/LOGO_white.svg"
+            src={assetPath("/images/logo/LOGO_white.svg")}
             alt="Glowic Beauty Logo"
             width={300}
             height={108}
@@ -377,7 +378,7 @@ export function Footer() {
             </h4>
             <div className="mt-2 flex flex-wrap items-center gap-2">
               <Image
-                src="/images/payment/momo.png"
+                src={assetPath("/images/payment/momo.png")}
                 alt="MoMo"
                 width={35}
                 height={35}
@@ -385,7 +386,7 @@ export function Footer() {
                 style={{ width: "auto", height: "auto" }}
               />
               <Image
-                src="/images/payment/shopeepay.png"
+                src={assetPath("/images/payment/shopeepay.png")}
                 alt="ShopeePay"
                 width={35}
                 height={35}
@@ -393,7 +394,7 @@ export function Footer() {
                 style={{ width: "auto", height: "auto" }}
               />
               <Image
-                src="/images/payment/vnpay.png"
+                src={assetPath("/images/payment/vnpay.png")}
                 alt="VNPay"
                 width={67}
                 height={13}

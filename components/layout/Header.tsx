@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
+import { assetPath } from "@/lib/utils";
 import {
   ShoppingCart,
   Menu,
@@ -108,7 +109,7 @@ export function Header() {
         <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6 md:h-16 lg:px-8">
           <Link href="/" className="flex flex-shrink-0 items-center">
             <Image
-              src="/images/logo/LOGO_white.svg"
+              src={assetPath("/images/logo/LOGO_white.svg")}
               alt="Glowic Beauty Logo"
               width={150}
               height={50}
