@@ -9,6 +9,7 @@ import {
   ChevronRight,
   FileText,
   IdCard,
+  LogOut,
   type LucideIcon,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -355,6 +356,15 @@ export function AccountDashboard({
   };
 
   const handleLogout = () => {
+    if (!window.confirm("Bạn có chắc muốn đăng xuất không?")) {
+      return;
+    }
+
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("glowic-auth");
+      document.cookie = "glowic-auth=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+    }
+
     logout();
     router.push("/");
   };
@@ -442,16 +452,15 @@ export function AccountDashboard({
                 );
               })}
             </nav>
-            {activeTab === "profile" && (
-              <button
-                type="button"
-                onClick={handleLogout}
-                className="mt-auto ml-18.5 w-fit cursor-pointer rounded-[7px] border border-[#F07688] bg-[#FFA4B0] px-4.5 py-2.25 text-[18px] font-semibold text-white shadow-[0_4px_7px_rgba(0,0,0,0.18)] transition-all duration-200 hover:-translate-y-px hover:bg-[#F07688] hover:shadow-[0_7px_14px_rgba(240,118,136,0.35)]"
-                style={{ fontFamily: '"Be Vietnam Pro", sans-serif' }}
-              >
-                Đăng xuất
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="mt-auto flex w-full items-center gap-3 rounded-[8px] px-3 py-2.5 text-left text-[15px] font-semibold text-[#A53860] dark: text-[#FFA5AB] transition duration-200 hover:bg-[#DA627D] hover:text-[#6D273F] border border-[#DA627D] focus:ring-2 focus:ring-[#F9DBBD] "
+              style={{ fontFamily: '"Be Vietnam Pro", sans-serif' }}
+            >
+              <LogOut className="h-5 w-5 shrink-0" />
+              <span>Đăng xuất</span>
+            </button>
           </aside>
           <div
             className={`w-full border bg-white dark:border-[#503745] dark:bg-[#24171F] ${
