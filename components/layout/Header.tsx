@@ -50,9 +50,17 @@ export function Header() {
     return localStorage.getItem("darkMode") === "true";
   });
 
+  const displayName = currentUser
+    ? currentUser.tenTaiKhoan?.trim() || currentUser.email || "Tài khoản"
+    : "Đăng nhập/ Đăng ký";
+
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
   }, [darkMode]);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const toggleDarkMode = () => {
     const newVal = !darkMode;
@@ -167,7 +175,7 @@ export function Header() {
             </button>
 
             <Link
-              href={isMounted && currentUser ? "/user" : "/login"}
+              href={isMounted && currentUser ? "/user?tab=profile" : "/login"}
               className="flex items-center gap-1.5 text-sm text-white"
             >
               <User className="h-6 w-6" />
@@ -179,9 +187,7 @@ export function Header() {
                   fontWeight: 600,
                 }}
               >
-                {isMounted && currentUser
-                  ? currentUser.tenTaiKhoan
-                  : "Đăng nhập/ Đăng ký"}
+                {displayName}
               </span>
             </Link>
           </div>
