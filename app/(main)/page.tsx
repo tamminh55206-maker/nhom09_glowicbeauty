@@ -9,6 +9,7 @@ import { getFeaturedProducts, products } from "@/lib/data";
 import { useCartStore } from "@/lib/store";
 import { toast } from "sonner";
 import { image } from "framer-motion/client";
+import { assetPath } from "@/lib/utils";
 
 // Animation variants
 const fadeInUp = {
@@ -167,11 +168,11 @@ function BannerSection() {
   const [current, setCurrent] = useState(0);
 
   const images = [
-    "/images/banner/banner-1.jpg",
-    "/images/banner/banner-2.png",
-    "/images/banner/banner-3.jpg",
-    "/images/banner/banner-4.jpg",
-    "/images/banner/banner-5.png",
+    assetPath("/images/banner/banner-1.jpg"),
+    assetPath("/images/banner/banner-2.png"),
+    assetPath("/images/banner/banner-3.jpg"),
+    assetPath("/images/banner/banner-4.jpg"),
+    assetPath("/images/banner/banner-5.png"),
   ];
 
   useEffect(() => {
@@ -348,12 +349,24 @@ function ProductsSection() {
 // ─── Categories Section ────────────────────────────────────────────────────────
 function CategoriesSection() {
   const categories = [
-    { name: "Son môi", image: "/images/danhmuc/son.png", count: 15 },
-    { name: "Kem nền", image: "/images/danhmuc/kem-nen.png", count: 12 },
-    { name: "Chăm sóc da", image: "/images/danhmuc/duong-da.png", count: 20 },
-    { name: "Mắt", image: "/images/danhmuc/mat.png", count: 18 },
-    { name: "Phấn má", image: "/images/danhmuc/ma.png", count: 8 },
-    { name: "Kem lót", image: "/images/danhmuc/kem-lot.png", count: 10 },
+    { name: "Son môi", image: assetPath("/images/danhmuc/son.png"), count: 15 },
+    {
+      name: "Kem nền",
+      image: assetPath("/images/danhmuc/kem-nen.png"),
+      count: 12,
+    },
+    {
+      name: "Chăm sóc da",
+      image: assetPath("/images/danhmuc/duong-da.png"),
+      count: 20,
+    },
+    { name: "Mắt", image: assetPath("/images/danhmuc/mat.png"), count: 18 },
+    { name: "Phấn má", image: assetPath("/images/danhmuc/ma.png"), count: 8 },
+    {
+      name: "Kem lót",
+      image: assetPath("/images/danhmuc/kem-lot.png"),
+      count: 10,
+    },
   ];
 
   return (
@@ -437,14 +450,14 @@ function CategoriesSection() {
 // ─── Brands Section ────────────────────────────────────────────────────────────
 function BrandsSection() {
   const brands = [
-    { name: "Carslan", image: "/images/brands/carslan.png" },
-    { name: "Cocoon", image: "/images/brands/cocoon.png" },
-    { name: "L'Oréal", image: "/images/brands/loreal.png" },
-    { name: "Cerave", image: "/images/brands/cerave.png" },
-    { name: "Maybelline", image: "/images/brands/maybelline.png" },
-    { name: "Peripera", image: "/images/brands/peripera.png" },
-    { name: "Romand", image: "/images/brands/romand.png" },
-    { name: "3CE", image: "/images/brands/3ce.png" },
+    { name: "Carslan", image: assetPath("/images/brands/carslan.png") },
+    { name: "Cocoon", image: assetPath("/images/brands/cocoon.png") },
+    { name: "L'Oréal", image: assetPath("/images/brands/loreal.png") },
+    { name: "Cerave", image: assetPath("/images/brands/cerave.png") },
+    { name: "Maybelline", image: assetPath("/images/brands/maybelline.png") },
+    { name: "Peripera", image: assetPath("/images/brands/peripera.png") },
+    { name: "Romand", image: assetPath("/images/brands/romand.png") },
+    { name: "3CE", image: assetPath("/images/brands/3ce.png") },
   ];
 
   return (
@@ -525,11 +538,11 @@ function BrandsSection() {
 // ─── Glowic Features Section ───────────────────────────────────────────────────
 function GlowicFeaturesSection() {
   const skinCategories = [
-    { name: "Da thường", image: "/images/skin/da-thuong.png" },
-    { name: "Da khô", image: "/images/skin/da-kho.png" },
-    { name: "Da dầu", image: "/images/skin/da-dau.png" },
-    { name: "Da nhạy cảm", image: "/images/skin/da-nhay-cam.png" },
-    { name: "Da hỗn hợp", image: "/images/skin/da-hon-hop.png" },
+    { name: "Da thường", image: assetPath("/images/skin/da-thuong.png") },
+    { name: "Da khô", image: assetPath("/images/skin/da-kho.png") },
+    { name: "Da dầu", image: assetPath("/images/skin/da-dau.png") },
+    { name: "Da nhạy cảm", image: assetPath("/images/skin/da-nhay-cam.png") },
+    { name: "Da hỗn hợp", image: assetPath("/images/skin/da-hon-hop.png") },
   ];
 
   const SkinCard = ({ cat }: { cat: { name: string; image: string } }) => (
@@ -573,7 +586,7 @@ function GlowicFeaturesSection() {
         {/* Model ảnh */}
         <div className="relative w-full h-[220px] mb-6">
           <Image
-            src="/images/model-banner.png"
+            src={assetPath("/images/model-banner.png")}
             alt="Bạn cần gì đó? Có Glowic lo"
             fill
             className="object-contain object-center"
