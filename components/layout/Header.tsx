@@ -70,7 +70,9 @@ export function Header() {
   };
 
   // ADDED
-  const handleSectionNavigation = (sectionId: "flash-sale" | "featured-brands") => {
+  const handleSectionNavigation = (
+    sectionId: "flash-sale" | "featured-brands",
+  ) => {
     setMobileMenuOpen(false);
 
     if (pathname === "/") {
@@ -141,12 +143,12 @@ export function Header() {
               <CartBadge />
             </Link>
 
-            <button className="relative hidden sm:block">
+            <Link href="/user" className="relative hidden sm:block">
               <Bell className="h-6 w-6 text-white" />
               <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-rose-500 text-xs font-medium text-white">
                 3
               </span>
-            </button>
+            </Link>
 
             <button className="hidden sm:block">
               <MessageCircle className="h-6 w-6 text-white" />
@@ -157,7 +159,11 @@ export function Header() {
               className="text-white transition-transform hover:scale-110"
               aria-label="Toggle dark mode"
             >
-              {darkMode ? <Sun className="h-6 w-6" /> : <Moon className="h-6 w-6" />}
+              {darkMode ? (
+                <Sun className="h-6 w-6" />
+              ) : (
+                <Moon className="h-6 w-6" />
+              )}
             </button>
 
             <Link
@@ -189,7 +195,11 @@ export function Header() {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
-            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {mobileMenuOpen ? (
+              <X className="h-5 w-5" />
+            ) : (
+              <Menu className="h-5 w-5" />
+            )}
           </button>
 
           <nav className="hidden flex-1 items-center justify-center gap-3 md:flex lg:gap-[70px]">

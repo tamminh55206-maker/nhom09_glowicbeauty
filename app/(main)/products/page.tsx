@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   ShoppingCart,
   Star,
@@ -404,6 +405,19 @@ export default function ProductsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const productsPerPage = 20;
+  const searchParams = useSearchParams();
+
+  // Tự động tích chọn thương hiệu khi link có ?brand=...
+  useEffect(() => {
+    const brandParam = searchParams.get("brand");
+    if (brandParam) {
+      setFilters((prev) => ({
+        ...prev,
+        brands: [brandParam],
+      }));
+      setCurrentPage(1);
+    }
+  }, [searchParams]);
 
   const toggleFilter = (
     key: "brands" | "congDung" | "loaiDa" | "loaiSanPham",
