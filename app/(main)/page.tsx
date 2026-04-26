@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { getFeaturedProducts, products } from "@/lib/data";
 import { useCartStore } from "@/lib/store";
 import { toast } from "sonner";
+import { image } from "framer-motion/client";
 
 // Animation variants
 const fadeInUp = {
@@ -443,7 +444,7 @@ function BrandsSection() {
     { name: "Maybelline", image: "/images/brands/maybelline.png" },
     { name: "Peripera", image: "/images/brands/peripera.png" },
     { name: "Romand", image: "/images/brands/romand.png" },
-    { name: "3CE", displayName: "3CE" },
+    { name: "3CE", image: "/images/brands/3ce.png" },
   ];
 
   return (

@@ -4,13 +4,21 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Bell, ChevronRight, FileText, IdCard, type LucideIcon } from "lucide-react";
-import { toast } from "sonner";
-import { type AuthUser, type Order, useAuthStore, useOrderStore } from "@/lib/store";
 import {
-  canCancelOrder,
-  getOrderStatusLabel,
-} from "@/lib/order-status";
+  Bell,
+  ChevronRight,
+  FileText,
+  IdCard,
+  type LucideIcon,
+} from "lucide-react";
+import { toast } from "sonner";
+import {
+  type AuthUser,
+  type Order,
+  useAuthStore,
+  useOrderStore,
+} from "@/lib/store";
+import { canCancelOrder, getOrderStatusLabel } from "@/lib/order-status";
 
 export type AccountTab = "notifications" | "profile" | "orders";
 
@@ -140,7 +148,8 @@ const normalizeStoredDate = (value: string) => {
   return normalizedDate;
 };
 
-const isValidEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+const isValidEmail = (value: string) =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 const isValidPhone = (value: string) => /^\d{9,11}$/.test(value);
 
 const accountTabs: Array<{
@@ -516,11 +525,15 @@ export function AccountDashboard({
                   >
                     <h2
                       className="uppercase text-[#1D1A1B] dark:text-[#FFD6E1]"
-                      style={{
-                        fontSize: "12px",
-                        fontWeight: 700,
-                        lineHeight: "15px",
-                      }}
+                      style={
+                        {
+                          fontFamily: '"Be Vietnam Pro", sans-serif',
+                          fontSize: "15px",
+                          fontWeight: 700,
+                          lineHeight: "1.4",
+                          letterSpacing: "0.02em",
+                        } as React.CSSProperties
+                      }
                     >
                       {notification.title}
                     </h2>
@@ -575,7 +588,10 @@ export function AccountDashboard({
                           <input
                             value={row.value}
                             onChange={(event) =>
-                              handleFieldChange(row.field as keyof ProfileDraft, event.target.value)
+                              handleFieldChange(
+                                row.field as keyof ProfileDraft,
+                                event.target.value,
+                              )
                             }
                             autoComplete={row.autoComplete}
                             inputMode={row.inputMode}
@@ -626,11 +642,17 @@ export function AccountDashboard({
                   {orders.map((order, index) => (
                     <article
                       key={order.id}
-                      className={index === 0 ? "" : "border-t border-[#D9D9D9] dark:border-[#4A353F]"}
+                      className={
+                        index === 0
+                          ? ""
+                          : "border-t border-[#D9D9D9] dark:border-[#4A353F]"
+                      }
                       style={{
                         fontFamily: '"Be Vietnam Pro", sans-serif',
-                        paddingTop: index === 0 ? "0px" : index === 1 ? "34px" : "24px",
-                        paddingBottom: index === orders.length - 1 ? "0px" : "19px",
+                        paddingTop:
+                          index === 0 ? "0px" : index === 1 ? "34px" : "24px",
+                        paddingBottom:
+                          index === orders.length - 1 ? "0px" : "19px",
                       }}
                     >
                       <div className="space-y-5">
