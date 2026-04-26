@@ -150,7 +150,7 @@ export function Header() {
               </span>
             </Link>
 
-            <button className="hidden sm:block">
+            <button className="hidden sm:block" onClick={() => router.push('/faq')}>
               <MessageCircle className="h-6 w-6 text-white" />
             </button>
 
