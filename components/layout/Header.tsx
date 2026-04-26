@@ -150,9 +150,9 @@ export function Header() {
               </span>
             </Link>
 
-            <button className="hidden sm:block">
+            <Link href="/faq" className="hidden sm:block">
               <MessageCircle className="h-6 w-6 text-white" />
-            </button>
+            </Link>
 
             <button
               onClick={toggleDarkMode}
