@@ -144,16 +144,19 @@ export function Header() {
             </Link>
 
             <Link href="/user" className="relative hidden sm:block">
+
               <Bell className="h-6 w-6 text-white" />
               <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-rose-500 text-xs font-medium text-white">
                 3
               </span>
             </Link>
 
-            <button className="hidden sm:block">
-              <MessageCircle className="h-6 w-6 text-white" />
+            <button
+        onClick={() => router.push("/faq")}
+        className="hidden sm:block"
+          >
+            <MessageCircle className="h-6 w-6 text-white" />
             </button>
-
             <button
               onClick={toggleDarkMode}
               className="text-white transition-transform hover:scale-110"

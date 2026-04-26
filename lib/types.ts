@@ -27,6 +27,7 @@ export interface Product {
   slug: string;
   variant?: string;
   appliedDiscount?: AppliedDiscount;
+  displayName?: string;
 }
 
 export interface CartItem {

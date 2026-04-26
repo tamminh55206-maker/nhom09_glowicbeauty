@@ -9,7 +9,6 @@ import { getFeaturedProducts, products } from "@/lib/data";
 import { useCartStore } from "@/lib/store";
 import { toast } from "sonner";
 import { image } from "framer-motion/client";
-
 // Animation variants
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
