@@ -8,7 +8,11 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   basePath: isProd ? "/nhom09_glowicbeauty" : "",
-  assetPrefix: isProd ? "/nhom09_glowicbeauty" : "",
+  assetPrefix: isProd ? "/nhom09/glowicbeauty" : "",
+  // Ensure Turbopack resolves the correct nested project root in this workspace.
+  turbopack: {
+    root: __dirname,
+  },
 };
 
 export default nextConfig;
