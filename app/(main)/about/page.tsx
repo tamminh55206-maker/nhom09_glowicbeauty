@@ -102,12 +102,15 @@ export default function AboutPage() {
       {/* Breadcrumb */}
       <div className="border-b bg-white dark:bg-[#1a1a1f] dark:border-gray-700 transition-colors duration-300">
         <div className="mx-auto max-w-7xl px-4 py-4">
-          <nav className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 transition-colors duration-300">
-            <Link href="/" className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-300">
+          <nav className="flex items-center gap-2 text-sm">
+            <Link
+              href="/"
+              className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-300"
+            >
               Trang chủ
             </Link>
             <ChevronRight className="h-4 w-4 text-gray-400 dark:text-gray-500" />
-            <span className="text-[#450920] dark:text-gray-100">Về chúng tôi</span>
+            <span className="text-[#450920] dark:text-[#FFA5AB]">Về chúng tôi</span>
           </nav>
         </div>
       </div>
@@ -121,40 +124,51 @@ export default function AboutPage() {
           className="mb-16"
         >
           <h1
-            className="mb-8 text-center text-3xl font-bold text-[#450920] dark:text-gray-100 transition-colors duration-300"
-            style={{ fontFamily: '"Black Mango", serif' }}
+            className="mb-8 text-center text-3xl font-bold text-[#450920] dark:text-[#FFA5AB] transition-colors duration-300"
+            style={{ fontFamily: "Black Mango" }}
           >
-            VỀ CHÚNG TÔI
+            Về chúng tôi
           </h1>
 
           <div className="rounded-2xl bg-rose-50/50 p-8 shadow-sm transition-colors duration-300 dark:bg-[#1a1a1f]/80 dark:shadow-black/40">
             <p className="leading-relaxed text-[#450920] dark:text-gray-300">
               Glowic được thành lập vào năm 2026 tại TP. Hồ Chí Minh với sứ mệnh
-              mang đến cho mọi cô gái và chàng trai cơ hội <span className="font-bold text-[#450920] dark:text-[#DA627D]">tỏa sáng theo cách riêng</span> của mình.
+              mang đến cho mọi cô gái và chàng trai cơ hội{" "}
+              <span className="font-bold text-[#450920] dark:text-[#DA627D]">
+                tỏa sáng theo cách riêng
+              </span>{" "}
+              của mình.
             </p>
             <p className="mt-4 leading-relaxed text-[#450920] dark:text-gray-300">
-              Chúng tôi tin rằng trang điểm là <span className="font-bold text-[#450920] dark:text-[#DA627D]">ngôn ngữ của sự tự tin.</span> Mỗi lớp
-              cushion mịn màng, mỗi thỏi son màu sắc cá tính, mỗi má hồng ửng
-              hồng tự nhiên hay hàng mi cong vút đều giúp bạn thể hiện phiên bản
-              đẹp nhất của chính mình.
+              Chúng tôi tin rằng trang điểm là{" "}
+              <span className="font-bold text-[#450920] dark:text-[#DA627D]">
+                ngôn ngữ của sự tự tin.
+              </span>{" "}
+              Mỗi lớp cushion mịn màng, mỗi thỏi son màu sắc cá tính, mỗi má hồng
+              ửng hồng tự nhiên hay hàng mi cong vút đều giúp bạn thể hiện phiên
+              bản đẹp nhất của chính mình.
             </p>
             <p className="mt-4 leading-relaxed text-[#450920] dark:text-gray-300">
-              Tại Glowic, chúng tôi không chỉ bán sản phẩm trang điểm. Chúng tôi xây dựng một hành trình làm đẹp toàn diện: từ những sản phẩm chăm sóc da giúp làn da khỏe mạnh, căng mịn – làm nền tảng vững chắc cho lớp makeup sau này.
+              Tại Glowic, chúng tôi không chỉ bán sản phẩm trang điểm. Chúng tôi
+              xây dựng một hành trình làm đẹp toàn diện: từ những sản phẩm chăm sóc
+              da giúp làn da khỏe mạnh, căng mịn – làm nền tảng vững chắc cho lớp
+              makeup sau này.
             </p>
             <p className="mt-4 leading-relaxed text-[#450920] dark:text-gray-300">
-            Dù bạn thích phong cách makeup nhẹ nhàng hàng ngày, cá tính táo bạo, hay chỉ cần một lớp makeup sáng da tự tin ra đường, Glowic luôn đồng hành cùng bạn với những sản phẩm chất lượng, dễ sử dụng.
+              Dù bạn thích phong cách makeup nhẹ nhàng hàng ngày, cá tính táo
+              bạo, hay chỉ cần một lớp makeup sáng da tự tin ra đường, Glowic
+              luôn đồng hành cùng bạn với những sản phẩm chất lượng, dễ sử dụng.
             </p>
-            <p
-              className="mt-4 font-bold text-[#450920] dark:text-[#DA627D]"
-            >
-              Glowic – Trang điểm cho nàng tỏa sáng, dưỡng da giữ trọn nét rạng ngời.
+            <p className="mt-4 font-bold text-[#450920] dark:text-[#DA627D]">
+              Glowic – Trang điểm cho nàng tỏa sáng, dưỡng da giữ trọn nét rạng
+              ngời.
             </p>
           </div>
         </motion.section>
 
         {/* Section 2 - Team Members */}
         <section className="mx-auto max-w-[1158px]">
-          <h2 className="mb-6 text-center text-[18px] font-semibold text-[#450920] dark:text-gray-100 transition-colors duration-300">
+          <h2 className="mb-6 text-center text-[18px] font-semibold text-[#450920] dark:text-[#FFA5AB] transition-colors duration-300">
             Thành viên
           </h2>
 
@@ -176,20 +190,16 @@ export default function AboutPage() {
             viewport={{ once: true, margin: "-50px" }}
             className="grid grid-cols-3 gap-8 justify-items-center"
           >
-           {teamMembers
-  .filter((m) => m.role !== "Leader")
-  .map((member, index) => (
-    <div 
-      key={member.studentId} 
-      // Lệnh này ép TẤT CẢ các thẻ con bên trong MemberCard phải dùng font này
-      className="[&_*]:!font-['Be_Vietnam_Pro',_sans-serif]"
-    >
-       <MemberCard 
-         member={member} 
-         index={index + 1}
-       />
-    </div>
-  ))}
+            {teamMembers
+              .filter((m) => m.role !== "Leader")
+              .map((member, index) => (
+                <div
+                  key={member.studentId}
+                  className="[&_*]:!font-['Be_Vietnam_Pro',_sans-serif]"
+                >
+                  <MemberCard member={member} index={index + 1} />
+                </div>
+              ))}
           </motion.div>
         </section>
       </div>
