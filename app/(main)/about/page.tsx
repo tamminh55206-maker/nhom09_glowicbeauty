@@ -41,7 +41,7 @@ function MemberCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.4, delay: index * 0.1 }}
-      className="group relative flex h-[311px] w-[300px] flex-col items-center justify-start gap-4 rounded-2xl border border-gray-200 bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-2xl dark:border-gray-700 dark:bg-gray-800 dark:shadow-black/20 dark:hover:shadow-pink-500/10"
+      className="group relative flex h-[340px] w-[280px] flex-col items-center justify-start gap-4 pt-8 pb-4 rounded-2xl border border-gray-200 bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-2xl dark:border-gray-700 dark:bg-gray-800 dark:shadow-black/20 dark:hover:shadow-pink-500/10"
     >
       {/* Avatar */}
       <div className="relative h-[120px] w-[120px] overflow-hidden rounded-full bg-white ring-4 ring-white transition-shadow duration-300 group-hover:shadow-[0_0_20px_rgba(255,105,135,0.4)] dark:bg-gray-700 dark:ring-gray-600 dark:group-hover:shadow-[0_0_20px_rgba(255,105,135,0.2)]">
@@ -182,7 +182,7 @@ export default function AboutPage() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
-            className="grid grid-cols-3 gap-8 justify-items-center"
+            className="grid grid-cols-3 gap-6 justify-items-center"
           >
             {teamMembers
               .filter((m) => m.role !== "Leader")
