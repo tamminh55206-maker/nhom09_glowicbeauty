@@ -41,11 +41,8 @@ function MemberCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.4, delay: index * 0.1 }}
-      className="group relative flex h-[311px] w-[300px] flex-col items-center justify-start gap-4 rounded-2xl border border-white/40 bg-white/60 pt-[18px] pb-[30px] px-[20px] shadow-lg backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-2xl dark:border-gray-700 dark:bg-[#1a1a1f]/80 dark:shadow-black/40 dark:hover:shadow-pink-500/10"
+      className="group relative flex h-[311px] w-[300px] flex-col items-center justify-start gap-4 rounded-2xl border border-gray-200 bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-2xl dark:border-gray-700 dark:bg-gray-800 dark:shadow-black/20 dark:hover:shadow-pink-500/10"
     >
-      {/* Gradient overlay */}
-      <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br from-pink-100/40 to-transparent dark:from-[#2a1a22]/50" />
-
       {/* Avatar */}
       <div className="relative h-[120px] w-[120px] overflow-hidden rounded-full bg-white ring-4 ring-white transition-shadow duration-300 group-hover:shadow-[0_0_20px_rgba(255,105,135,0.4)] dark:bg-gray-700 dark:ring-gray-600 dark:group-hover:shadow-[0_0_20px_rgba(255,105,135,0.2)]">
         <Image
@@ -72,10 +69,7 @@ function MemberCard({
       {/* Info section */}
       <div className="relative flex flex-col items-center space-y-1 text-sm text-gray-700 dark:text-gray-400 transition-colors duration-300">
         <p>MSSV: {member.studentId}</p>
-        <span
-          className="inline-block rounded-full px-3 py-1 text-xs font-semibold text-white"
-          style={{ backgroundColor: "#DA627D" }}
-        >
+        <span className="inline-block rounded-full bg-[#DA627D] px-3 py-1 text-xs font-semibold text-white">
           {member.role === "Leader" ? "Leader" : "Member"}
         </span>
         {member.github && (
@@ -98,9 +92,9 @@ function MemberCard({
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-[#0f0f12] transition-colors duration-300">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       {/* Breadcrumb */}
-      <div className="border-b bg-white dark:bg-[#1a1a1f] dark:border-gray-700 transition-colors duration-300">
+      <div className="border-b bg-white dark:bg-gray-800 dark:border-gray-700 transition-colors duration-300">
         <div className="mx-auto max-w-7xl px-4 py-4">
           <nav className="flex items-center gap-2 text-sm">
             <Link
@@ -130,8 +124,8 @@ export default function AboutPage() {
             Về chúng tôi
           </h1>
 
-          <div className="rounded-2xl bg-rose-50/50 p-8 shadow-sm transition-colors duration-300 dark:bg-[#1a1a1f]/80 dark:shadow-black/40">
-            <p className="leading-relaxed text-[#450920] dark:text-gray-300">
+          <div className="rounded-2xl bg-rose-50/50 p-8 shadow-sm transition-colors duration-300 dark:bg-gray-800 dark:shadow-black/20">
+            <p className="leading-relaxed text-gray-700 dark:text-gray-300">
               Glowic được thành lập vào năm 2026 tại TP. Hồ Chí Minh với sứ mệnh
               mang đến cho mọi cô gái và chàng trai cơ hội{" "}
               <span className="font-bold text-[#450920] dark:text-[#DA627D]">
@@ -139,7 +133,7 @@ export default function AboutPage() {
               </span>{" "}
               của mình.
             </p>
-            <p className="mt-4 leading-relaxed text-[#450920] dark:text-gray-300">
+            <p className="mt-4 leading-relaxed text-gray-700 dark:text-gray-300">
               Chúng tôi tin rằng trang điểm là{" "}
               <span className="font-bold text-[#450920] dark:text-[#DA627D]">
                 ngôn ngữ của sự tự tin.
@@ -148,13 +142,13 @@ export default function AboutPage() {
               ửng hồng tự nhiên hay hàng mi cong vút đều giúp bạn thể hiện phiên
               bản đẹp nhất của chính mình.
             </p>
-            <p className="mt-4 leading-relaxed text-[#450920] dark:text-gray-300">
+            <p className="mt-4 leading-relaxed text-gray-700 dark:text-gray-300">
               Tại Glowic, chúng tôi không chỉ bán sản phẩm trang điểm. Chúng tôi
               xây dựng một hành trình làm đẹp toàn diện: từ những sản phẩm chăm sóc
               da giúp làn da khỏe mạnh, căng mịn – làm nền tảng vững chắc cho lớp
               makeup sau này.
             </p>
-            <p className="mt-4 leading-relaxed text-[#450920] dark:text-gray-300">
+            <p className="mt-4 leading-relaxed text-gray-700 dark:text-gray-300">
               Dù bạn thích phong cách makeup nhẹ nhàng hàng ngày, cá tính táo
               bạo, hay chỉ cần một lớp makeup sáng da tự tin ra đường, Glowic
               luôn đồng hành cùng bạn với những sản phẩm chất lượng, dễ sử dụng.
