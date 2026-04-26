@@ -25,13 +25,13 @@ type NavLink = {
   sectionId?: "flash-sale" | "featured-brands";
 };
 
-// ADDED
 function scrollToSectionWithOffset(id: string) {
   const element = document.getElementById(id);
   if (!element) return;
 
   const yOffset = -150;
-  const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+  const y =
+    element.getBoundingClientRect().top + window.pageYOffset + yOffset;
 
   window.scrollTo({ top: y, behavior: "smooth" });
 }
@@ -39,26 +39,34 @@ function scrollToSectionWithOffset(id: string) {
 export function Header() {
   const router = useRouter();
   const pathname = usePathname();
+  const { currentUser } = useAuthStore();
+
   const [searchQuery, setSearchQuery] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-  const { currentUser } = useAuthStore();
+
+  // ✅ detect client (thay cho mounted)
+  const isClient = typeof window !== "undefined";
+
+  // ✅ lazy init darkMode (không cần effect setState)
   const [darkMode, setDarkMode] = useState(() => {
-    if (typeof window === "undefined") {
-      return false;
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("darkMode") === "true";
     }
-    return localStorage.getItem("darkMode") === "true";
+    return false;
   });
 
+  // ✅ chỉ sync DOM (KHÔNG setState)
   useEffect(() => {
+    if (!isClient) return;
     document.documentElement.classList.toggle("dark", darkMode);
-  }, [darkMode]);
+  }, [darkMode, isClient]);
 
   const toggleDarkMode = () => {
-    const newVal = !darkMode;
-    setDarkMode(newVal);
-    localStorage.setItem("darkMode", String(newVal));
-    document.documentElement.classList.toggle("dark", newVal);
+    setDarkMode((prev) => {
+      const newValue = !prev;
+      localStorage.setItem("darkMode", String(newValue));
+      return newValue;
+    });
   };
 
   const handleSearch = (e: React.FormEvent) => {
@@ -69,9 +77,8 @@ export function Header() {
     }
   };
 
-  // ADDED
   const handleSectionNavigation = (
-    sectionId: "flash-sale" | "featured-brands",
+    sectionId: "flash-sale" | "featured-brands"
   ) => {
     setMobileMenuOpen(false);
 
@@ -79,7 +86,6 @@ export function Header() {
       const target = document.getElementById(sectionId);
       if (target) {
         window.history.replaceState(null, "", `/#${sectionId}`);
-        // UPDATED
         scrollToSectionWithOffset(sectionId);
       }
       return;
@@ -91,9 +97,7 @@ export function Header() {
   const navLinks: NavLink[] = [
     { href: "/", label: "Trang chủ" },
     { href: "/products", label: "Danh mục sản phẩm" },
-    // UPDATED
     { href: "/#flash-sale", label: "Flash Sale", sectionId: "flash-sale" },
-    // UPDATED
     {
       href: "/#featured-brands",
       label: "Thương hiệu nổi bật",
@@ -101,6 +105,9 @@ export function Header() {
     },
     { href: "/quiz", label: "Bài test cá nhân" },
   ];
+
+  // ❗ chặn render trên server → tránh hydration mismatch
+  if (!isClient) return null;
 
   return (
     <header className="sticky top-0 z-50">
@@ -110,15 +117,13 @@ export function Header() {
             <Image
               src={assetPath("/images/logo/LOGO_white.svg")}
               alt="Glowic Beauty Logo"
-              width={150}
-              height={50}
-              className="h-[50px] w-auto"
-              style={{ width: "auto", height: "50px" }}
-              loading="eager"
-              unoptimized
+              width={120}
+              height={40}
+              priority
             />
           </Link>
 
+          {/* SEARCH */}
           <form
             onSubmit={handleSearch}
             className="hidden flex-1 justify-center px-4 md:flex lg:px-8"
@@ -129,10 +134,10 @@ export function Header() {
                 placeholder="Tìm kiếm sản phẩm..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full rounded-full bg-white py-2.5 pl-4 pr-10 text-sm text-gray-900 outline-none placeholder:text-gray-400 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-500"
+                className="w-full rounded-full bg-white py-2.5 pl-4 pr-10 text-sm text-gray-900 outline-none dark:bg-gray-800 dark:text-white"
               />
               <button type="submit">
-                <Search className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 cursor-pointer text-gray-400 hover:text-gray-600" />
+                <Search className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
               </button>
             </div>
           </form>
@@ -154,10 +159,10 @@ export function Header() {
               <MessageCircle className="h-6 w-6 text-white" />
             </Link>
 
+            {/* ✅ dark mode không còn mismatch */}
             <button
               onClick={toggleDarkMode}
               className="text-white transition-transform hover:scale-110"
-              aria-label="Toggle dark mode"
             >
               {darkMode ? (
                 <Sun className="h-6 w-6" />
@@ -167,19 +172,12 @@ export function Header() {
             </button>
 
             <Link
-              href={isMounted && currentUser ? "/user" : "/login"}
+              href={currentUser ? "/user" : "/login"}
               className="flex items-center gap-1.5 text-sm text-white"
             >
               <User className="h-6 w-6" />
-              <span
-                className="hidden lg:inline"
-                style={{
-                  fontFamily: '"Be Vietnam Pro", sans-serif',
-                  fontSize: "18px",
-                  fontWeight: 600,
-                }}
-              >
-                {isMounted && currentUser
+              <span className="hidden lg:inline">
+                {currentUser
                   ? currentUser.tenTaiKhoan
                   : "Đăng nhập/ Đăng ký"}
               </span>
@@ -188,12 +186,12 @@ export function Header() {
         </div>
       </div>
 
+      {/* NAVBAR */}
       <div className="bg-[#A53860] dark:bg-[#5c1e35]">
         <div className="mx-auto flex h-[40px] max-w-7xl items-center px-4 md:px-6">
           <button
-            className="flex flex-shrink-0 items-center text-white"
+            className="flex items-center text-white"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle menu"
           >
             {mobileMenuOpen ? (
               <X className="h-5 w-5" />
@@ -202,20 +200,13 @@ export function Header() {
             )}
           </button>
 
-          <nav className="hidden flex-1 items-center justify-center gap-3 md:flex lg:gap-[70px]">
+          <nav className="hidden flex-1 justify-center gap-6 md:flex">
             {navLinks.map((link) =>
               link.sectionId ? (
                 <button
                   key={link.href}
-                  type="button"
                   onClick={() => handleSectionNavigation(link.sectionId!)}
-                  className="whitespace-nowrap text-white transition-colors hover:text-white/80"
-                  style={{
-                    fontFamily: '"Be Vietnam Pro", sans-serif',
-                    fontSize: "clamp(13px, 1.4vw, 18px)",
-                    fontWeight: pathname === "/" ? 700 : 400,
-                    lineHeight: "23px",
-                  }}
+                  className="text-white hover:text-white/80"
                 >
                   {link.label}
                 </button>
@@ -223,77 +214,15 @@ export function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="whitespace-nowrap text-white transition-colors hover:text-white/80"
-                  style={{
-                    fontFamily: '"Be Vietnam Pro", sans-serif',
-                    fontSize: "clamp(13px, 1.4vw, 18px)",
-                    fontWeight: pathname === link.href ? 700 : 400,
-                    lineHeight: "23px",
-                  }}
+                  className="text-white hover:text-white/80"
                 >
                   {link.label}
                 </Link>
-              ),
+              )
             )}
           </nav>
         </div>
       </div>
-
-      <form
-        onSubmit={handleSearch}
-        className="bg-white p-3 dark:bg-gray-900 md:hidden"
-      >
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Tìm kiếm sản phẩm..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full rounded-full border border-gray-200 bg-gray-50 py-2 pl-4 pr-10 text-sm outline-none dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-500"
-          />
-          <button type="submit">
-            <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 cursor-pointer text-gray-400 hover:text-gray-600" />
-          </button>
-        </div>
-      </form>
-
-      {mobileMenuOpen && (
-        <div className="border-t border-white/20 bg-[#A53860] dark:bg-[#5c1e35] md:hidden">
-          <nav className="flex flex-col px-4 py-1">
-            {navLinks.map((link) =>
-              link.sectionId ? (
-                <button
-                  key={link.href}
-                  type="button"
-                  onClick={() => handleSectionNavigation(link.sectionId!)}
-                  className="border-b border-white/20 py-3 text-left text-white transition-colors last:border-0 hover:text-white/80"
-                  style={{
-                    fontFamily: '"Be Vietnam Pro", sans-serif',
-                    fontSize: "16px",
-                    fontWeight: pathname === "/" ? 700 : 400,
-                  }}
-                >
-                  {link.label}
-                </button>
-              ) : (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="border-b border-white/20 py-3 text-white transition-colors last:border-0 hover:text-white/80"
-                  style={{
-                    fontFamily: '"Be Vietnam Pro", sans-serif',
-                    fontSize: "16px",
-                    fontWeight: pathname === link.href ? 700 : 400,
-                  }}
-                >
-                  {link.label}
-                </Link>
-              ),
-            )}
-          </nav>
-        </div>
-      )}
     </header>
   );
 }
