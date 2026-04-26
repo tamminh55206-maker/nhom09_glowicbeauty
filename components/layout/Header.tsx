@@ -51,7 +51,6 @@ export function Header() {
   });
 
   useEffect(() => {
-    setIsMounted(true);
     document.documentElement.classList.toggle("dark", darkMode);
   }, [darkMode]);
 
