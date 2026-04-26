@@ -618,7 +618,7 @@ function GlowicFeaturesSection() {
       <div className="hidden md:flex lg:hidden flex-col items-center py-10 px-6 gap-6">
         <div className="relative w-full h-[300px]">
           <Image
-            src="/images/model-banner.png"
+            src={assetPath("/images/model-banner.png")}
             alt="Bạn cần gì đó? Có Glowic lo"
             fill
             className="object-contain object-center"
@@ -646,7 +646,7 @@ function GlowicFeaturesSection() {
         {/* Background model */}
         <div className="absolute inset-0 w-full h-full">
           <Image
-            src="/images/model-banner.png"
+            src={assetPath("/images/model-banner.png")}
             alt="Bạn cần gì đó? Có Glowic lo"
             fill
             className="object-contain object-left"
