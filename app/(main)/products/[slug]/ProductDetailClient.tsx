@@ -8,7 +8,7 @@ import { Star, ShoppingCart, Minus, Plus, ChevronRight } from "lucide-react";
 import { useCartStore } from "@/lib/store";
 import { toast } from "sonner";
 import type { Product } from "@/lib/types";
-
+import { getBasePath } from "@/lib/getBasePath";
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
@@ -114,7 +114,7 @@ export default function ProductDetailClient({
 
   const handleBuyNow = () => {
     handleAddToCart();
-    window.location.href = "/cart";
+    window.location.href = `${getBasePath()}/cart`;
   };
 
   const sampleReviews = [
