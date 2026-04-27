@@ -20,6 +20,7 @@ import { useState, useEffect, useMemo, useRef } from "react";
 import { CartBadge } from "./CartBadge";
 import { useAuthStore } from "@/lib/store";
 import { products } from "@/lib/data";
+import { getBasePath } from "@/lib/getBasePath";
 
 type NavLink = {
   href: string;
@@ -211,7 +212,7 @@ function HamburgerMenu() {
     const queryKey = queryMap[activeCategory];
     const encodedValue = encodeURIComponent(value);
   
-    const url = `/products?${queryKey}=${encodedValue}`;
+    const url = `${getBasePath()}/products?${queryKey}=${encodedValue}`;
   
     // đóng menu trước khi chuyển
     setIsOpen(false);
