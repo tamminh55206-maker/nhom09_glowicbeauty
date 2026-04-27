@@ -548,7 +548,7 @@ function GlowicFeaturesSection() {
   // Helper cho mỗi ô chọn loại da
   const SkinCard = ({ cat }: { cat: { name: string; image: string } }) => (
     <Link href="/quiz" className="group flex flex-col items-center">
-      <div className="w-[185px] h-[185px] bg-white border border-black/10 shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-xl flex items-center justify-center overflow-hidden transition-all hover:shadow-lg">
+      <div className="w-[165px] h-[165px] bg-white border border-black/10 shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-xl flex items-center justify-center overflow-hidden transition-all hover:shadow-lg">
         <Image
           src={cat.image}
           alt={cat.name}
@@ -558,7 +558,7 @@ function GlowicFeaturesSection() {
         />
       </div>
       <span
-        className="mt-2 text-center text-black font-medium text-[20px]"
+        className="mt-2 text-center text-black font-medium text-[18px]"
         style={{ fontFamily: '"Be Vietnam Pro", sans-serif' }}
       >
         {cat.name}
@@ -585,7 +585,7 @@ function GlowicFeaturesSection() {
       </div>
 
       {/* 2. LỚP NỔI: Grid 6 ô (Căn về bên phải) */}
-      <div className="relative z-10 mx-auto flex h-full max-w-[1280px] items-center justify-end px-10">
+      <div className="relative z-10 mx-auto flex h-full max-w-[1280px] items-center justify-end px-4">
         <div className="grid grid-cols-3 gap-x-6 gap-y-4">
           {skinCategories.map((cat) => (
             <SkinCard key={cat.name} cat={cat} />
@@ -594,10 +594,10 @@ function GlowicFeaturesSection() {
           {/* Ô Xem thêm */}
           <Link
             href="/products"
-            className="flex flex-col items-center justify-center w-[185px] h-[185px] bg-white border border-black/10 shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-xl transition-all hover:shadow-lg"
+            className="flex flex-col items-center justify-center w-[165px] h-[165px] bg-white border border-black/10 shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-xl transition-all hover:shadow-lg"
           >
-            <span className="text-[24px] font-bold text-black">Xem thêm</span>
-            <span className="text-2xl">→</span>
+            <span className="text-[20px] font-bold text-black">Xem thêm</span>
+            <span className="text-[20px]">→</span>
           </Link>
         </div>
       </div>
