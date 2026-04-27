@@ -410,15 +410,26 @@ function ProductsContent() {
   // Tự động tích chọn thương hiệu khi link có ?brand=...
   useEffect(() => {
     const brandParam = searchParams.get("brand");
-    if (brandParam) {
-      setFilters((prev) => ({
-        ...prev,
-        brands: [brandParam],
-      }));
-      setCurrentPage(1);
-    }
+    const categoryParam = searchParams.get("category");
+    const skinTypeParam = searchParams.get("skinType");
+    const functionParam = searchParams.get("function");
+  
+    setFilters((prev) => ({
+      ...prev,
+      brands: brandParam ? [decodeURIComponent(brandParam)] : [],
+      loaiSanPham: categoryParam
+        ? [decodeURIComponent(categoryParam)]
+        : [],
+      loaiDa: skinTypeParam
+        ? [decodeURIComponent(skinTypeParam)]
+        : [],
+      congDung: functionParam
+        ? [decodeURIComponent(functionParam)]
+        : [],
+    }));
+  
+    setCurrentPage(1);
   }, [searchParams]);
-
   const toggleFilter = (
     key: "brands" | "congDung" | "loaiDa" | "loaiSanPham",
     value: string,
