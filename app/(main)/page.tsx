@@ -568,39 +568,46 @@ function GlowicFeaturesSection() {
 
   return (
     <motion.section
-      className="w-full relative overflow-hidden h-[600px]"
+      className="w-full relative overflow-hidden h-min-[600px]"
       style={{
         background: "linear-gradient(0deg, #F9DBBD -9.31%, #FFFFFF 96.81%)",
       }}
     >
       {/* 1. LỚP NỀN: Ảnh model (Luôn nằm bên trái) */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src={assetPath("/images/model-banner.png")}
-          alt="Banner"
-          fill
-          className="object-contain object-left"
-          priority
-        />
-      </div>
+     <div className="relative z-10 mx-auto max-w-[1280px] px-4">
+  <div className="grid grid-cols-1 md:grid-cols-12 items-center gap-6">
 
-      {/* 2. LỚP NỔI: Grid 6 ô (Căn về bên phải) */}
-      <div className="relative z-10 mx-auto flex h-full max-w-[1280px] items-center justify-end px-4">
-        <div className="grid grid-cols-3 gap-x-6 gap-y-4">
-          {skinCategories.map((cat) => (
-            <SkinCard key={cat.name} cat={cat} />
-          ))}
+    {/* LEFT: Banner (6 cột) */}
+    <div className="col-span-1 md:col-span-6 relative h-full min-h-[600px]">
+      <Image
+        src={assetPath("/images/model-banner.png")}
+        alt="Banner"
+        fill
+        className="object-contain object-left scale-110"
+        priority
+      />
+    </div>
 
-          {/* Ô Xem thêm */}
-          <Link
-            href="/products"
-            className="flex flex-col items-center justify-center w-[165px] h-[165px] bg-white border border-black/10 shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-xl transition-all hover:shadow-lg"
-          >
-            <span className="text-[20px] font-bold text-black">Xem thêm</span>
-            <span className="text-[20px]">→</span>
-          </Link>
-        </div>
+    {/* RIGHT: Grid sản phẩm (6 cột) */}
+    <div className="col-span-1 md:col-span-6 flex items-center justify-center p-4">
+    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+        {skinCategories.map((cat) => (
+          <SkinCard key={cat.name} cat={cat} />
+        ))}
+
+        {/* Ô Xem thêm */}
+        <Link
+          href="/products"
+          className="flex flex-col items-center justify-center w-[165px] h-[165px] bg-white border border-black/10 shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-xl transition-all hover:shadow-lg"
+        >
+          <span className="text-[20px] font-bold text-black">Xem thêm</span>
+          <span className="text-[20px]">→</span>
+        </Link>
       </div>
+    </div>
+
+  </div>
+</div>
     </motion.section>
   );
 }
