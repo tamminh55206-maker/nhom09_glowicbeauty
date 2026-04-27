@@ -41,7 +41,6 @@ export function Header() {
   const pathname = usePathname();
   const [searchQuery, setSearchQuery] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
   const { currentUser } = useAuthStore();
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window === "undefined") {
@@ -57,10 +56,6 @@ export function Header() {
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
   }, [darkMode]);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   const toggleDarkMode = () => {
     const newVal = !darkMode;
@@ -178,7 +173,7 @@ export function Header() {
             </button>
 
             <Link
-              href={isMounted && currentUser ? "/user?tab=profile" : "/login"}
+              href={currentUser ? "/user?tab=profile" : "/login"}
               className="flex items-center gap-1.5 text-sm text-white"
             >
               <User className="h-6 w-6" />
