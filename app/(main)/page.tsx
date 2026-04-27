@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingCart, Star, Clock } from "lucide-react";
+import { ShoppingCart, Star, Clock, ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import { getFeaturedProducts, products } from "@/lib/data";
 import { useCartStore } from "@/lib/store";
@@ -545,27 +545,35 @@ function GlowicFeaturesSection() {
     { name: "Da hỗn hợp", image: assetPath("/images/skin/da-hon-hop.png") },
   ];
 
-  // Helper cho mỗi ô chọn loại da
-  const SkinCard = ({ cat }: { cat: { name: string; image: string } }) => (
-    <Link href="/quiz" className="group flex flex-col items-center">
-      <div className="w-[165px] h-[165px] bg-white border border-black/10 shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-xl flex items-center justify-center overflow-hidden transition-all hover:shadow-lg">
-        <Image
-          src={cat.image}
-          alt={cat.name}
-          width={130}
-          height={130}
-          className="object-contain group-hover:scale-110 transition-transform duration-300"
-        />
-      </div>
-      <span
-        className="mt-2 text-center text-black font-medium text-[18px]"
-        style={{ fontFamily: '"Be Vietnam Pro", sans-serif' }}
-      >
-        {cat.name}
-      </span>
-    </Link>
-  );
+const SkinCard = ({ cat }: { cat: { name: string; image: string } }) => (
+  <Link href="/quiz">
+    <div
+      className="relative w-[185px] h-[185px] bg-white 
+                 border border-black/10 
+                 shadow-[0px_4px_4px_rgba(165,56,96,0.75)] 
+                 rounded-xl overflow-hidden"
+    >
+      <Image
+        src={cat.image}
+        alt={cat.name}
+        width={130}
+        height={130}
+        className="absolute top-[7px] left-[27px] object-contain"
+      />
 
+      {/* Overlay tên */}
+      <div className="absolute bottom-0 left-0 w-full 
+                      text-black text-center py-2">
+        <span
+          className="text-[20px]"
+          style={{ fontFamily: '"Be Vietnam Pro", sans-serif' }}
+        >
+          {cat.name}
+        </span>
+      </div>
+    </div>
+  </Link>
+);
   return (
     <motion.section
       className="w-full relative overflow-hidden h-min-[600px]"
@@ -598,10 +606,12 @@ function GlowicFeaturesSection() {
         {/* Ô Xem thêm */}
         <Link
           href="/products"
-          className="flex flex-col items-center justify-center w-[165px] h-[165px] bg-white border border-black/10 shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-xl transition-all hover:shadow-lg"
+          className="flex flex-col items-center justify-center w-[185px] h-[185px] bg-white border border-black/10 shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-xl transition-all hover:shadow-lg"
         >
-          <span className="text-[20px] font-bold text-black">Xem thêm</span>
-          <span className="text-[20px]">→</span>
+          <span className="text-[20px] font-bold text-black w-[120px] text-center" style={{ fontFamily: '"Be Vietnam Pro", sans-serif' }} >
+            Xác định loại da
+          </span>
+          <ArrowRight className="mt-2" size={24} color="black" />
         </Link>
       </div>
     </div>
