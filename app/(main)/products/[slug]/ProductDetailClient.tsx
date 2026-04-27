@@ -114,9 +114,7 @@ export default function ProductDetailClient({
 
   const handleBuyNow = () => {
     handleAddToCart();
-    setTimeout(() => {
-      window.location.href = "/cart";
-    }, 100);
+    window.location.href = "/cart";
   };
 
   const sampleReviews = [
