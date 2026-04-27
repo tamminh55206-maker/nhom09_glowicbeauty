@@ -574,7 +574,7 @@ function GlowicFeaturesSection() {
       }}
     >
       {/* 1. LỚP NỀN: Ảnh model (Luôn nằm bên trái) */}
-     <div className="relative z-10 mx-auto max-w-[1280px] px-4">
+     <div className="relative mx-auto max-w-[1280px] px-4">
   <div className="grid grid-cols-1 md:grid-cols-12 items-center gap-6">
 
     {/* LEFT: Banner (6 cột) */}
