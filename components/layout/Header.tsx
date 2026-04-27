@@ -158,9 +158,12 @@ export function Header() {
               </span>
             </Link>
 
-            <button className="hidden sm:block" onClick={() => router.push('/faq')}>
+            <Link
+              href="/faq"
+              className="hidden sm:block transition-transform hover:scale-110"
+            >
               <MessageCircle className="h-6 w-6 text-white" />
-            </button>
+            </Link>
 
             <button
               onClick={toggleDarkMode}
