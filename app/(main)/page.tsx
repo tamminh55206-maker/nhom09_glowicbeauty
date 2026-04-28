@@ -394,23 +394,23 @@ function ProductsSection() {
 // ─── Categories Section ────────────────────────────────────────────────────────
 function CategoriesSection() {
   const categories = [
-    { name: "Son môi", image: assetPath("/images/danhmuc/son.png"), count: 15 },
+    { name: "Son bóng", image: assetPath("/images/danhmuc/son.png"), count: 6 },
     {
       name: "Kem nền",
       image: assetPath("/images/danhmuc/kem-nen.png"),
-      count: 12,
+      count: 3,
     },
     {
       name: "Kem dưỡng",
       image: assetPath("/images/danhmuc/duong-da.png"),
       count: 4,
     },
-    { name: "Phấn mắt", image: assetPath("/images/danhmuc/mat.png"), count: 18 },
-    { name: "Má hồng", image: assetPath("/images/danhmuc/ma.png"), count: 8 },
+    { name: "Mascara", image: assetPath("/images/danhmuc/mat.png"), count: 5 },
+    { name: "Má hồng", image: assetPath("/images/danhmuc/ma.png"), count: 6 },
     {
-      name: "Kem lót",
+      name: "Serum",
       image: assetPath("/images/danhmuc/kem-lot.png"),
-      count: 10,
+      count: 5,
     },
   ];
 
