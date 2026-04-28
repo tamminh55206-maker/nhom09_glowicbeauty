@@ -535,7 +535,6 @@ function BrandsSection() {
   );
 }
 
-// ─── Glowic Features Section ───────────────────────────────────────────────────
 function GlowicFeaturesSection() {
   const skinCategories = [
     { name: "Da thường", image: assetPath("/images/skin/da-thuong.png") },
@@ -545,35 +544,46 @@ function GlowicFeaturesSection() {
     { name: "Da hỗn hợp", image: assetPath("/images/skin/da-hon-hop.png") },
   ];
 
-const SkinCard = ({ cat }: { cat: { name: string; image: string } }) => (
-  <Link href="/quiz">
-    <div
-      className="relative w-[185px] h-[185px] bg-white 
-                 border border-black/10 
-                 shadow-[0px_4px_4px_rgba(165,56,96,0.75)] 
-                 rounded-xl overflow-hidden"
+  // Helper cho mỗi ô chọn loại da
+  const SkinCard = ({
+    cat,
+  }: {
+    cat: { name: string; image: string };
+  }) => (
+    <Link
+      href={`/products?skinType=${encodeURIComponent(cat.name)}`}
+      className="block"
     >
-      <Image
-        src={cat.image}
-        alt={cat.name}
-        width={130}
-        height={130}
-        className="absolute top-[7px] left-[27px] object-contain"
-      />
+      <div
+        className="relative w-[185px] h-[185px] bg-white 
+                   border border-black/10 
+                   shadow-[0px_4px_4px_rgba(165,56,96,0.75)] 
+                   rounded-xl overflow-hidden"
+      >
+        <Image
+          src={cat.image}
+          alt={cat.name}
+          width={130}
+          height={130}
+          className="absolute top-[7px] left-[27px] object-contain"
+        />
 
-      {/* Overlay tên */}
-      <div className="absolute bottom-0 left-0 w-full 
-                      text-black text-center py-2">
-        <span
-          className="text-[20px]"
-          style={{ fontFamily: '"Be Vietnam Pro", sans-serif' }}
+        {/* Overlay tên */}
+        <div
+          className="absolute bottom-0 left-0 w-full 
+                     text-black text-center py-2"
         >
-          {cat.name}
-        </span>
+          <span
+            className="text-[20px]"
+            style={{ fontFamily: '"Be Vietnam Pro", sans-serif' }}
+          >
+            {cat.name}
+          </span>
+        </div>
       </div>
-    </div>
-  </Link>
-);
+    </Link>
+  );
+
   return (
     <motion.section
       className="w-full relative overflow-hidden h-min-[600px]"
@@ -581,47 +591,51 @@ const SkinCard = ({ cat }: { cat: { name: string; image: string } }) => (
         background: "linear-gradient(0deg, #F9DBBD -9.31%, #FFFFFF 96.81%)",
       }}
     >
-      {/* 1. LỚP NỀN: Ảnh model (Luôn nằm bên trái) */}
-     <div className="relative mx-auto max-w-[1280px] px-4">
-  <div className="grid grid-cols-1 md:grid-cols-12 items-center gap-6">
+      {/* 1. LỚP NỀN: Ảnh model */}
+      <div className="relative mx-auto max-w-[1280px] px-4">
+        <div className="grid grid-cols-1 md:grid-cols-12 items-center gap-6">
 
-    {/* LEFT: Banner (6 cột) */}
-    <div className="col-span-1 md:col-span-6 relative h-full min-h-[600px]">
-      <Image
-        src={assetPath("/images/model-banner.png")}
-        alt="Banner"
-        fill
-        className="object-contain object-left scale-110"
-        priority
-      />
-    </div>
+          {/* LEFT: Banner */}
+          <div className="col-span-1 md:col-span-6 relative h-full min-h-[600px]">
+            <Image
+              src={assetPath("/images/model-banner.png")}
+              alt="Banner"
+              fill
+              className="object-contain object-left scale-110"
+              priority
+            />
+          </div>
 
-    {/* RIGHT: Grid sản phẩm (6 cột) */}
-    <div className="col-span-1 md:col-span-6 flex items-center justify-center p-4">
-    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-        {skinCategories.map((cat) => (
-          <SkinCard key={cat.name} cat={cat} />
-        ))}
+          {/* RIGHT: Grid sản phẩm */}
+          <div className="col-span-1 md:col-span-6 flex items-center justify-center p-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+              {skinCategories.map((cat) => (
+                <SkinCard key={cat.name} cat={cat} />
+              ))}
 
-        {/* Ô Xem thêm */}
-        <Link
-          href="/products"
-          className="flex flex-col items-center justify-center w-[185px] h-[185px] bg-white border border-black/10 shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-xl transition-all hover:shadow-lg"
-        >
-          <span className="text-[20px] font-bold text-black w-[120px] text-center" style={{ fontFamily: '"Be Vietnam Pro", sans-serif' }} >
-            Xác định loại da
-          </span>
-          <ArrowRight className="mt-2" size={24} color="black" />
-        </Link>
+              {/* Ô Xem thêm */}
+              <Link
+                href="/quiz"
+                className="flex flex-col items-center justify-center w-[185px] h-[185px] bg-white borderborder border-black/10 
+                   shadow-[0px_4px_4px_rgba(165,56,96,0.75)] 
+                   rounded-xl overflow-hidden"
+              >
+                <span
+                  className="text-[20px] font-bold text-black w-[120px] text-center"
+                  style={{ fontFamily: '"Be Vietnam Pro", sans-serif' }}
+                >
+                  Xác định loại da
+                </span>
+                <ArrowRight className="mt-2" size={24} color="black" />
+              </Link>
+            </div>
+          </div>
+
+        </div>
       </div>
-    </div>
-
-  </div>
-</div>
     </motion.section>
   );
 }
-
 // ─── Main Page ─────────────────────────────────────────────────────────────────
 export default function HomePage() {
   // ADDED
