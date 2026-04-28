@@ -8,6 +8,10 @@ import { Star, ShoppingCart, Minus, Plus, ChevronRight } from "lucide-react";
 import { useCartStore } from "@/lib/store";
 import { toast } from "sonner";
 import type { Product } from "@/lib/types";
+import {
+  getOriginalPriceFromSalePrice,
+  isFlashSaleProduct,
+} from "@/lib/data";
 import { getBasePath } from "@/lib/getBasePath";
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -116,6 +120,11 @@ export default function ProductDetailClient({
     handleAddToCart();
     window.location.href = `${getBasePath()}/cart`;
   };
+
+  const isFlashSale = isFlashSaleProduct(product.id);
+  const originalPrice = isFlashSale
+    ? getOriginalPriceFromSalePrice(product.price)
+    : null;
 
   const sampleReviews = [
     {
@@ -257,6 +266,15 @@ export default function ProductDetailClient({
 
             {/* Price */}
             <div className="mt-4">
+              {originalPrice !== null && (
+                <div
+                  className="mb-1 text-xs text-gray-400 line-through"
+                  style={{ fontFamily: '"Be Vietnam Pro", sans-serif' }}
+                >
+                  {originalPrice.toLocaleString("vi-VN")}đ
+                </div>
+              )}
+
               <span
                 style={{
                   fontFamily: '"Be Vietnam Pro", sans-serif',

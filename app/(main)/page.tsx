@@ -310,12 +310,6 @@ function FlashSaleSection() {
             </div>
             <CountdownTimer />
           </div>
-          <Link
-            href="/products"
-            className="text-sm font-medium text-rose-600 dark:text-rose-300 hover:text-rose-700 self-end sm:self-auto"
-          >
-            Xem tất cả →
-          </Link>
         </div>
 
         <motion.div

@@ -1233,3 +1233,22 @@ export function getFeaturedProducts(count: number): Product[] {
 export function getLowStockProducts(): Product[] {
   return products.filter((product) => product.stock < 20);
 }
+
+/**
+ * Flash sale logic (must stay consistent with homepage):
+ * Homepage uses getFeaturedProducts(6) as the Flash Sale list.
+ */
+export const FLASH_SALE_COUNT = 6;
+export const FLASH_SALE_ORIGINAL_PRICE_FACTOR = 1.13;
+
+export function getOriginalPriceFromSalePrice(salePrice: number): number {
+  return Math.round(salePrice * FLASH_SALE_ORIGINAL_PRICE_FACTOR);
+}
+
+export function getFlashSaleProducts(): Product[] {
+  return getFeaturedProducts(FLASH_SALE_COUNT);
+}
+
+export function isFlashSaleProduct(productId: string): boolean {
+  return getFlashSaleProducts().some((p) => p.id === productId);
+}
