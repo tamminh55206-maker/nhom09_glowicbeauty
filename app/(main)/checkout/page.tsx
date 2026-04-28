@@ -18,6 +18,7 @@ import { useAuthStore, useCartStore, useOrderStore, type Order } from "@/lib/sto
 import { type OrderStatus } from "@/lib/order-status";
 import type { AppliedDiscount } from "@/lib/types";
 import { toast } from "sonner";
+import { assetPath } from "@/lib/utils";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -44,22 +45,22 @@ const paymentMethods = [
   {
     id: "momo",
     name: "Thanh toán bằng MoMo",
-    image: "/images/payment/momo.png",
+    image: assetPath("/images/payment/momo.png"),
   },
   {
     id: "shopeepay",
     name: "Thanh toán bằng Shopee Pay",
-    image: "/images/payment/shopeepay.png",
+    image: assetPath("/images/payment/shopeepay.png"),
   },
   {
     id: "vnpay",
     name: "Thanh toán bằng VNPay",
-    image: "/images/payment/vnpay.png",
+    image: assetPath("/images/payment/vnpay.png"),
   },
   {
     id: "cod",
     name: "Thanh toán khi nhận hàng",
-    image: "/images/payment/cod.png",
+    image: assetPath("/images/payment/cod.png"),
   },
 ];
 
