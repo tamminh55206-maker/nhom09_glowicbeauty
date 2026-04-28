@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { image } from "framer-motion/client";
 import { assetPath } from "@/lib/utils";
 
+
 // Animation variants
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -163,9 +164,11 @@ function ProductCard({
   );
 }
 
+
 // ─── Banner Section ────────────────────────────────────────────────────────────
 function BannerSection() {
   const [current, setCurrent] = useState(0);
+  const [direction, setDirection] = useState(1); // xử lý hướng animation
 
   const images = [
     assetPath("/images/banner/banner-1.jpg"),
@@ -177,22 +180,44 @@ function BannerSection() {
 
   useEffect(() => {
     const timer = setInterval(() => {
+      setDirection(1); // auto slide theo chiều next
       setCurrent((prev) => (prev + 1) % images.length);
     }, 3000);
+
     return () => clearInterval(timer);
   }, [images.length]);
 
+  const slideVariants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? 100 : -100,
+      opacity: 0,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+    },
+    exit: (direction: number) => ({
+      x: direction > 0 ? -100 : 100,
+      opacity: 0,
+    }),
+  };
+
   return (
     <section className="w-full">
-      {/* Chiều cao responsive: nhỏ trên mobile, tăng dần */}
-      <div className="relative h-[220px] sm:h-[350px] md:h-[500px] w-full overflow-hidden bg-gray-100 dark:bg-gray-800">
-        <AnimatePresence mode="wait">
+      <div className="relative h-[220px] sm:h-[350px] md:h-[530px] w-full overflow-hidden bg-white-100 dark:bg-gray-800">
+
+        <AnimatePresence initial={false} custom={direction} mode="wait">
           <motion.div
             key={current}
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.5 }}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              duration: 0.5,
+              ease: "easeInOut",
+            }}
             className="absolute inset-0"
           >
             <Image
@@ -206,18 +231,36 @@ function BannerSection() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Prev / Next – nhỏ hơn trên mobile */}
+        {/* Prev */}
         <button
-          onClick={() =>
-            setCurrent((prev) => (prev - 1 + images.length) % images.length)
-          }
-          className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-10 flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full bg-white/70 text-gray-800 hover:bg-white text-lg md:text-xl"
+          onClick={() => {
+            setDirection(-1);
+            setCurrent((prev) => (prev - 1 + images.length) % images.length);
+          }}
+          className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 z-10
+                     flex h-12 w-12 md:h-14 md:w-14
+                     items-center justify-center
+                     rounded-full bg-white/80 text-gray-800
+                     hover:bg-white transition-all
+                     text-3xl md:text-4xl font-bold shadow-md"
+          aria-label="Previous banner"
         >
           ‹
         </button>
+
+        {/* Next */}
         <button
-          onClick={() => setCurrent((prev) => (prev + 1) % images.length)}
-          className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-10 flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full bg-white/70 text-gray-800 hover:bg-white text-lg md:text-xl"
+          onClick={() => {
+            setDirection(1);
+            setCurrent((prev) => (prev + 1) % images.length);
+          }}
+          className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 z-10
+                     flex h-12 w-12 md:h-14 md:w-14
+                     items-center justify-center
+                     rounded-full bg-white/80 text-gray-800
+                     hover:bg-white transition-all
+                     text-3xl md:text-4xl font-bold shadow-md"
+          aria-label="Next banner"
         >
           ›
         </button>
@@ -227,7 +270,10 @@ function BannerSection() {
           {images.map((_, index) => (
             <button
               key={index}
-              onClick={() => setCurrent(index)}
+              onClick={() => {
+                setDirection(index > current ? 1 : -1);
+                setCurrent(index);
+              }}
               className={`h-2 w-2 rounded-full transition-colors ${
                 index === current ? "bg-white" : "bg-white/50"
               }`}
@@ -238,7 +284,6 @@ function BannerSection() {
     </section>
   );
 }
-
 // ─── Flash Sale Section ────────────────────────────────────────────────────────
 function FlashSaleSection() {
   const flashSaleProducts = getFeaturedProducts(6);
@@ -356,12 +401,12 @@ function CategoriesSection() {
       count: 12,
     },
     {
-      name: "Chăm sóc da",
+      name: "Kem dưỡng",
       image: assetPath("/images/danhmuc/duong-da.png"),
-      count: 20,
+      count: 4,
     },
-    { name: "Mắt", image: assetPath("/images/danhmuc/mat.png"), count: 18 },
-    { name: "Phấn má", image: assetPath("/images/danhmuc/ma.png"), count: 8 },
+    { name: "Phấn mắt", image: assetPath("/images/danhmuc/mat.png"), count: 18 },
+    { name: "Má hồng", image: assetPath("/images/danhmuc/ma.png"), count: 8 },
     {
       name: "Kem lót",
       image: assetPath("/images/danhmuc/kem-lot.png"),
@@ -391,6 +436,7 @@ function CategoriesSection() {
           >
             Danh mục quan tâm
           </motion.h2>
+
           <motion.div variants={fadeInUp}>
             <Link
               href="/products"
@@ -408,6 +454,7 @@ function CategoriesSection() {
         >
           {categories.map((category) => (
             <motion.div key={category.name} variants={fadeInUp}>
+              {/* sửa giống cơ chế skinType */}
               <Link
                 href={`/products?category=${encodeURIComponent(category.name)}`}
                 className="group block"
@@ -420,7 +467,9 @@ function CategoriesSection() {
                     className="object-cover transition-transform duration-300 group-hover:scale-110"
                     sizes="(max-width: 768px) 50vw, 16vw"
                   />
+
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+
                   <div className="absolute bottom-0 left-0 right-0 p-2 md:p-4">
                     <h3
                       style={{
@@ -433,6 +482,7 @@ function CategoriesSection() {
                     >
                       {category.name}
                     </h3>
+
                     <p className="text-xs md:text-sm text-white/80">
                       {category.count} sản phẩm
                     </p>
@@ -662,7 +712,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
+    <div className="min-h-screen bg-white dark:bg-gray-900 py-10 space-y-[45px]">
       <BannerSection />
       <FlashSaleSection />
       <CategoriesSection />
